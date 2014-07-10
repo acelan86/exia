@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> Exia Demo backbone </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no,email=no">
+    <link rel="stylesheet" href="../core/bootstrap/css/bootstrap.min.css">
+    <script>
+      var _config = {
+        appName : 'Exia Demo'
+      };
+    </script>
+  </head>
+  <body>
+    <!-- 普通导航 navbar -->
+    <nav class="navbar navbar-default" role="navigation">
+      <!-- LOGO及缩小后按钮 -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Exia Demo</a>
+      </div>
+      <!-- 导航折叠部分 -->
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="#">index</a>
+          </li>
+          <li>
+            <a href="#button">button</a>
+          </li>
+          <li>
+            <a href="#table">table</a>
+          </li>
+        </ul>
+        <!-- <ul class="nav navbar-nav navbar-right">
+          <li class="active">
+            <a href="./">Link</a>
+          </li>
+        </ul> -->
+      </div>
+    </nav>
+    <div id="Main"></div>
+    <script type="text/x-template" id="Tpl">
+      <ul>
+        <% _.each(list, function (row) { %>
+          <li><%= row %></li>
+        <% }); %>
+      </ul>
+    </script>
+    <script type="text/x-template" id="ButtonTpl">
+      <!-- 各种按钮 -->
+      <button type="button" class="btn btn-default">Default</button>
+
+      <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+      <button type="button" class="btn btn-primary">Primary</button>
+
+      <!-- Indicates a successful or positive action -->
+      <button type="button" class="btn btn-success">Success</button>
+
+      <!-- Contextual button for informational alert messages -->
+      <button type="button" class="btn btn-info">Info</button>
+
+      <!-- Indicates caution should be taken with this action -->
+      <button type="button" class="btn btn-warning">Warning</button>
+
+      <!-- Indicates a dangerous or potentially negative action -->
+      <button type="button" class="btn btn-danger">Danger</button>
+
+      <!-- Deemphasize a button by making it look like a link while maintaining button behavior -->
+      <button type="button" class="btn btn-link">Link</button>
+
+      <!-- 块级按钮 -->
+      <button type="button" class="btn btn-primary btn-lg btn-block">块级按钮</button>
+    </script>
+    <script type="text/x-template" id="TableTpl">
+      <!-- 表格 -->
+      <table class="table table-hover">
+        <thead>
+            <tr><th>id</th><th>name</th><th>phone</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>acelan</td><td>1234567</td></tr>
+            <tr><td>2</td><td>acelan2</td><td>3234567</td></tr>
+        </tbody>
+      </table>
+    </script>
+    <script src="../core/jquery/jquery-2.1.1.min.js"></script>
+    <script src="../core/backbone/underscore-1.6.0.js"></script>
+    <script src="../core/backbone/backbone-1.1.2.js"></script>
+    <script src="../core/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      var IndexView = Backbone.View.extend({
+        el: '#Main',
+        render: function () {
+          var template = _.template($("#Tpl").html(),
+            {
+              list : [
+                'acelan','acelan',
+                'acelan2','acelan',
+                'acelan2','acelan',
+                'acelan2','acelan',
+                'acelan2','acelan',
+                'acelan2','acelan',
+                'acelan2','acelan',
+                'acelan2','acelan',
+                'acelan2','acelan',
+                'acelan2','acelan',
+                'acelan2','acelan',
+                'acelan2','acelan',
+                'acelan2'
+              ]
+            }
+          );
+          $(this.el).html(template);
+        }
+      });
+      var indexView = new IndexView();
+
+      var ButtonView = Backbone.View.extend({
+        el: '#Main',
+        render: function () {
+          var template = _.template($("#ButtonTpl").html());
+          $(this.el).html(template);
+        }
+      });
+      var buttonView = new ButtonView();
+
+      var TableView = Backbone.View.extend({
+        el: '#Main',
+        render: function () {
+          var template = _.template($("#TableTpl").html());
+          $(this.el).html(template);
+        }
+      });
+      var tableView = new TableView();
+
+      var App = Backbone.Router.extend({
+        routes: {
+          "":                     "index",   // #index
+          "button":               "button",  // #help
+          "table":                "table",   // #table
+          "table/:query":         "table",   // #table/kiwis
+          "table/:query/p:page":  "table"    // #table/kiwis/p7
+        },
+        index : function () {
+          console.log('index');
+          indexView.render();
+        },
+        button: function() {
+          console.log('button list');
+          buttonView.render();
+        },
+        table: function(query, page) {
+          console.log('table', query, page);
+          tableView.render();
+        }
+      });
+      var app = new App();
+
+      Backbone.history.start();
+    </script>
+  </body>
+</html>

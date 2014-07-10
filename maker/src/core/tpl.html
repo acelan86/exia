@@ -1,0 +1,97 @@
+<!-- 模板 -->
+<script id="TplSlider" type="text/x-template">
+    <exia:slider id="${uid}" class="widget ui-slider" exia-loop="1">
+        <div>
+            <a href="http://www.baidu.com/"><img lazyload="http://h.hiphotos.baidu.com/image/w%3D310/sign=c21d5587123853438ccf8120a312b01f/e61190ef76c6a7ef392c0ecdfffaaf51f2de66d7.jpg"></a>
+            <p>1,我是图片我是图片1</p>
+        </div>
+        <div>
+            <a href="http://www.baidu.com/"><img lazyload="http://img.kumi.cn/photo/a8/bc/42/a8bc42b8ddb7f14e.jpg"></a>
+            <p>2,我是图片我是图片2</p>
+        </div>
+        <div>
+            <a href="http://www.baidu.com/"><img lazyload="http://wenwen.soso.com/p/20110208/20110208213951-1550799761.jpg"></a>
+            <p>3,我是图片我是图片3</p>
+        </div>
+    </exia:slider>
+</script>
+
+<script id="TplText" type="text/x-template">
+    <section id="${uid}" class="widget ui-text" style="line-height:1.5;padding:10px;">
+        <p>
+        参考消息网6月29日报道 外媒称，中国国家主席习近平表示，无论变得多么强大，中国永远都不会称霸。
+        </p>
+        <p>
+        据美联社6月28日报道，习近平是在接待来访的印度和缅甸领导人时讲这番话的。近来，中国陷入与包括印度在内的多个邻国的领土争端，而且正在对美国的地区实力发起挑战。
+报道称，28日，习近平和缅甸总统吴登盛、印度副总统哈米德·安萨里一道举行活动，纪念三国共同发表和平共处五项原则60周年。
+        </p>
+    </section>
+</script>
+
+<!-- tpl -->
+<script id="TplTbl" type="text/x-template">
+    <!-- 表格 -->
+    <table id="${uid}" class="widget table table-hover">
+        <thead>
+            <tr><th>id</th><th>name</th><th>phone</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>acelan</td><td>1234567</td></tr>
+            <tr><td>2</td><td>acelan2</td><td>3234567</td></tr>
+        </tbody>
+    </table>
+</script>
+<script id="TplBtn" type="text/x-template">
+    <exia:button id="${uid}" class="widget">按钮</exia:button>
+</script>
+
+<script id="TplRadio" type="text/x-template">
+    <exia:buttongroup id="${uid}" class="widget ui-btn-group">
+        <label for="button4">单选1</label>
+        <input id="button4" class="button" type="radio" name="radio" />
+        <input id="button5" class="button" checked="checked" type="radio" name="radio" />
+        <label for="button5">单选2</label>
+        <input id="button6" class="button" checked="checked" type="radio" name="radio" />
+        <label for="button6">单选3</label>
+    </exia:buttongroup>
+</script>
+
+<script id="TplCheckbox" type="text/x-template">
+    <exia:buttongroup id="${uid}" class="widget ui-btn-group">
+        <label for="button1">复选按钮1</label>
+        <input id="button1" class="button" type="checkbox" />
+        <label for="button2">复选按钮2</label>
+        <input id="button2" class="button" type="checkbox" />
+        <input id="button3" class="button" type="checkbox" />
+        <label for="button3">复选按钮3</label>
+    </exia:buttongroup>
+</script>
+
+<script id="TplGotop" type="text/x-template">
+    <exia:gotop id="${uid}" class="widget ui-gotop" exia-top="100" exia-use-animation="1"></exia:gotop>
+</script>
+
+<script id="TplUL" type="text/x-template">
+    <!-- 列表 -->
+    <ul id="${uid}" class="widget">
+        <li>aaaa</li>
+        <li>aaaa</li>
+        <li>aaaa</li>
+        <li>aaaa</li>
+    </ul>
+</script>
+
+
+<script id="TplNav" type="text/x-handlebars-template">
+    <exia:nav id="${uid}" class="widget ui-nav">
+        <ul>
+            <li><a href="#test1">首页</a></li>
+            <li><a href="#test1">要闻</a></li>
+            <li><a href="#test3">国内</a></li>
+            <li><a href="#test2">国际</a></li>
+            <li><a href="#test3">军事</a></li>
+            <li><a href="#test4">社会</a></li>
+            <li><a href="#test5">娱乐</a></li>
+        </ul>
+    </exia:nav>
+</script>

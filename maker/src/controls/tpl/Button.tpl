@@ -1,0 +1,1 @@
+<exia:button id="{{cid}}" class="control">{{text}}</exia:button>
