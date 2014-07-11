@@ -1,30 +1,19 @@
 var express = require('express'),
     fs = require('fs'),
+    path = require('path'),
     consolidate = require('consolidate'),
     staticServer = require('express-combo');
-    config = {
-        port: 1234,
-        staticRoot : __dirname + '/src',
-        coreCSS : [
-            '/static/core/css/jquery-ui-1.10.4.css'
-        ],
-        coreJS : [
-            '/static/core/js/jquery-2.1.1.js',
-            '/static/core/js/handlebars-1.3.0.js',
-            '/static/core/js/jquery-ui-1.10.4.js',
-            '/static/core/js/underscroe-1.6.0.js',
-            '/static/core/js/backbone-1.1.2.js'
-        ]
-    };
+    config = require('./server-lib/config.js'),
+    tools = require('./server-lib/tools.js');
 
 var app = express();
 
 app.configure(function(){
     //app.use(express.methodOverride());
-    //app.use(express.bodyParser());
-    //app.use(app.router);
-    app.engine("html", consolidate.handlebars); //选择handlebar作为模板引擎
-    app.set("view engine", "html");
+    app.use(express.bodyParser());
+    app.use(app.router);
+    app.engine("tpl", consolidate.handlebars); //选择handlebar作为模板引擎
+    app.set("view engine", "tpl");
     app.set("views", __dirname + "/views");
 
     //静态文件服务
@@ -40,8 +29,8 @@ app.configure(function(){
 });
 
 
-
-app.get('/', function(req, res){
+//
+app.get('/:id', function(req, res){
     var context,
         controls = [
             {text : '按钮', name : 'Button'},
@@ -59,7 +48,7 @@ app.get('/', function(req, res){
     controls.forEach(function (control) {
         templates.push({
             name : control.name,
-            content : fs.readFileSync(__dirname + '/src/controls/tpl/' + control.name + '.tpl')
+            content : fs.readFileSync(path.join(config.controlTemplateRoot, control.name + '.tpl'), 'utf-8')
         });
         externalJS.push('/static/controls/js/' + control.name + '.js');
         externalCSS.push('/static/controls/css/' + control.name + '.css');
@@ -72,13 +61,14 @@ app.get('/', function(req, res){
         file = file.replace('.js', '');
         editorTemplates.push({
             name : file,
-            content : fs.readFileSync(editorPath + '/tpl/' + file + '.tpl')
+            content : fs.readFileSync(editorPath + '/tpl/' + file + '.tpl', 'utf-8')
         });
         editorExternalJS.push('/static/editors/js/' + file + '.js');
         editorExternalCSS.push('/static/editors/css/' + file + '.css');
     });
 
     context = {
+        id : req.params.id,
         controls : controls,
         templates : templates,
         externalFiles : {
@@ -96,6 +86,55 @@ app.get('/', function(req, res){
 
     res.setHeader("Content-Type", "text/html");
     res.render('index', context);
+});
+
+
+/**
+ * 生成页面
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+app.post('/create', function (req, res) {
+    tools.build(req.body, function (str) {
+        res.setHeader("Content-Type", "text/html");
+        res.send(str);
+    });
+});
+/**
+ * 初始化接口
+ */
+app.get('/init/:id', function (req, res) {
+    var json = {
+        layout : [],
+        controls : [
+            {
+                type : 'Button',
+                value : {
+                    text : '自定义按钮'
+                }
+            },
+            {
+                type : 'Navigator',
+                value : {
+                    items : [
+                        {url : "#test1", text : "首页"},
+                        {url : "#test1", text : "要闻"},
+                        {url : "#test3", text : "国内"},
+                        {url : "#test2", text : "国际"},
+                        {url : "#test3", text : "军事"},
+                        {url : "#test4", text : "社会"},
+                        {url : "#test5", text : "娱乐"}
+                    ]
+                }
+            }
+        ]
+    };
+
+    tools.build(json, function (str) {
+        res.setHeader("Content-Type", "text/html");
+        res.send(str);
+    });
 });
 
 var server = app.listen(config.port, function() {

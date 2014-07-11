@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html lang="zh-cn" xmlns:exia="http://adbox.sina.com.cn/exia">
+<!doctype html>
+<html lang="zh-cn">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title> Exia Demo GMU </title>
+        <title> Exia Demo </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="format-detection" content="telephone=no,email=no">
-        <link rel="stylesheet" href="./GMU/reset.css">
-        <link rel="stylesheet" href="./GMU/gmu.css">
-        <link rel="stylesheet" href="/static/core/css/jquery-ui-1.10.4.css">
-        <script src="./GMU/zepto.js"></script>
-        <script src="./GMU/gmu.js"></script>
-        <script src="/static/core/js/jquery-2.1.1.js"></script>
-        <script src="/static/core/js/jquery-ui-1.10.4.js"></script>
-        <script>
-            jQuery.noConflict();
-        </script>
+        <link rel="stylesheet" href="/static/page/GMU/reset.css">
+        <link rel="stylesheet" href="/static/page/GMU/gmu.css">
+        <script src="/static/page/GMU/zepto.js"></script>
+        <script src="/static/page/GMU/gmu.js"></script>
         <style>
-            html,body{
-                height:100%;
-            }
             .ui-gotop,
             .ui-nav,
             .ui-slider{
@@ -35,16 +26,11 @@
                 margin:3px;
                 display:none;
             }
-            .ui-state-highlight{
-                border:2px dotted #ccc;
-                border-radius:4px;
-                height:30px;
-                margin:3px;
-            }
         </style>
     </head>
     <body>
         <div id="WidgetGhost" class="glost widget"></div>
+        {{{body}}}
         <script>
             var browser = $.browser;
             var tagInfo = [
@@ -160,20 +146,6 @@
                     }
                 }
             };
-        </script>
-        <script>
-            jQuery(document).ready(function($) {
-                $('body').sortable({
-                    cursor: 'move',
-                    connectWith: ".control",
-                    helper: "clone",
-                    containment: "document",
-                    placeholder: 'ui-state-highlight'
-                }).disableSelection();
-                $('body').on('.control click', function (e) {
-                    console.log('click', $(e.target).attr('id'));
-                });
-            });
         </script>
     </body>
 </html>

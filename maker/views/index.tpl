@@ -34,7 +34,7 @@
                     <div class="context-layer" id="ContextLayer"></div>
                     <div id="FrameDDMaskLayer" class="frame-dd-mask-layer"></div>
                     <!-- 拖拽遮罩层，用于防止鼠标时间进入iframe后失去事件导致的拖拽不流畅，防止需要在iframe和外部都写一边拖拽结束代码，同时该层可以用于定位 -->
-                    <iframe id="DocumentFrame" class="document-frame" src="../page/index.html"></iframe>
+                    <iframe id="DocumentFrame" class="document-frame" src="/init/{{id}}"></iframe>
                     <textarea id="DocumentSource" class="document-source"></textarea><!-- 源文件 -->
                 </div>
             </div>
