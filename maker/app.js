@@ -17,17 +17,17 @@ app.configure(function(){
     app.set("view engine", "html");
     app.set("views", __dirname + "/views");
 
-    //app.use(express.static(config.staticRoot)); //创建静态服务器
-});
-
-app.get('/', staticServer.folder('', __dirname + '/src/'));
-//combo
-app.get('/static', 
-    staticServer.combine({
+    //静态文件服务
+    //设置static的服务转移到src目录下
+    app.use(staticServer.folder('static', __dirname + '/src/'));
+    //设置page的服务转移到page目录下
+    app.use(staticServer.folder('page', __dirname + '/src/page'));
+    //设置combo服务
+    app.use(staticServer.combine({
         comboBase: '/combo~',
         comboSep: '~'
-    })
-);
+    }));
+});
 
 
 
@@ -51,8 +51,8 @@ app.get('/', function(req, res){
             name : control.name,
             content : fs.readFileSync(__dirname + '/src/controls/tpl/' + control.name + '.tpl')
         });
-        externalJS.push('controls/js/' + control.name + '.js');
-        externalCSS.push('controls/css/' + control.name + '.css');
+        externalJS.push('/static/controls/js/' + control.name + '.js');
+        externalCSS.push('/static/controls/css/' + control.name + '.css');
     });
 
     var editorPath = __dirname + '/src/editors',
@@ -64,8 +64,8 @@ app.get('/', function(req, res){
             name : file,
             content : fs.readFileSync(editorPath + '/tpl/' + file + '.tpl')
         });
-        editorExternalJS.push('editors/js/' + file + '.js');
-        editorExternalCSS.push('editors/css/' + file + '.css');
+        editorExternalJS.push('/static/editors/js/' + file + '.js');
+        editorExternalCSS.push('/static/editors/css/' + file + '.css');
     });
 
     context = {
