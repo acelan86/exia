@@ -1,12 +1,12 @@
 {
-  "name": "ea2",
+  "name": "exia",
   "title": "新浪效果广告平台",
   "description": "U can change the world if U want",
   "version": "0.1.0",
   "homepage": "",
   "author": {
     "name": "acelan86",
-    "email": "rabbitlxb@qq.com"
+    "email": "79480491@qq.com"
   },
   "licenses": [
     {
@@ -19,7 +19,8 @@
     "consolidate": "0.4.0",
     "handlebars" : "*",
     "grunt-contrib-connect": "~0.7.1",
-    "grunt-contrib-watch" : "*"
+    "grunt-contrib-watch" : "*",
+    "express-combo" : "*"
   },
   "keywords": []
 }

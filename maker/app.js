@@ -1,9 +1,9 @@
 var express = require('express'),
     fs = require('fs'),
     consolidate = require('consolidate'),
-    combo = require('node-combo').combo,
+    staticServer = require('express-combo');
     config = {
-        port: 80,
+        port: 1234,
         staticRoot : __dirname + '/src'
     };
 
@@ -16,10 +16,20 @@ app.configure(function(){
     app.engine("html", consolidate.handlebars); //选择handlebar作为模板引擎
     app.set("view engine", "html");
     app.set("views", __dirname + "/views");
-    app.use(express.static(config.staticRoot)); //创建静态服务器
+
+    //app.use(express.static(config.staticRoot)); //创建静态服务器
 });
 
-app.get('/combo', combo(config.staticRoot), express.static(config.staticRoot));
+app.get('/', staticServer.folder('', __dirname + '/src/'));
+//combo
+app.get('/static', 
+    staticServer.combine({
+        comboBase: '/combo~',
+        comboSep: '~'
+    })
+);
+
+
 
 app.get('/', function(req, res){
     var context,
@@ -62,13 +72,13 @@ app.get('/', function(req, res){
         controls : controls,
         templates : templates,
         externalFiles : {
-            js : externalJS.join(','),
-            css : externalCSS.join(',')
+            js : externalJS.join('~'),
+            css : externalCSS.join('~')
         },
         editorTemplates : editorTemplates,
         editorExternalFiles : {
-            js : editorExternalJS.join(','),
-            css : editorExternalCSS.join(',')
+            js : editorExternalJS.join('~'),
+            css : editorExternalCSS.join('~')
         }
     };
 

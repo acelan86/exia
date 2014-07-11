@@ -1,3 +1,0 @@
-.button{
-    outline:1px solid red;
-}.navigator{}
