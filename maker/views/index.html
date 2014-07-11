@@ -7,6 +7,9 @@
         <!-- controls css开始 -->
         <link type="text/css" rel="stylesheet" href="/combo??{{{externalFiles.css}}}">
         <!-- controls css结束 -->
+        <!-- editors css开始 -->
+        <link type="text/css" rel="stylesheet" href="/combo??{{{editorExternalFiles.css}}}"> 
+        <!-- editors css结束 -->
         <link type="text/css" rel="stylesheet" href="core/css/maker.css">
         <style id="WidgetSearchStyle"></style>
     </head>
@@ -40,20 +43,33 @@
 
         <!-- controls 模板开始 -->
         {{#each templates}}
-            <script type="text/x-handlebars-template" id="{{name}}Template">
+            <script type="text/x-handlebars-template" id="{{name}}ControlTemplate">
                 {{{content}}}
             </script>
         {{/each}}
         <!-- controls 模板结束 -->
 
+        <!-- editor 模板开始 -->
+        {{#each editorTemplates}}
+            <script type="text/x-handlebars-template" id="{{name}}EditorTemplate">
+                {{{content}}}
+            </script>
+        {{/each}}
+        <!-- editor 模板结束 -->
+
+
         <script src="core/js/jquery-2.1.1.js"></script>
         <script src="core/js/handlebars-1.3.0.js"></script>
         <script src="core/js/jquery-ui-1.10.4.js"></script>
-
+        <script src="core/js/underscroe-1.6.0.js"></script>
+        <script src="core/js/backbone-1.1.2.js"></script>
 
         <!-- controls js开始 -->
         <script src="/combo??{{{externalFiles.js}}}"></script>
         <!-- controls js结束 -->
+        <!-- editors js开始 -->
+        <script src="/combo??{{{editorExternalFiles.js}}}"></script>
+        <!-- editors js结束 -->
 
         <script src="maker.js"></script>
     </body>

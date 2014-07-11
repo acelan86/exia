@@ -10,9 +10,9 @@ var express = require('express'),
 var app = express();
 
 app.configure(function(){
-    app.use(express.methodOverride());
-    app.use(express.bodyParser());
-    app.use(app.router);
+    //app.use(express.methodOverride());
+    //app.use(express.bodyParser());
+    //app.use(app.router);
     app.engine("html", consolidate.handlebars); //选择handlebar作为模板引擎
     app.set("view engine", "html");
     app.set("views", __dirname + "/views");
@@ -28,9 +28,13 @@ app.get('/', function(req, res){
             {text : '导航', name : 'Navigator'},
             {text : '焦点图', name : 'Slider'}
         ],
+        editors,
         templates = [],
+        editorTemplates = [],
         externalJS = [],
-        externalCSS = [];
+        editorExternalJS = [],
+        externalCSS = [],
+        editorExternalCSS = [];
 
     controls.forEach(function (control) {
         templates.push({
@@ -40,12 +44,31 @@ app.get('/', function(req, res){
         externalJS.push('controls/js/' + control.name + '.js');
         externalCSS.push('controls/css/' + control.name + '.css');
     });
+
+    var editorPath = __dirname + '/src/editors',
+        files = fs.readdirSync(editorPath + '/js');
+
+    files.forEach(function (file) {
+        file = file.replace('.js', '');
+        editorTemplates.push({
+            name : file,
+            content : fs.readFileSync(editorPath + '/tpl/' + file + '.tpl')
+        });
+        editorExternalJS.push('editors/js/' + file + '.js');
+        editorExternalCSS.push('editors/css/' + file + '.css');
+    });
+
     context = {
         controls : controls,
         templates : templates,
         externalFiles : {
             js : externalJS.join(','),
             css : externalCSS.join(',')
+        },
+        editorTemplates : editorTemplates,
+        editorExternalFiles : {
+            js : editorExternalJS.join(','),
+            css : editorExternalCSS.join(',')
         }
     };
 

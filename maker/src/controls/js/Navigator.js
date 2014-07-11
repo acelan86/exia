@@ -1,6 +1,6 @@
 (function (name) {
     var control = {
-        template : Handlebars.compile($('#' + name + 'Template').html()),
+        template : Handlebars.compile($('#' + name + 'ControlTemplate').html()),
         properties : [],
         value : {
             items : [
