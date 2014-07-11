@@ -4,7 +4,17 @@ var express = require('express'),
     staticServer = require('express-combo');
     config = {
         port: 1234,
-        staticRoot : __dirname + '/src'
+        staticRoot : __dirname + '/src',
+        coreCSS : [
+            '/static/core/css/jquery-ui-1.10.4.css'
+        ],
+        coreJS : [
+            '/static/core/js/jquery-2.1.1.js',
+            '/static/core/js/handlebars-1.3.0.js',
+            '/static/core/js/jquery-ui-1.10.4.js',
+            '/static/core/js/underscroe-1.6.0.js',
+            '/static/core/js/backbone-1.1.2.js'
+        ]
     };
 
 var app = express();
@@ -22,7 +32,7 @@ app.configure(function(){
     app.use(staticServer.folder('static', __dirname + '/src/'));
     //设置page的服务转移到page目录下
     app.use(staticServer.folder('page', __dirname + '/src/page'));
-    //设置combo服务
+    //设置combo服务，combo服务的每一个url也是符合static或者，page的
     app.use(staticServer.combine({
         comboBase: '/combo~',
         comboSep: '~'
@@ -79,7 +89,9 @@ app.get('/', function(req, res){
         editorExternalFiles : {
             js : editorExternalJS.join('~'),
             css : editorExternalCSS.join('~')
-        }
+        },
+        coreJS : config.coreJS.join('~'),
+        coreCSS : config.coreCSS.join('~')
     };
 
     res.setHeader("Content-Type", "text/html");
