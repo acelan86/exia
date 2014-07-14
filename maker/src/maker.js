@@ -21,180 +21,8 @@ var documentFrame = (function () {
         _height = _dom.height();
     }
 
-    /**
-     * 滚动辅助工具类
-     */
-    var _scrollUtils = {
-        CONFIG_START_SCROLL_DISTANCE : 60,  //设置上下边缘尝试开始滚动的距离
-        pos : 0,                            //当前滚动的位置缓存
-        /**
-         * 停止滚动
-         * @return {[type]} [description]
-         */
-        stop : function () {
-            clearInterval(_scrollUtils.timer);
-        },
-        /**
-         * 开始向上滚动
-         * @return {[type]} [description]
-         */
-        up : function () {
-            clearInterval(_scrollUtils.timer);
-            var begin = new Date;
-            _scrollUtils.pos = _dom.contents().scrollTop();
-            _scrollUtils.timer = setInterval(function() {
-                _scrollUtils.pos -= 20;
-                _dom.contents().scrollTop(_scrollUtils.pos);
-                if (new Date - begin > 2000) {
-                    return clearInterval(_scrollUtils.timer);
-                }
-            }, 50);
-        },
-        /**
-         * 开始向下滚动
-         * @return {[type]} [description]
-         */
-        down : function () {
-            clearInterval(_scrollUtils.timer);
-            var begin = new Date;
-            _scrollUtils.pos = _dom.contents().scrollTop();
-            _scrollUtils.timer = setInterval(function() {
-                _scrollUtils.pos += 20;
-                _dom.contents().scrollTop(_scrollUtils.pos);
-                if (new Date - begin > 2000) {
-                    return clearInterval(_scrollUtils.timer);
-                }
-            }, 50);
-        }
-    };
+    var CONFIG_START_SCROLL_DISTANCE = 60;  //设置上下边缘尝试开始滚动的距离
 
-    /**
-     * 坐标变换工具类
-     */
-    var _coordinateUtils = {
-        /**
-         * 把外部鼠标位置coordinate转换成Frame中相对page0，0的位置
-         * @param  {[type]} coordinate [description]
-         * @return {[type]}            [description]
-         */
-        event2FramePagePoint: function(coordinate) {
-            //此处在iframe中x轴不滚动的情况
-            return {
-                x: coordinate.x - _offset.left + 0,
-                y: coordinate.y - _offset.top + _scrollUtils.pos
-            };
-        },
-        /**
-         * 把外部鼠标位置coordinate转换成Frame中相对视口的位置
-         * @param  {[type]} coordinate [description]
-         * @return {[type]}            [description]
-         */
-        event2FrameViewportPoint: function(coordinate) {
-            //此处在iframe中x轴不滚动的情况
-            return {
-                x: coordinate.x - _offset.left,
-                y: coordinate.y - _offset.top
-            };
-        }
-    }
-
-    /**
-     * 节点区域计算辅助工具类
-     * @type {Object}
-     */
-    var _areaUtils = {
-        /**
-         * 获取某个节点的关键区域点，上t，右r，下b，左l，中心点x, y坐标, 宽w，高h
-         * @param  {[type]} el [description]
-         * @return {[type]}    [description]
-         */
-        get : function (el) {
-            var el = $(el),
-                offset = el.offset(),
-                width = el.outerWidth(),
-                height = el.outerHeight();
-            return {
-                t : offset.top,
-                r : offset.left + width,
-                b : offset.top + height,
-                l : offset.left,
-                x: offset.left + width / 2,
-                y: offset.top + height / 2,                 
-                w : width,
-                h : height,
-                style : {
-                    position : el.css('position'),
-                    display : el.css('display')
-                }
-            };
-        },
-        /**
-         * 判断coordinate的坐标值x, y是否在某个节点的后半部分
-         * coordinate is after el
-         * @param  {[type]}  coordinate [description]
-         * @param  {[type]}  el         [description]
-         * @return {Boolean}            [description]
-         */
-        isAfter: function(coordinate, el) {
-            var o = _areaUtils.get(el);
-
-            return 'fixed' === o.style.position || 'absolute' === o.style.position || 'sticky' === o.style.position ?
-                        false :
-                        o.style.display.indexOf('inline') !== -1 ? 
-                            Math.max(o.x, o.r - 20) < coordinate.x && coordinate.x < o.r && o.t < coordinate.y && coordinate.y < o.b :
-                            Math.max(o.y, o.b - 20) < coordinate.y && coordinate.y < o.b && o.l < coordinate.x && coordinate.x < o.r;
-        },
-
-        /**
-         * 判断coordinate的坐标x, y是否再某个节点的前半部分
-         * coordinate is before el
-         * @param  {[type]}  coordinate [description]
-         * @param  {[type]}  el         [description]
-         * @return {Boolean}            [description]
-         */
-        isBefore: function(coordinate, el) {
-            var o = _areaUtils.get(el);
-            return 'fixed' === o.style.position || 'absolute' === o.style.position || 'sticky' === o.style.position ?
-                        false :
-                        o.style.display.indexOf('inline') !== -1 ? 
-                            Math.max(o.x, o.r - 20) >= coordinate.x && o.t < coordinate.y && coordinate.y < o.b || coordinate.x > o.r && coordinate.y < o.t:
-                            Math.max(o.y, o.b - 20) >= coordinate.y && o.l < coordinate.x && coordinate.x < o.r;
-        },
-
-        /**
-         * 判断某个节点el是否包含某个坐标coordinate
-         * el is content coordinate
-         * @param  {[type]}  el         [description]
-         * @param  {[type]}  coordinate [description]
-         * @return {Boolean}            [description]
-         */
-        isContain: function(el, coordinate) {
-            var o = _areaUtils.get(el);
-            return $(el).is(":visible") ?
-                        !(coordinate.x < o.l || coordinate.x > o.r || coordinate.y < o.t || coordinate.y > o.b) :
-                        false;
-        }
-    };
-
-
-    /**
-     * ghost对象辅助
-     * @type {Object}
-     */
-    var _ghostUtils = {
-        CONFIG_ID : '#WidgetGhost',
-        get : function () {
-            return _dom.contents().find(_ghostUtils.CONFIG_ID);
-        },
-        insertTo : function (el, pos) {
-            var ghost = _ghostUtils.get();
-            'before' === pos ? ghost.insertBefore(el) : ghost.insertAfter(el);
-            ghost.show();
-        },
-        hide : function () {
-            _ghostUtils.get().hide();
-        }
-    };
 
     //对文档内容进行操作的方法
     var doc = {
@@ -206,10 +34,10 @@ var documentFrame = (function () {
             for (var i = 0, len = widgets.length; i < len; i++) {
                 widget = widgets[i];
 
-                if (_areaUtils.isBefore(coordinate, widget)) {
+                if (FrameHelper.areaUtil.isBefore(coordinate, widget)) {
                     pos = 'before';
                     break;
-                } else if (_areaUtils.isAfter(coordinate, widget)){
+                } else if (FrameHelper.areaUtil.isAfter(coordinate, widget)){
                     pos = 'after';
                     break;
                 }
@@ -226,15 +54,48 @@ var documentFrame = (function () {
                 tpl = control.template;
 
             control.value.cid = cid;
-            var fragment = $(tpl(control.value)),
-                ghost = _ghostUtils.get();
+            var fragment = tpl(control.value),
+                ghost = FrameHelper.ghostUtil.get();
 
-            _ghostUtils.hide();
-            fragment.insertBefore(ghost);
+            FrameHelper.ghostUtil.hide();
+            FrameHelper.docUtil.insert(fragment, ghost);
             //初始化控件
-            _dom[0].contentWindow.FrameAPI.initWidget(cid);
+            FrameHelper.initControl(cid);
         }
     }
+
+
+
+    /**
+     * 坐标变换工具类
+     */
+    var coordinateUtil = {
+        /**
+         * 把外部鼠标位置coordinate转换成Frame中相对page0，0的位置
+         * @param  {[type]} coordinate [description]
+         * @return {[type]}            [description]
+         */
+        event2FramePagePoint: function(coordinate) {
+            //此处在iframe中x轴不滚动的情况
+            return {
+                x: coordinate.x - _offset.left + 0,
+                y: coordinate.y - _offset.top + FrameHelper.scrollUtil.pos
+            };
+        },
+        /**
+         * 把外部鼠标位置coordinate转换成Frame中相对视口的位置
+         * @param  {[type]} coordinate [description]
+         * @return {[type]}            [description]
+         */
+        event2FrameViewportPoint: function(coordinate) {
+            //此处在iframe中x轴不滚动的情况
+            return {
+                x: coordinate.x - _offset.left,
+                y: coordinate.y - _offset.top
+            };
+        }
+    };
+
 
     _cache();
 
@@ -246,57 +107,123 @@ var documentFrame = (function () {
     _dom.load(function () {
         console.log('document frame loaded');
         _frameWindow = _dom[0].contentWindow;
+
+        //加载辅助方法到iframe中
+        (function (window, document) {
+            /**
+             * @private
+             * @param  {HTMLScriptElement} scr     script节点
+             * @param  {String} url     资源地址
+             * @param  {String} charset 字符集
+             */
+            function _createScriptTag(scr, url, charset) {
+                scr.setAttribute('type', 'text/javascript');
+                charset && scr.setAttribute('charset', charset);
+                scr.setAttribute('src', url);
+                document.getElementsByTagName('head')[0].appendChild(scr);
+            }
+            /**
+             * @private
+             * @param  {HTMLScriptElement} scr script节点
+             */
+            function _removeScriptTag(scr) {
+                if (scr && scr.parentNode) {
+                    scr.parentNode.removeChild(scr);
+                }
+                scr = null;
+            }
+            /**
+             * 加载js模块
+             * @param  {String} url          资源地址
+             * @param  {Function} opt_callback 成功后回调方法
+             * @param  {Object} opt_options  选项
+             */
+            function loadScript(url, optCallback, optOptions) {
+                var scr = document.createElement("SCRIPT"),
+                    scriptLoaded = 0,
+                    options = optOptions || {},
+                    charset = options.charset || 'utf-8',
+                    callback = optCallback || function () {},
+                    timeOut = options.timeout || 0,
+                    timer;
+                
+                // IE和opera支持onreadystatechange
+                // safari、chrome、opera支持onload
+                scr.onload = scr.onreadystatechange = function () {
+                    // 避免opera下的多次调用
+                    if (scriptLoaded) {
+                        return;
+                    }
+                    
+                    var readyState = scr.readyState;
+                    if ('undefined' === typeof readyState ||
+                         readyState === "loaded" ||
+                         readyState === "complete") {
+                        scriptLoaded = 1;
+                        try {
+                            callback();
+                            clearTimeout(timer);
+                        } finally {
+                            scr.onload = scr.onreadystatechange = null;
+                            _removeScriptTag(scr);
+                        }
+                    }
+                };
+
+                if (timeOut) {
+                    timer = setTimeout(function () {
+                        scr.onload = scr.onreadystatechange = null;
+                        _removeScriptTag(scr);
+                        options.onfailure && options.onfailure();
+                    }, timeOut);
+                }
+                
+                _createScriptTag(scr, url, charset);
+            }
+
+            loadScript('/static/core/js/jQuery-2.1.1.js', function () {
+                window.jQuery.noConflict();
+                loadScript('/static/page/helper.js', function () {
+                    console.log('helper inject complete!');
+                    //FrameHelper = window.FrameHelper;
+                });
+            });
+        })(_dom[0].contentWindow, _dom[0].contentWindow.document);
     });
 
 
     //返回给外部接口方法
     return {
-        offset : function () {
-            return _offset;
-        },
-        height : function () {
-            return _height;
-        },
-        width : function () {
-            return _width;
-        },
         cache : _cache,
-        stopScroll : _scrollUtils.stop,
         tryScroll : function (coordinate) {
             //尝试滚动iframe内部的内容
-            var relY = _coordinateUtils.event2FrameViewportPoint(coordinate).y,
-                up = _scrollUtils.CONFIG_START_SCROLL_DISTANCE,
-                down = _height - _scrollUtils.CONFIG_START_SCROLL_DISTANCE;
+            var relY = coordinateUtil.event2FrameViewportPoint(coordinate).y,
+                up = CONFIG_START_SCROLL_DISTANCE,
+                down = _height - CONFIG_START_SCROLL_DISTANCE;
+
+            console.log(relY, up, down);
 
             //相对坐标大于距离底部设置的最小距离处
             relY > down ?
-                _scrollUtils.down() :
+                (console.log('down'),FrameHelper.scrollUtil.down()) :
                 //相对坐标小于最小距离
                 relY < up ?
-                    _scrollUtils.up() :
+                    (console.log('up'), FrameHelper.scrollUtil.up()) :
                     //在60 -> height - 最小距离 之间，停止滚动
-                    _scrollUtils.stop();
+                    (console.log('stop', FrameHelper.scrollUtil.timer), FrameHelper.scrollUtil.stop());
         },
         tryInsert : function (coordinate) {
-            var coordinate = _coordinateUtils.event2FramePagePoint(coordinate),
+            var coordinate = coordinateUtil.event2FramePagePoint(coordinate),
                 o = doc.findInsertPos(coordinate);
-            _ghostUtils.insertTo(o.el, o.pos);
+            FrameHelper.ghostUtil.insertTo(o.el, o.pos);
         },
 
         out : function () {
-            _scrollUtils.stop();
-            _ghostUtils.hide();
+            FrameHelper.scrollUtil.stop();
+            FrameHelper.ghostUtil.hide();
         },
 
-        addWidget : doc.add,
-
-        //for test
-        doc : function () {
-            return doc;
-        },
-        node : function () {
-            return node;
-        }
+        addWidget : doc.add
     };
 })();
 
@@ -340,7 +267,6 @@ $('#FrameDDMaskLayer').droppable({
     },
     drop : function (e, ui) {
         ui.helper.removeClass('can-drop');
-        console.log('drop');
 
         documentFrame.addWidget(ui);
     }

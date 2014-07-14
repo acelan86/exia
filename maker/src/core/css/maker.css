@@ -45,7 +45,7 @@ li{
 }
 
 .viewport{
-    margin-left:310px;
+    margin-left:300px;
     height:100%;
 }
 
@@ -65,6 +65,7 @@ li{
     top:-240px;
     width:320px;
     height:480px;
+    background-color:#fff;
 }
 .landscape .frame-wrapper{
     top: -160px;
@@ -99,10 +100,10 @@ li{
 
 /* 标识是否拖拽到可添加区域的样式 */
 .cant-drop{
-    border:1px solid pink;
+    background-color:pink;
 }
 .can-drop{
-    border:1px solid lightgreen;
+    background-color:lightgreen;
 }
 
 /* 拖拽时候显示dd遮罩辅助层, 状态相关样式使用stage-status- */

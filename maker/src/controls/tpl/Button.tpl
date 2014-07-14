@@ -1,1 +1,1 @@
-<exia:button id="{{cid}}" class="control">{{text}}</exia:button>
+<button xxxxxx=1 id="{{cid}}" class="control" data-role="button">{{text}}</button>

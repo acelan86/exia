@@ -101,11 +101,26 @@ app.post('/create', function (req, res) {
         res.send(str);
     });
 });
+
+/**
+ * 空白编辑页面
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+app.get('/site/blank', function (req, res) {
+    tools.build('', function (str) {
+        res.setHeader("Content-Type", "text/html");
+        res.send(str);
+    });
+});
+
+
 /**
  * 初始化接口
  */
-app.get('/init/:id', function (req, res) {
-    var json = {
+app.get('/site/:id', function (req, res) {
+    var data = {
         layout : [],
         controls : [
             {
@@ -118,23 +133,30 @@ app.get('/init/:id', function (req, res) {
                 type : 'Navigator',
                 value : {
                     items : [
-                        {url : "#test1", text : "首页"},
-                        {url : "#test1", text : "要闻"},
-                        {url : "#test3", text : "国内"},
-                        {url : "#test2", text : "国际"},
-                        {url : "#test3", text : "军事"},
-                        {url : "#test4", text : "社会"},
-                        {url : "#test5", text : "娱乐"}
+                        {url : "#test1", text : "my首页"},
+                        {url : "#test1", text : "my要闻"},
+                        {url : "#test3", text : "my国内"},
+                        {url : "#test2", text : "my国际"},
+                        {url : "#test3", text : "my军事"}
                     ]
+                }
+            },
+            {
+                type : 'Slider',
+                value : {
+                    items : [
+                        {url : "#test1", src : "http://wenwen.soso.com/p/20110208/20110208213951-1550799761.jpg", title : "my图片标题1"},
+                        {url : "#test1", src : "http://img.kumi.cn/photo/a8/bc/42/a8bc42b8ddb7f14e.jpg", title : "my图片标题2"},
+                        {url : "#test3", src : "http://h.hiphotos.baidu.com/image/w%3D310/sign=c21d5587123853438ccf8120a312b01f/e61190ef76c6a7ef392c0ecdfffaaf51f2de66d7.jpg", title : "my图片标题3"}
+                    ],
+                    loop : 1
                 }
             }
         ]
     };
 
-    tools.build(json, function (str) {
-        res.setHeader("Content-Type", "text/html");
-        res.send(str);
-    });
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(data));
 });
 
 var server = app.listen(config.port, function() {

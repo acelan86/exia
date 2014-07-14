@@ -1,4 +1,4 @@
-<exia:slider id="{{cid}}" class="control ui-slider" exia-loop="{{loop}}">
+<div data-role="slider" id="{{cid}}" class="control ui-slider" data-loop="{{loop}}">
     {{#each items}}
         <div>
             <a href="{{url}}">
