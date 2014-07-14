@@ -34,7 +34,7 @@ app.get('/:id', function(req, res){
     var context,
         controls = [
             {text : '按钮', name : 'Button'},
-            {text : '导航', name : 'Navigator'},
+            // {text : '导航', name : 'Navigator'},
             {text : '焦点图', name : 'Slider'}
         ],
         editors,
