@@ -24,6 +24,10 @@ exia.define('Builder.Frame', function (require, exports, module) {
 
     Frame.prototype.controlFromPoint = function(x, y) {
         var node = this.document.elementFromPoint(x, y);
+        return this.getControl(node);
+    };
+
+    Frame.prototype.getControl = function (node) {
         if (node.tagName.toUpperCase() === 'HTML' || node.tagName.toUpperCase() === 'BODY') {
             node = null;
         } else {
@@ -86,6 +90,10 @@ exia.define('Builder.Frame', function (require, exports, module) {
                             '.ghost{',
                                 'border:2px solid #009ff2;',
                                 'display:none;',
+                            '}',
+                            '.drag-helper{',
+                                'position:relative;',
+                                'z-index:2000;',
                             '}'
                         ].join('\n')
                     )
@@ -113,18 +121,44 @@ exia.define('Builder.Frame', function (require, exports, module) {
             }, 500);
 
             //me.dom.contents().mousemove(me._getHighlightControlHandler());
-            me.dom.contents().click(me._getSelectControlHandler());
+            me.dom.contents().mousedown(me._getSelectControlHandler());
 
             me.dom.contents().mousedown(function (e) {
-                me._startDrag = 1;
+                me._startDrag = 0;
+                me._dragDeltaX = e.pageX;
+                me._dragDeltaY = e.pageY;
+                me._active = me.getControl(e.target);
             });
             me.dom.contents().mouseup(function (e) {
                 me._startDrag = 0;
+                $(me._active).insertBefore($('.ghost', me.document));
+                $('.drag-helper', me.document).remove();
+                me.hideGhost();
+                me._active = null;
             });
             me.dom.contents().mousemove(function (e) {
-               if (me._startDrag) {
-                    console.log('drag in frame');
-               };
+                if (!me._active) {
+                    return;
+                }
+                if (me._startDrag) {
+                    console.log($('.drag-helper'));
+                    $('.drag-helper', me.document)
+                        .css({
+                            left : e.pageX + 10,
+                            top : e.pageY + 10
+                        });
+                    var point = me.eventToFrameViewportPoint(e, true),
+                        pos = me.findInsertPos(point.x, point.y);
+                    me.showGhost(pos);
+                } else {
+                    if (Math.abs(e.pageX - me._dragDeltaX) > 10 || Math.abs(e.pageY - me._dragDeltaY) > 10) {
+                        me._startDrag = 1;
+                        me.hideSelectMask();
+                        $('<div class="drag-helper">', me.document)
+                            .append(me._active)
+                            .appendTo($('body', me.document));
+                    }
+                };
             });
 
 
@@ -242,7 +276,7 @@ exia.define('Builder.Frame', function (require, exports, module) {
 
     Frame.prototype.findInsertPos = function (x, y) {
         var pos;
-        $(this.selector, this.document).each(function (i, control) {
+        $('body > ' + this.selector, this.document).each(function (i, control) {
             var bounds = BoundsUtils.getElementBounds(control);
             if (y < bounds.y) {
                 pos = control;
