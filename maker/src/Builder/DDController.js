@@ -57,6 +57,7 @@ exia.define('Builder.DDController', function (require, exports, module) {
             },
             start : function (e, ui) {
                 $('body').addClass('dragging');
+                me.trigger('start', e, ui);
             },
             drag : function (e, ui) {
             },

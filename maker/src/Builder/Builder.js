@@ -26,7 +26,7 @@ exia.define('Builder', function (require, exports, module) {
 
         this.propertitesPanel = $(propertitesPanel);
 
-        $('document').click(function () {
+        $('body').mousedown(function () {
             me.frame.hideSelectMask();
         });
 
@@ -106,6 +106,7 @@ exia.define('Builder', function (require, exports, module) {
             });
             this.ddcontroller.on('out', function (e) {
                 me.frame.stopScroll();
+                me.frame.hideGhost();
             });
             this.ddcontroller.on('drop', function (e, ui) {
                 me.frame.hideGhost();
