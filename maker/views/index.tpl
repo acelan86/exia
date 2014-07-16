@@ -19,22 +19,23 @@
             <button class="btn" id="RotateButton" style="float:right;">rotate</button>
         </div>
         <!-- 组件面板 -->
-        <div class="toolbar">
+        <div id="ControlsPanel" class="toolbar">
             <!-- <div><input type="text" id="WidgetSearchInput"/></div> -->
             <ul>
                 {{#each controls}}
-                    <li class="control-icon" data-tn="{{name}}">{{text}}</li>
+                    <li class="control-icon" data-role="{{name}}">{{text}}</li>
                 {{/each}}
             </ul>
         </div>
+        <!-- 属性面板 -->
+        <div id="PropertiesPanel" class="properties-panel"></div>
+        
         <!-- 编辑区 -->
         <div class="viewport">
             <div class="center-helper">
                 <div class="frame-wrapper">
                     <div class="context-layer" id="ContextLayer"></div>
-                    <div id="FrameDDMaskLayer" class="frame-dd-mask-layer"></div>
-                    <!-- 拖拽遮罩层，用于防止鼠标时间进入iframe后失去事件导致的拖拽不流畅，防止需要在iframe和外部都写一边拖拽结束代码，同时该层可以用于定位 -->
-                    <iframe id="DocumentFrame" class="document-frame" src="/site/blank"></iframe>
+                    <iframe id="Frame" class="frame" src="/site/blank"></iframe>
                     <textarea id="DocumentSource" class="document-source"></textarea><!-- 源文件 -->
                 </div>
             </div>
@@ -63,12 +64,15 @@
         <!-- editors js开始 -->
         <script src="/combo~{{{editorExternalFiles.js}}}"></script>
         <!-- editors js结束 -->
-        <script src="/static/maker.js"></script>
+        <script src="/static/define.js"></script>
+        <script src="/static/Builder/utils/Bounds.js"></script>
+        <script src="/static/Builder/Frame.js"></script>
+        <script src="/static/Builder/DDController.js"></script>
+        <script src="/static/Builder/Builder.js"></script>
         <script>
-            //根据是否有站点id获取站点数据进行初始化
-            (function () {
-
-            })()
+            exia.use('Builder', function (Builder) {
+                new Builder('#Frame', '', '#ControlsPanel');
+            });
         </script>
     </body>
 </html>

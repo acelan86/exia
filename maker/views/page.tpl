@@ -10,35 +10,8 @@
         <link rel="stylesheet" href="/static/page/GMU/gmu.css">
         <script src="/static/page/GMU/zepto.js"></script>
         <script src="/static/page/GMU/gmu.js"></script>
-        <style>
-            .ui-gotop,
-            .ui-nav,
-            .ui-slider{
-                display:block;
-            }
-            .ui-scroller{
-                float:left;
-            }
-            .glost{
-                border:2px dotted #ccc;
-                border-radius:4px;
-                height:30px;
-                margin:3px;
-                display:none;
-            }
-        </style>
     </head>
     <body>
         {{{body}}}
-        <script>
-            function init() {
-                
-            }
-        </script>
-        <script>
-            $(function() {
-                init();
-            });
-        </script>
     </body>
 </html>

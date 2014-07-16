@@ -1042,7 +1042,7 @@
 .ui-scroller {
     padding: 0;
     margin: 0;
-    display: inline-block;/*重要，靠他让宽度由子节点撑开*/
+    /**display: inline-block;/*重要，靠他让宽度由子节点撑开*/
 }
 .ui-scroller .ui-navigator-list {
     display: table;

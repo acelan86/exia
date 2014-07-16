@@ -34,7 +34,7 @@ app.get('/:id', function(req, res){
     var context,
         controls = [
             {text : '按钮', name : 'Button'},
-            // {text : '导航', name : 'Navigator'},
+            {text : '导航', name : 'Navigator'},
             {text : '焦点图', name : 'Slider'}
         ],
         editors,
@@ -109,6 +109,7 @@ app.post('/create', function (req, res) {
  * @return {[type]}     [description]
  */
 app.get('/site/blank', function (req, res) {
+    
     tools.build('', function (str) {
         res.setHeader("Content-Type", "text/html");
         res.send(str);

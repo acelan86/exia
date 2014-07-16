@@ -1,0 +1,309 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Jetstrap - The Easiest Twitter Bootstrap Builder!</title>
+  <meta name="description" content="Rapidly build and host Twitter Bootstrap sites">
+
+  <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+  <script type="text/javascript">
+    Stripe.setPublishableKey('');
+  </script>
+
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="https://s3.amazonaws.com/jetstrap-site/css/normalize.css">
+  <link rel="stylesheet" href="https://s3.amazonaws.com/jetstrap-site/lib/jquery-ui-1.8.22/css/jqueryui/jquery-ui-1.8.22.custom.css">
+  <link rel="stylesheet" href="https://s3.amazonaws.com/jetstrap-site/lib/bootstrap/2.3.0/css/bootstrap.css">
+  <link rel="stylesheet" href="https://s3.amazonaws.com/jetstrap-site/lib/bootstrap/2.3.0/css/bootstrap-responsive.css">
+  <link rel="stylesheet" href="https://s3.amazonaws.com/jetstrap-site/lib/select2/select2.custom.css">
+  <link rel="stylesheet" href="https://s3.amazonaws.com/jetstrap-site/css/style.css?16">
+  <link rel="stylesheet" href="https://s3.amazonaws.com/jetstrap-site/css/dash.css?2">
+  <link rel="stylesheet" href="https://s3.amazonaws.com/jetstrap-site/css/account.css?6">
+  <link rel="icon" href="https://s3.amazonaws.com/jetstrap-site/images/common/jetstrap_favicon.png">
+  
+
+  <!-- start Mixpanel --><script type="text/javascript">(function(c,a){window.mixpanel=a;var b,d,h,e;b=c.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===c.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.1.min.js';d=c.getElementsByTagName("script")[0];d.parentNode.insertBefore(b,d);a._i=[];a.init=function(b,c,f){function d(a,b){var c=b.split(".");2==c.length&&(a=a[c[0]],b=c[1]);a[b]=function(){a.push([b].concat(Array.prototype.slice.call(arguments,0)))}}var g=a;"undefined"!==typeof f?
+  g=a[f]=[]:f="mixpanel";g.people=g.people||[];h="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config people.identify people.set people.increment".split(" ");for(e=0;e<h.length;e++)d(g,h[e]);a._i.push([b,c,f])};a.__SV=1.1})(document,window.mixpanel||[]);
+  mixpanel.init("ebf718d309dd2bc0e1c4d55d2fe550b8");</script><!-- end Mixpanel -->
+</head>
+<body>
+  <!--******************************* HEADER *********************************-->
+  <header class="header">
+  <div class="left proxima clearfix">
+      <div class="view builder-view">
+        <span class="name">DEMO MODE</span><div class="icon"></div>
+      </div>
+    </div>
+    <div class="center">
+      <div id="wysi-tools" class="builder-view" style="display: none">
+        <div class="btn-group">
+          <button class="btn btn-dark btn-small" data-wysi-tool="bold"><i class="icon-bold icon-white"></i></button><button class="btn btn-dark btn-small" data-wysi-tool="italic"><i class="icon-italic icon-white"></i></button><button class="btn btn-dark btn-small" data-wysi-tool="link"><i class="icon-link icon-white"></i></button><button class="btn btn-dark btn-small" data-wysi-tool="align-left"><i class="icon-align-left icon-white"></i></button><button class="btn btn-dark btn-small" data-wysi-tool="align-center"><i class="icon-align-center icon-white"></i></button><button class="btn btn-dark btn-small" data-wysi-tool="align-right"><i class="icon-align-right icon-white"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="right clearfix">
+      <div class="view builder-view header-right">
+        <div id="preview-slider"></div>
+        <div class="divider"></div>
+        <div class="btn-group" id="sizes-dropdown">
+          <div class="dropdown pull-right dropdown-btn">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><div id="sizes-dropdown-toggle" class="j-icon j-icon-full"></div></a>
+            <ul class="dropdown-menu" id="sizes-menu">
+              <li><a href="#" class="size selected" data-size="full"><div class="j-icon j-icon-full"></div></a></li>
+              <li><a href="#" class="size" data-size="desktop"><div class="j-icon j-icon-desktop"></div></a></li>
+              <li><a href="#" class="size" data-size="laptop"><div class="j-icon j-icon-laptop"></div></a></li>
+              <li><a href="#" class="size" data-size="tablet"><div class="j-icon j-icon-tablet"></div></a></li>
+              <li><a href="#" class="size last" data-size="phone"><div class="j-icon j-icon-phone"></div></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="divider"></div>
+      </div>
+      <a class="btn btn-success" href="/plans">Sign up now!</a>
+    </div>
+  </header>
+
+  <!--********************************* MAIN *********************************-->
+  <div id="main" role="main">
+    <img class="screen-loading-indicator hidden" src="https://s3.amazonaws.com/jetstrap-site/images/common/screen-loading.gif" alt="Loading" title="Loading"/>
+    <div class="view builder-view">
+      <!-- ************************ LEFT SIDEBAR *********************** -->
+      <div id="left-sidebar" class="sidebar left">
+        <div class="sidebar-container">
+          <div id="components">
+            <div class="header">
+              <span class="header-text">COMPONENTS</span>
+              <div id="component-search" class="right">
+                <div class="j-icon j-icon-close right"></div><div class="component-search-bar right">
+                  <div class="left j-icon j-icon-search"></div><input class="left hidden search-bar-input" placeholder="Search Components" name="ui-search"></input>
+                </div>
+              </div>
+            </div>
+            <div id="components-sidepane" class="sidepane nano">
+              <div class="content">
+                <ul id="controls-list" class="clearfix">
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-collapser" data-side="left">
+          <div class="sidebar-collapser-caret"></div>
+        </div>
+      </div>
+
+      <div id="center-viewport" class="expanded-left expanded-right">
+        <div id="content-wrapper" class="relative">
+          <div id="frame-wrapper">
+            <div id="context-layer"></div>
+                    <div id="core-frame"></div>
+            <!--<iframe id="document-frame" src="/alpha/frame" class="relative full"></iframe>-->
+            <iframe id="preview-frame" src="about:blank" class="hidden relative full"></iframe>
+        </div>
+          <div id="frame-drop" class="hidden full"></div>
+        </div>
+        <div id="code-inspector">
+          <div class="clearfix header">
+            <div id="breadcrumbs"></div>
+            <div id="editor-toggles" class="btn-group right hidden" data-toggle="buttons-radio">
+              <a class="btn gray-radio-button editor-button active" href="#" data-editor="html">HTML</a><a class="btn gray-radio-button editor-button" href="#" data-editor="css">CSS</a><a class="btn gray-radio-button editor-button" href="#" data-editor="js">JS</a>
+            </div>
+          </div>
+          <div id="editors" class="hidden">
+            <div class="editor active" id="html-editor-target"></div>
+            <div class="editor" id="css-editor-target"></div>
+            <div class="editor" id="js-editor-target"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ************************ RIGHT SIDEBAR *********************** -->
+      <div id="right-sidebar" class="sidebar right">
+        <div class="sidebar-container">
+          <div id="properties">
+            <div class="header">PROPERTIES</div>
+            <div class="sidepane"></div>
+          </div>
+        </div>
+        <div class="sidebar-collapser" data-side="right">
+          <div class="sidebar-collapser-caret"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="demo-modal-5min" class="modal hide">
+    <div class="modal-header">
+      <h2>Jetstrap Demo</h2>
+    </div>
+    <div class="modal-body" style="padding: 15px">
+      <p>
+        <b>Thanks for spending the last five minutes with Jetstrap!</b>
+      </p>
+      <p style="margin-top: 20px">
+        We hope you are enjoying the demo of Jetstrap. Consider switching to a paid plan to get:
+        <ul>
+          <li>Multiple projects and cloud-based storage</li>
+          <li>Project sharing and screen linking</li>
+          <li>Image uploads</li>
+          <li>Full HTML/JS/CSS code editing</li>
+        </ul>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <a data-action="plans" href="/plans" class="btn btn-success" data-dismiss="modal">See pricing</a>
+      <a href="#" class="btn btn-inverse" style="float: left" data-dismiss="modal">Ignore</a>
+    </div>
+  </div>
+
+  <div id="footer" class="clearfix">
+  </div>
+
+  <script id="jetstrap-control-entry" type="text/x-handlebars-template">
+  <li data-section="{{section}}" data-type="{{type}}"{{# if imageUrl}} style="background-image: url({{imageUrl}})"{{/if}}><a href="#">{{name}}</a></li>
+</script>
+<script id="jetstrap-widget-singletext" type="text/x-handlebars-template">
+<input type="text" value="{{text}}"/>
+</script>
+<script id="jetstrap-widget-select" type="text/x-handlebars-template">
+<select>
+{{#each items}}
+<option{{#if value}} value="{{value}}"{{else}} value="_blank_"{{/if}}{{#if selected}} selected="selected"{{/if}}>{{text}}</option>
+{{/each}}
+</select>
+</script>
+<script id="jetstrap-widget-toggle" type="text/x-handlebars-template">
+  <div class="switch {{_active}}" data-checkbox="yes" data-on="{{onText}}" data-off="{{offText}}" data-toggle="switch"></div>
+</script>
+<script id="jetstrap-widget-button" type="text/x-handlerbars-template">
+<button class="btn btn-small btn-success">{{{text}}}</button>
+</script>
+<script id="jetstrap-widget-buttons" type="text/x-handlerbars-template">
+{{#each buttons}}
+<button class="btn btn-small btn-success" data-which="{{tag}}">{{{text}}}</button>
+{{/each}}
+</script>
+<script id="jetstrap-widget-valuetextitems" type="text/x-handlerbars-template">
+<div>
+  {{#each items}}
+  <div class="valuetextitem">
+    <div class="clearfix">
+      <div class="half-label">value</div><div class="half-label">text</div>
+    </div>
+    <div class="clearfix">
+      <input type="text" placeholder="value" class="half" value="{{value}}" />
+      <input type="text" placeholder="text" class="half" value="{{text}}" />
+    </div>
+  </div>
+  {{/each}}
+</div>
+<button class="btn btn-small btn-success">Add item</button>
+</script>
+<script id="jetstrap-widget-fileupload" type="text/x-handlerbars-template">
+  <input type="text" value="{{src}}"><br>
+  <button class="btn btn-small btn-success">Upload</button> <div class="loading-indicator hidden"></div>
+</script>
+<script id="jetstrap-widget-gridlayout" type="text/x-handlebars-template">
+  <select>
+  {{#each items}}
+    <option{{#if value}} value="{{value}}"{{else}} value="_blank_"{{/if}}{{#if selected}} selected="selected"{{/if}}>{{text}}</option>
+  {{/each}}
+  <option value="_custom_"{{#if customValue}} selected{{/if}}>Custom</option>
+  </select>
+  <input placeholder="Custom layout (ex: 1 1 1)" type="text" value="{{#if customValue}}{{customValue}}{{/if}}" {{#if customValue}}class="custom-layout"{{else}}class="custom-layout hidden"{{/if}}>
+</script>
+<script id="jetstrap-widget-slider" type="text/x-handlebars-template">
+  <div class="jqueryui">
+    <div class="slider"></div>
+  </div>
+</script>
+
+<!-- view snippets -->
+<script id="view-snippet-project-entry" type="text/x-handlebars-template">
+<tr class="name" data-projectid="{{unique_id}}">
+  <td class="name">{{name}}</td>
+  <td class="last_modified">{{date_string}}</td>
+  <td class="buttons">
+    <a href="#" title="Export HTML" rel="tooltip" data-content="Export HTML" class="icon icon-arrow-down" data-action="export"></a>
+    <a href="#" title="Delete" rel="tooltip" data-content="Delete screen" class="icon icon-trash" data-action="delete"></a>
+    <a href="#" class="btn" data-action="open">Open</a>
+  </td>
+</tr>
+</script>
+
+
+
+
+
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script>window.jQuery || document.write('<script src="//code.jquery.com/jquery-1.11.0.min.js"><\/script>')</script>
+
+  <!-- libraries -->
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/ace/ace.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/ace/mode-coffee.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/ace/mode-css.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/ace/mode-html.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/bootstrap/2.3.0/js/bootstrap.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/underscore-min.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/backbone-min.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/handlebars-1.0.0.beta.6.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/Markdown.Converter.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/keymaster.js?1"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/beautify.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/beautify-html.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/select2/select2.min.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/html2canvas/html2canvas.min.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/html2canvas/jquery.plugin.html2canvas.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/rangy/rangy-core.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/rangy/rangy-cssclassapplier.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/rangy/rangy-selectionsaverestore.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/rangy/rangy-serializer.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/jquery.nanoscroller.min.js"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/lib/core.mouse.js"></script>
+
+  <script src="https://api.filepicker.io/v1/filepicker.js"></script>
+  <script type="text/javascript">
+    filepicker.setKey('AIzxal2GTsq7RQytwQoZXz');
+  </script>
+
+  <script>
+    window.JetstrapOptions = {
+      'framework': 'bootstrap3'
+    };
+  </script>
+
+  <!-- core -->
+  <script src="https://s3.amazonaws.com/jetstrap-site/js/extras.js?4"></script>
+  <script src="http://s3.amazonaws.com/jetstrap-site/js/builder.js?48"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/js/dashboard.js?7"></script>
+  <script src="https://s3.amazonaws.com/jetstrap-site/js/account.js?6"></script>
+
+  <script>
+    window.JetstrapDemo = {
+      start: function() {
+        setInterval(this.fiveMin, 1000 * 60 * 5);
+      },
+      fiveMin: function() {
+        $('#demo-modal-5min').modal('hide');
+        $('#demo-modal-5min').modal('show');
+      }
+    }
+    JetstrapDemo.start();
+
+    $(document).ready(function() {
+      $('#demo-modal-5min [data-action="plans"]').click(function() {
+        window.location = '/plans';
+      });
+    });
+
+    window.Jetstrap.on('readyToGo', function() {
+      var template = FrameworkTemplates.getTemplate(Frameworks.get('bootstrap3').framework, 'demo');
+      window.Jetstrap.builder.trigger('newDemoScreen', template);
+    });
+  </script>
+
+</body>
+</html>

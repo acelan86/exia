@@ -15,6 +15,7 @@
             return child
         };
     exports = exports != null ? exports: this;
+
     Component = function(_super) {
         __extends(Component, _super);
         function Component() {
@@ -242,6 +243,7 @@ var FolderModel,
         child.__super__ = parent.prototype;
         return child
     };
+//Backbone.Model
 JetstrapProjectHtmlZip = function(_super) {
     __extends(JetstrapProjectHtmlZip, _super);
     function JetstrapProjectHtmlZip() {
@@ -253,6 +255,8 @@ JetstrapProjectHtmlZip = function(_super) {
     JetstrapProjectHtmlZip.prototype.idAttribute = "unique_id";
     return JetstrapProjectHtmlZip
 } (Backbone.Model);
+
+//Backbone.Model
 JetstrapProject = function(_super) {
     __extends(JetstrapProject, _super);
     function JetstrapProject() {
@@ -262,6 +266,8 @@ JetstrapProject = function(_super) {
     JetstrapProject.prototype.idAttribute = "unique_id";
     return JetstrapProject
 } (Backbone.Model);
+
+//Backbone.Collection
 JetstrapProjects = function(_super) {
     __extends(JetstrapProjects, _super);
     function JetstrapProjects() {
@@ -274,6 +280,8 @@ JetstrapProjects = function(_super) {
     };
     return JetstrapProjects
 } (Backbone.Collection);
+
+//Backbone.Model
 FolderModel = function(_super) {
     __extends(FolderModel, _super);
     function FolderModel() {
@@ -283,6 +291,8 @@ FolderModel = function(_super) {
     FolderModel.prototype.idAttribute = "unique_id";
     return FolderModel
 } (Backbone.Model);
+
+//Backbone.Model
 MediaModel = function(_super) {
     __extends(MediaModel, _super);
     function MediaModel() {
@@ -293,36 +303,72 @@ MediaModel = function(_super) {
     };
     return MediaModel
 } (Backbone.Model);
+
+
 window.JetstrapProject = JetstrapProject;
 window.JetstrapProjects = JetstrapProjects;
 window.FolderModel = FolderModel;
 window.MediaModel = MediaModel;
-var Builder, BuilderRouter, ButtonWidget, ButtonsWidget, Controls, DocUtils, Document, FileUploadWidget, FrameworkTemplates, Frameworks, GridLayoutWidget, HTMLAttrProperty, HiddenWidget, HtmlProcessor, IconWidget, Jetstrap, LinkToWidget, NodeType, Property, RichEditorWidget, SelectWidget, SingleTextWidget, SliderWidget, Template, ToggleWidget, UI, ValueTextItemsWidget, Widget, WysiToolbar, method, methods, _A, _E, _i, _len, __hasProp = {}.hasOwnProperty,
-__extends = function(child, parent) {
-    for (var key in parent) {
-        if (__hasProp.call(parent, key)) child[key] = parent[key]
-    }
-    function ctor() {
-        this.constructor = child
-    }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child
-},
-__indexOf = [].indexOf ||
-function(item) {
-    for (var i = 0,
-    l = this.length; i < l; i++) {
-        if (i in this && this[i] === item) return i
-    }
-    return - 1
-},
-__bind = function(fn, me) {
-    return function() {
-        return fn.apply(me, arguments)
-    }
-};
+var Builder,
+    BuilderRouter,
+    ButtonWidget,
+    ButtonsWidget,
+    Controls,
+    DocUtils,
+    Document,
+    FileUploadWidget,
+    FrameworkTemplates,
+    Frameworks,
+    GridLayoutWidget,
+    HTMLAttrProperty,
+    HiddenWidget,
+    HtmlProcessor,
+    IconWidget,
+    Jetstrap,
+    LinkToWidget,
+    NodeType,
+    Property,
+    RichEditorWidget,
+    SelectWidget,
+    SingleTextWidget,
+    SliderWidget,
+    Template,
+    ToggleWidget,
+    UI,
+    ValueTextItemsWidget,
+    Widget,
+    WysiToolbar,
+    method,
+    methods,
+    _A,
+    _E,
+    _i,
+    _len,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) {
+        for (var key in parent) {
+            if (__hasProp.call(parent, key)) child[key] = parent[key]
+        }
+        function ctor() {
+            this.constructor = child
+        }
+        ctor.prototype = parent.prototype;
+        child.prototype = new ctor;
+        child.__super__ = parent.prototype;
+        return child
+    },
+    __indexOf = [].indexOf || function(item) {
+        for (var i = 0,
+        l = this.length; i < l; i++) {
+            if (i in this && this[i] === item) return i
+        }
+        return - 1
+    },
+    __bind = function(fn, me) {
+        return function() {
+            return fn.apply(me, arguments)
+        }
+    };
 window.JDEBUG = window.JDEBUG || window.DEBUG || true;
 if (!window.JDEBUG) {
     if (!window.console) {
@@ -339,6 +385,8 @@ NodeType = {
     TEXT: 3,
     COMMENT: 8
 };
+
+/** Handlebar 门面方法 */
 Template = function() {
     function Template() {}
     Template.render = function(name, data) {
@@ -349,15 +397,16 @@ Template = function() {
     };
     return Template
 } ();
-window.Handlebars.registerHelper("p",
-function(prop) {
+
+
+
+window.Handlebars.registerHelper("p", function(prop) {
     var d, v;
     d = prop.defaultValue();
     v = prop.value();
     return new Handlebars.SafeString(v)
 });
-window.Handlebars.registerHelper("ps",
-function(prop) {
+window.Handlebars.registerHelper("ps", function(prop) {
     var d, v;
     d = prop.defaultValue();
     v = prop.value();
@@ -366,8 +415,7 @@ function(prop) {
     }
     return new Handlebars.SafeString("")
 });
-window.Handlebars.registerHelper("pattr",
-function(prop, attr) {
+window.Handlebars.registerHelper("pattr", function(prop, attr) {
     var d, v;
     d = prop.defaultValue();
     v = prop.value();
@@ -376,8 +424,7 @@ function(prop, attr) {
     }
     return new Handlebars.SafeString("")
 });
-window.Handlebars.registerHelper("pcss",
-function(prop, entry) {
+window.Handlebars.registerHelper("pcss", function(prop, entry) {
     var d, v;
     d = prop.defaultValue();
     v = prop.value();
@@ -386,6 +433,10 @@ function(prop, entry) {
     }
     return new Handlebars.SafeString("")
 });
+
+
+
+//这是什么？
 $.widget("jetstrap.toggleslider", $.ui.mouse, {
     options: {
         on: null,
@@ -1772,6 +1823,8 @@ UI = function() {
     UI.prototype.controls = [];
     return UI
 } ();
+
+/** 引用的框架 默认bootstrap **/
 Frameworks = function() {
     function Frameworks() {}
     Frameworks._frameworks = {};
@@ -1819,6 +1872,8 @@ FrameworkTemplates = function() {
     };
     return FrameworkTemplates
 } ();
+
+
 Controls = function() {
     function Controls() {}
     Controls._controlLookupData = {};
@@ -2069,6 +2124,9 @@ Controls = function() {
     };
     return Controls
 } ();
+
+
+// 文档类
 Document = function() {
     Document.ActionTypes = {
         ADD: 0,
@@ -2086,14 +2144,13 @@ Document = function() {
         this._redoStack = [];
         this.project = new JetstrapProject;
         this.rootEl = $(window.FrameDocument).find("body");
-        this.on("document.updateHtml",
-        function() {
+        this.on("document.updateHtml", function() {
             var tree;
             tree = _this.rootEl.clone();
             _this.cleanTree(tree);
             _this.replaceProjectBodyHtml(tree.html());
             return _this.trigger("documentChanged")
-        })
+        });
     }
     Document.prototype.clear = function() {
         this.rootEl.html("");
@@ -2218,7 +2275,12 @@ Document = function() {
         return this.cleanTree(this.rootEl)
     };
     Document.prototype.replaceProjectBodyHtml = function(body) {
-        var bEnd, bStart, h, html, postBody, preBody;
+        var bEnd,
+            bStart,
+            h,
+            html,
+            postBody,
+            preBody;
         html = this.project.get("html");
         bStart = html.indexOf("<body");
         bEnd = html.indexOf("</body");
@@ -2577,6 +2639,7 @@ DocUtils = function() {
     };
     return DocUtils
 } ();
+
 HtmlProcessor = function(_super) {
     __extends(HtmlProcessor, _super);
     function HtmlProcessor(document) {
@@ -2800,12 +2863,19 @@ Builder = function(_super) {
             return false
         }
     }];
+
+    /** 编辑器 **/
     function Builder() {
+
         this._processWindowResize = __bind(this._processWindowResize, this);
         this._resizeScrollers = __bind(this._resizeScrollers, this);
         this._processFrameContentResize = __bind(this._processFrameContentResize, this);
         this._documentChangedHandler = __bind(this._documentChangedHandler, this);
-        var frameworkName, self, _this = this;
+
+        var frameworkName,
+            self,
+            _this = this;
+
         self = this;
         _.extend(this, Backbone.Events);
         this._initMap = {};
@@ -3072,6 +3142,8 @@ Builder = function(_super) {
         if (!this._framework) {
             return
         }
+        //获取模板，这个模板包括demo, empty, statrt, jumbo四个
+        //
         templates = FrameworkTemplates.get(this._framework.framework);
         $("#new-project-modal .framework code").text(this._framework.name);
         if (templates) {
@@ -3083,6 +3155,8 @@ Builder = function(_super) {
             }
             ts.find(":first").addClass("active")
         }
+
+        //初始化面板
         controls = this._framework.controls;
         controlsList = $("#controls-list");
         controlsList.empty();
@@ -3101,9 +3175,13 @@ Builder = function(_super) {
             }
             controlsList.append(item)
         }
+
+
         fd = window.FrameDocument;
         head = fd.head;
         body = fd.body;
+        //插入必要的css跟js文件
+        //
         entry = this._framework;
         cssFiles = entry.cssFiles || [];
         jsFiles = entry.jsFiles || [];
@@ -3176,8 +3254,7 @@ Builder = function(_super) {
         this.setFirstScreen();
         this.wysi = new WysiToolbar({
             el: $("#wysi-tools").get(0)
-        },
-        window.FrameDocument);
+        },window.FrameDocument);
         if (this._projectsDisabled) {
             this._document.initWithDemo();
             css = this._document.project.get("css");
@@ -4630,7 +4707,11 @@ Builder = function(_super) {
         $(".jetstrap-detached").remove();
         $(".jetstrap-draggable").remove();
         selectNode = null;
-        if (this._foundDragSpot && this._activeComponent && this._activeComponent.clone) {
+        if (
+                this._foundDragSpot &&
+                this._activeComponent &&
+                this._activeComponent.clone
+            ) {
             $(this._activeComponent.clone).remove();
             num_parents = $(this._activeComponent.node).parentsUntil("body").length;
             if (this._activeComponent.startParent) {

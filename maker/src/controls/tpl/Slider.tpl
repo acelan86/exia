@@ -7,4 +7,4 @@
             <p>{{title}}</p>
         </div>
     {{/each}}
-</exia:slider>
+</div>
