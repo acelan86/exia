@@ -71,9 +71,9 @@ li{
     /*-webkit-transition: 0.1s linear;*/
 }
 .frame-wrapper{
-    top:-400px;
+    top:-240px;
     width:320px;
-    height:800px;
+    height:480px;
     background-color:#fff;
 }
 .landscape .frame-wrapper{

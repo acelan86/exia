@@ -354,7 +354,7 @@ exia.define('Builder.Frame', function (require, exports, module) {
         var pos;
         this.$(this.controlSelector).each(function (i, control) {
             var bounds = BoundsUtils.getElementBounds(control);
-            if (y < bounds.y) {
+            if (y < bounds.y || y < bounds.b && x < bounds.l + 20) {
                 pos = control;
                 return false;
             }
