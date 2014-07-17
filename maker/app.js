@@ -30,7 +30,7 @@ app.configure(function(){
 
 
 //
-app.get('/:id', function(req, res){
+app.get('/', function(req, res){
     var context,
         controls = [
             {text : '按钮', name : 'Button'},

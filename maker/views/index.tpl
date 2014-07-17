@@ -35,7 +35,7 @@
             <div class="center-helper">
                 <div class="frame-wrapper">
                     <div class="context-layer" id="ContextLayer"></div>
-                    <iframe id="Frame" class="frame" src="/site/blank"></iframe>
+                    <iframe id="Frame" class="frame" src="about:blank"></iframe>
                     <textarea id="DocumentSource" class="document-source"></textarea><!-- 源文件 -->
                 </div>
             </div>

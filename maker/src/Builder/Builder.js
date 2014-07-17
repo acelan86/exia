@@ -47,7 +47,7 @@ exia.define('Builder', function (require, exports, module) {
             var tpl = control.template(model);
             me.frame.addControl(tpl);
             try {
-                //me.frame.window.$('#' + model.cid)[model.role.toLowerCase()]();
+                me.frame.win.$('#' + model.cid)[model.role.toLowerCase()]();
             } catch (e) {}
         });
         this.Document.on('remove', function (model, collection, option) {
@@ -81,21 +81,19 @@ exia.define('Builder', function (require, exports, module) {
             });
         },
 
-        //尝试进行滚动页面的操作
-        _tryScrollFrame : function (event) {
-            var point = this.frame.eventToFrameViewportPoint(event);
-            console.log(point.y);
-            this.frame.scrollByViewportPoint(point.y);
-        },
         //初始化控件拖拽添加事件
         initDDControllerEvents : function () {
             var me = this;
 
             this.ddcontroller.on('move', function (e) {
-                me._tryScrollFrame(e);
+                //try scroll
+                me.frame.scrollByViewportPoint(
+                    me.frame.eventToFrameViewportPoint(e).y
+                );
 
-                var point = me.frame.eventToFramePagePoint(e);
-                var pos = me.frame.findInsertPos(point.x, point.y);
+                //find insert pos
+                var point = me.frame.eventToFramePagePoint(e),
+                    pos = me.frame.findInsertPos(point.x, point.y);
                 me.frame.showGhost(pos);
             });
             this.ddcontroller.on('out', function (e) {
@@ -104,6 +102,7 @@ exia.define('Builder', function (require, exports, module) {
             });
             this.ddcontroller.on('drop', function (e, ui) {
                 me.frame.hideGhost();
+                me.frame.stopScroll();
                 var role = ui.draggable.data('role'),
                     control = window[role + 'Control'],
                     model = {

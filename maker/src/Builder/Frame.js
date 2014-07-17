@@ -13,13 +13,14 @@ exia.define('Builder.Frame', function (require, exports, module) {
         options = options || {};
 
         this.dom = $(options.dom);
+
         this.controlSelector = options.controlSelector;
         this.cache();
         this.init();
     }
 
     Frame.prototype.$ = function (selector) {
-        return $(selector, this.document);
+        return $(selector, this.doc);
     };
 
     Frame.prototype.controlFromPoint = function(x, y) {
@@ -64,49 +65,72 @@ exia.define('Builder.Frame', function (require, exports, module) {
             me.cache();
         });
 
-        this.dom.ready(function(e) {
-            me.window = me.dom[0].contentWindow;
-            me.document = me.dom[0].contentWindow.document;
+        var doc = me.dom[0].contentWindow.document;
+        doc.open('text/html');
+        doc.write(['<!doctype html>',
+                        '<html lang="zh-cn">',
+                        '<head>',
+                            '<meta charset="utf-8">',
+                            '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">',
+                            '<title> Exia Demo </title>',
+                            '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+                            '<meta name="format-detection" content="telephone=no,email=no">',
+                            '<link rel="stylesheet" href="/static/page/GMU/reset.css">',
+                            '<link rel="stylesheet" href="/static/page/GMU/gmu.css">',
+                            '<script src="/static/page/GMU/zepto.js"></script>',
+                            '<script src="/static/page/GMU/gmu.js"></script>',
+                        '</head>',
+                        '<body>',
+                        '</body>',
+                    '</html>'
+                ].join(''));
+        doc.close();
+
+
+        this.dom.load(function(e) {
+            var win = me.dom[0].contentWindow,
+                doc = win.document;
+
+            me.win = win;
+            me.doc = doc;
 
             console.log('iframe ready');
 
-            setTimeout(function () {
-                me.$('<style>')
-                    .html(
-                        [
-                            '.highlight-mask{',
-                                'position:absolute;',
-                                'display:none;',
-                                'border:1px solid #9ABFF9;',
-                                'pointer-events: none;',
-                                'z-index:1000;',
-                            '}',
-                            '.select-mask{',
-                                'position:absolute;',
-                                'pointer-events: none;',
-                                'display:none;',
-                                'border:2px solid #009ff2;',
-                                'background:rgba(73, 164, 230, 0.5);',
-                                'z-index:1000;',
-                            '}',
-                            '.ghost{',
-                                'border:2px solid #009ff2;',
-                                'display:none;',
-                            '}',
-                            '.drag-helper{',
-                                'position:absolute;',
-                                'pointer-events: none;',
-                                'z-index:2000;',
-                            '}'
-                        ].join('\n')
-                    )
-                    .appendTo(me.$('head'));
+            me.$('<style>')
+                .html(
+                    [
+                        '.highlight-mask{',
+                            'position:absolute;',
+                            'display:none;',
+                            'border:1px solid #9ABFF9;',
+                            'pointer-events: none;',
+                            'z-index:1000;',
+                        '}',
+                        '.select-mask{',
+                            'position:absolute;',
+                            'pointer-events: none;',
+                            'display:none;',
+                            'border:2px solid #009ff2;',
+                            'background:rgba(73, 164, 230, 0.5);',
+                            'z-index:1000;',
+                        '}',
+                        '.ghost{',
+                            'border:2px solid #009ff2;',
+                            'display:none;',
+                        '}',
+                        '.drag-helper{',
+                            'position:absolute;',
+                            'pointer-events: none;',
+                            'z-index:2000;',
+                        '}'
+                    ].join('\n')
+                )
+                .appendTo(me.$('head'));
 
-                me.$('body')
-                    .append(me.$('<div class="highlight-mask">'))
-                    .append(me.$('<div class="select-mask">'))
-                    .append(me.$('<div class="ghost">'));
-            }, 500);
+            me.$('body')
+                .append(me.$('<div class="highlight-mask">'))
+                .append(me.$('<div class="select-mask">'))
+                .append(me.$('<div class="ghost">'));
 
             //me.dom.contents().mousemove(me._getHighlightControlHandler());
 
@@ -147,19 +171,18 @@ exia.define('Builder.Frame', function (require, exports, module) {
                 me.dom.contents().mousemove(function (e) {
                     //拖拽状态，持续改变helper坐标跟随
                     if (me._dragState === DRAG_STATUS.DRAGGING) {
-                        me.$('.drag-helper', me.document)
+                        me.$('.drag-helper')
                             .css({
                                 left : e.pageX + 10,
                                 top : e.pageY + 10
                             });
-                        var point = me.eventToFrameViewportPoint(e, true),
+                        var point = me.eventToFramePagePoint(e, true),
                             pos = me.findInsertPos(point.x, point.y);
-                        //me.moveNodeTo(me._active, pos);
-                        me.showGhost(pos);
 
-                        //滚动
-                        console.log('inner scroll',point.y, pos);
-                        me.scrollByViewportPoint(point.y);
+                        ////滚动
+                        me.scrollByViewportPoint(me.eventToFrameViewportPoint(e, true).y);
+
+                        me.showGhost(pos);
 
                     //按下状态，判断拖拽是否超过一定距离，开始拖拽
                     } else if (me._dragState === DRAG_STATUS.START_DRAG) {
@@ -273,8 +296,8 @@ exia.define('Builder.Frame', function (require, exports, module) {
                 y : event.pageY - this.dom.contents().scrollTop()
             } :
             {
-                x: event.pageX - this.left - this.dom.contents().scrollLeft(),
-                y: event.pageY - this.top - this.dom.contents().scrollTop()
+                x: event.pageX - this.left,
+                y: event.pageY - this.top
             };
     };
 
@@ -305,7 +328,6 @@ exia.define('Builder.Frame', function (require, exports, module) {
         var pos;
         this.$(this.controlSelector).each(function (i, control) {
             var bounds = BoundsUtils.getElementBounds(control);
-            console.log(y, bounds.y, control);
             if (y < bounds.y) {
                 pos = control;
                 return false;
@@ -367,7 +389,7 @@ exia.define('Builder.Frame', function (require, exports, module) {
     };
 
     Frame.prototype.scrollByViewportPoint = function (y) {
-        var CONFIG_START_SCROLL_DISTANCE = 60,
+        var CONFIG_START_SCROLL_DISTANCE = 30,
             up = CONFIG_START_SCROLL_DISTANCE,
             down = this.height - CONFIG_START_SCROLL_DISTANCE;
 
