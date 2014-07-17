@@ -73,13 +73,13 @@ exia.define('Builder', function (require, exports, module) {
                 console.log('frame inited!');
             });
             this.frame.on('select', function (control) {
-                //console.log('select ', control);
+                console.log('select ', control);
             });
             this.frame.on('sort', function (control) {
-                //console.log('sort ', control);
+                console.log('sort ', control);
             });
             this.frame.on('unselect', function (control) {
-                //console.log('unselect ', control);
+                console.log('unselect ', control);
             });
         },
 

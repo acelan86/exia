@@ -151,7 +151,7 @@ exia.define('Builder.Frame', function (require, exports, module) {
                         me.$('.drag-helper')
                             .css({
                                 left : e.pageX + 10,
-                                top : e.pageY + 10
+                                top : e.pageY - $(me._active).outerHeight()
                             });
                         var point = me.eventToFramePagePoint(e, true),
                             pos = me.findInsertPos(point.x, point.y);
@@ -171,8 +171,9 @@ exia.define('Builder.Frame', function (require, exports, module) {
                             });
                             me.$('<div class="drag-helper">')
                                 .css({
+                                    width : me.$(me._active).outerWidth(),
                                     left: e.pageX + 10,
-                                    top : e.pageY + 10
+                                    top : e.pageY - me.$(me._active).outerHeight()
                                 })
                                 .append(
                                     me.$(me._active)
