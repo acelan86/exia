@@ -57,19 +57,21 @@ exia.define('Builder', function (require, exports, module) {
             console.log('change', model.toJSON());
         });
         this.initDataChangeEvents();
+
+        //按钮
+        $('#RotateButton').click(function (e) {
+            $('body').toggleClass('landscape');
+            me.frame.cache();
+            e.stopPropagation();
+        });
     }
 
     Builder.prototype = {
-        _getFrameLoadHandler : function () {
-            var me = this;
-            return function () {
-                console.log('frame loaded!');
-            };
-        },
         //初始化frame加载事件
         initFrameEvents : function () {
-            //这里用ready而不用load，load在刷新的时候不会出发
-            this.frame.on('ready', this._getFrameLoadHandler());
+            this.frame.on('init', function () {
+                console.log('frame inited!');
+            });
             this.frame.on('select', function (control) {
                 //console.log('select ', control);
             });

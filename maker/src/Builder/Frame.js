@@ -57,91 +57,68 @@ exia.define('Builder.Frame', function (require, exports, module) {
     //     };
     // };
 
-
-    Frame.prototype.init = function () {
+    Frame.prototype._frameLoaded = function () {
         var me = this;
+        if (this.isFrameLoaded === true) {
+            console.error("frame already loaded");
+            return
+        }
+        this.isFrameLoaded = true;
 
-        $(window).resize(function () {
-            me.cache();
-        });
+        var win = me.dom[0].contentWindow,
+            doc = win.document;
 
-        var doc = me.dom[0].contentWindow.document;
-        doc.open('text/html');
-        doc.write(['<!doctype html>',
-                        '<html lang="zh-cn">',
-                        '<head>',
-                            '<meta charset="utf-8">',
-                            '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">',
-                            '<title> Exia Demo </title>',
-                            '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
-                            '<meta name="format-detection" content="telephone=no,email=no">',
-                            '<link rel="stylesheet" href="/static/page/GMU/reset.css">',
-                            '<link rel="stylesheet" href="/static/page/GMU/gmu.css">',
-                            '<script src="/static/page/GMU/zepto.js"></script>',
-                            '<script src="/static/page/GMU/gmu.js"></script>',
-                        '</head>',
-                        '<body>',
-                        '</body>',
-                    '</html>'
-                ].join(''));
-        doc.close();
+        me.win = win;
+        me.doc = doc;
+
+        me.$('<style>')
+            .html(
+                [
+                    '.highlight-mask{',
+                        'position:absolute;',
+                        'display:none;',
+                        'border:1px solid #9ABFF9;',
+                        'pointer-events: none;',
+                        '-webkit-pointer-events:none;',
+                        'z-index:1000;',
+                    '}',
+                    '.select-mask{',
+                        'position:absolute;',
+                        'pointer-events: none;',
+                        '-webkit-pointer-events:none;',
+                        'display:none;',
+                        'border:2px solid #009ff2;',
+                        'background:rgba(73, 164, 230, 0.5);',
+                        'z-index:1000;',
+                    '}',
+                    '.ghost{',
+                        'border:2px solid #009ff2;',
+                        'display:none;',
+                    '}',
+                    '.drag-helper{',
+                        'position:absolute;',
+                        'pointer-events: none;',
+                        'z-index:2000;',
+                    '}'
+                ].join('\n')
+            )
+            .appendTo(me.$('head'));
+
+        me.$('body')
+            .append(me.$('<div class="highlight-mask">'))
+            .append(me.$('<div class="select-mask">'))
+            .append(me.$('<div class="ghost">'));
 
 
-        this.dom.load(function(e) {
-            var win = me.dom[0].contentWindow,
-                doc = win.document;
-
-            me.win = win;
-            me.doc = doc;
-
-            console.log('iframe ready');
-
-            me.$('<style>')
-                .html(
-                    [
-                        '.highlight-mask{',
-                            'position:absolute;',
-                            'display:none;',
-                            'border:1px solid #9ABFF9;',
-                            'pointer-events: none;',
-                            'z-index:1000;',
-                        '}',
-                        '.select-mask{',
-                            'position:absolute;',
-                            'pointer-events: none;',
-                            'display:none;',
-                            'border:2px solid #009ff2;',
-                            'background:rgba(73, 164, 230, 0.5);',
-                            'z-index:1000;',
-                        '}',
-                        '.ghost{',
-                            'border:2px solid #009ff2;',
-                            'display:none;',
-                        '}',
-                        '.drag-helper{',
-                            'position:absolute;',
-                            'pointer-events: none;',
-                            'z-index:2000;',
-                        '}'
-                    ].join('\n')
-                )
-                .appendTo(me.$('head'));
-
-            me.$('body')
-                .append(me.$('<div class="highlight-mask">'))
-                .append(me.$('<div class="select-mask">'))
-                .append(me.$('<div class="ghost">'));
-
-            //me.dom.contents().mousemove(me._getHighlightControlHandler());
-
-            //绑定内部拖拽和选中事件
-            (function () {
-                var DRAG_STATUS = {
-                    INIT : 0,
-                    START_DRAG : 1,
-                    DRAGGING : 2
-                };
-                me.dom.contents().mousedown(function (e) {
+        //绑定内部拖拽和选中事件
+        (function () {
+            var DRAG_STATUS = {
+                INIT : 0,
+                START_DRAG : 1,
+                DRAGGING : 2
+            };
+            me.$(me.doc)
+                .mousedown(function (e) {
                     me._dragState = DRAG_STATUS.INIT;
                     me._active = me.getControl(e.target);
                     if (me._active) {
@@ -149,8 +126,8 @@ exia.define('Builder.Frame', function (require, exports, module) {
                         me._dragDeltaY = e.pageY;
                         me._dragState = DRAG_STATUS.START_DRAG;
                     }
-                });
-                me.dom.contents().mouseup(function (e) {
+                })
+                .mouseup(function (e) {
                     if (me._dragState === DRAG_STATUS.DRAGGING) {
                         me.hideGhost();
                         //拖拽状态，进入完成拖拽
@@ -167,8 +144,8 @@ exia.define('Builder.Frame', function (require, exports, module) {
                     }
                     //操作完毕，回到初始状态
                     me._dragState = DRAG_STATUS.INIT;
-                });
-                me.dom.contents().mousemove(function (e) {
+                })
+                .mousemove(function (e) {
                     //拖拽状态，持续改变helper坐标跟随
                     if (me._dragState === DRAG_STATUS.DRAGGING) {
                         me.$('.drag-helper')
@@ -208,11 +185,59 @@ exia.define('Builder.Frame', function (require, exports, module) {
                     e.preventDefault();
                     e.stopPropagation();
                 });
-            })();
+        })();
 
-            me.trigger('ready', e);
+        me.trigger('init');
+    };
+
+    Frame.prototype.init = function () {
+        var me = this;
+
+        $(window).resize(function () {
+            me.cache();
         });
 
+        var frameHTML = [
+            '<!doctype html>',
+                '<html lang="zh-cn">',
+                '<head>',
+                    '<meta charset="utf-8">',
+                    '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">',
+                    '<title> Exia Demo </title>',
+                    '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+                    '<meta name="format-detection" content="telephone=no,email=no">',
+                    '<link rel="stylesheet" href="/static/page/GMU/reset.css">',
+                    '<link rel="stylesheet" href="/static/page/GMU/gmu.css">',
+                    '<script src="/static/page/GMU/zepto.js"></script>',
+                    '<script src="/static/page/GMU/gmu.js"></script>',
+                    '<script>parent.FrameDocument = document; parent.FrameWindow = window;</script>',
+                '</head>',
+                '<body>',
+                '</body>',
+            '</html>'
+        ].join('');
+
+        var doc = me.dom[0].contentWindow.document;
+        doc.open('text/html');
+        doc.write(frameHTML);
+        doc.close();
+
+
+        this.dom.ready(function() {
+            var waitFunction,
+                waitTimeout;
+            waitFunction = function() {
+                var waitTimeout;
+                if (!window.FrameDocument || $("body", window.FrameDocument).length === 0) {
+                    console.log("frame loading, waiting");
+                    return waitTimeout = setTimeout(waitFunction, 20)
+                } else {
+                    console.log("frame ready, stop watiting");
+                    return me._frameLoaded();
+                }
+            };
+            return waitTimeout = setTimeout(waitFunction, 20);
+        });
     };
     Frame.prototype.cache = function () {
         var offset = this.dom.offset();
