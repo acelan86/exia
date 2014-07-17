@@ -11,16 +11,16 @@ exia.define('Builder.Frame', function (require, exports, module) {
         _.extend(this, Backbone.Events);
 
         options = options || {};
-        //this.left
-        //this.top
-        //this.width
-        //this.height
 
         this.dom = $(options.dom);
-        this.selector = options.selector;
+        this.controlSelector = options.controlSelector;
         this.cache();
         this.init();
     }
+
+    Frame.prototype.$ = function (selector) {
+        return $(selector, this.document);
+    };
 
     Frame.prototype.controlFromPoint = function(x, y) {
         var node = this.document.elementFromPoint(x, y);
@@ -31,34 +31,31 @@ exia.define('Builder.Frame', function (require, exports, module) {
         if (node.tagName.toUpperCase() === 'HTML' || node.tagName.toUpperCase() === 'BODY') {
             node = null;
         } else {
-            node = $(node).closest(this.selector).get(0);
+            node = this.$(node).closest(this.controlSelector).get(0);
         }
         return node;
     };
 
-    Frame.prototype._getHighlightControlHandler = function () {
-        var me = this;
-        return function (e) {
-            var point = me.eventToFrameViewportPoint(e, true),
-                node;
-            if (node = me.controlFromPoint(point.x, point.y)) {
-                me.showHighlightMask(node);
-            }
-        };
+    Frame.prototype.getContainer = function (node) {
+        if (node.tagName.toUpperCase() === 'HTML' || node.tagName.toUpperCase() === 'BODY') {
+            node = null;
+        } else {
+            node = this.$(node).closest(this.containerSelector).get(0);
+        }
+        return node;
     };
 
-    Frame.prototype._getSelectControlHandler = function () {
-        var me = this;
-        return function (e) {
-            var point = me.eventToFrameViewportPoint(e, true),
-                node;
-            if (node = me.controlFromPoint(point.x, point.y)) {
-                me.showSelectMask(node);
-            } else {
-                me.hideSelectMask(node);
-            }
-        };
-    },
+    // Frame.prototype._getHighlightControlHandler = function () {
+    //     var me = this;
+    //     return function (e) {
+    //         var point = me.eventToFrameViewportPoint(e, true),
+    //             node;
+    //         if (node = me.controlFromPoint(point.x, point.y)) {
+    //             me.showHighlightMask(node);
+    //         }
+    //     };
+    // };
+
 
     Frame.prototype.init = function () {
         var me = this;
@@ -74,15 +71,20 @@ exia.define('Builder.Frame', function (require, exports, module) {
             console.log('iframe ready');
 
             setTimeout(function () {
-                $('<style>', me.document)
+                me.$('<style>')
                     .html(
                         [
                             '.highlight-mask{',
+                                'position:absolute;',
+                                'display:none;',
                                 'border:1px solid #9ABFF9;',
                                 'pointer-events: none;',
                                 'z-index:1000;',
                             '}',
                             '.select-mask{',
+                                'position:absolute;',
+                                'pointer-events: none;',
+                                'display:none;',
                                 'border:2px solid #009ff2;',
                                 'background:rgba(73, 164, 230, 0.5);',
                                 'z-index:1000;',
@@ -92,75 +94,98 @@ exia.define('Builder.Frame', function (require, exports, module) {
                                 'display:none;',
                             '}',
                             '.drag-helper{',
-                                'position:relative;',
+                                'position:absolute;',
+                                'pointer-events: none;',
                                 'z-index:2000;',
                             '}'
                         ].join('\n')
                     )
-                    .appendTo($('head', me.document));
+                    .appendTo(me.$('head'));
 
-                $('<div class="highlight-mask">', me.document)
-                    .css({
-                        position : 'absolute',
-                        display : 'none'
-                    })
-                    .appendTo($('body', me.document));
-
-                $('<div class="select-mask">', me.document)
-                    .css({
-                        position : 'absolute',
-                        display : 'none'
-                    })
-                    .appendTo($('body', me.document));
-
-                $('<div class="ghost">', me.document)
-                    .css({
-                        display : 'none'
-                    })
-                    .appendTo($('body', me.document));
+                me.$('body')
+                    .append(me.$('<div class="highlight-mask">'))
+                    .append(me.$('<div class="select-mask">'))
+                    .append(me.$('<div class="ghost">'));
             }, 500);
 
             //me.dom.contents().mousemove(me._getHighlightControlHandler());
-            me.dom.contents().mousedown(me._getSelectControlHandler());
 
-            me.dom.contents().mousedown(function (e) {
-                me._startDrag = 0;
-                me._dragDeltaX = e.pageX;
-                me._dragDeltaY = e.pageY;
-                me._active = me.getControl(e.target);
-            });
-            me.dom.contents().mouseup(function (e) {
-                me._startDrag = 0;
-                $(me._active).insertBefore($('.ghost', me.document));
-                $('.drag-helper', me.document).remove();
-                me.hideGhost();
-                me._active = null;
-            });
-            me.dom.contents().mousemove(function (e) {
-                if (!me._active) {
-                    return;
-                }
-                if (me._startDrag) {
-                    console.log($('.drag-helper'));
-                    $('.drag-helper', me.document)
-                        .css({
-                            left : e.pageX + 10,
-                            top : e.pageY + 10
-                        });
-                    var point = me.eventToFrameViewportPoint(e, true),
-                        pos = me.findInsertPos(point.x, point.y);
-                    me.showGhost(pos);
-                } else {
-                    if (Math.abs(e.pageX - me._dragDeltaX) > 10 || Math.abs(e.pageY - me._dragDeltaY) > 10) {
-                        me._startDrag = 1;
-                        me.hideSelectMask();
-                        $('<div class="drag-helper">', me.document)
-                            .append(me._active)
-                            .appendTo($('body', me.document));
-                    }
+            //绑定内部拖拽和选中事件
+            (function () {
+                var DRAG_STATUS = {
+                    INIT : 0,
+                    START_DRAG : 1,
+                    DRAGGING : 2
                 };
-            });
+                me.dom.contents().mousedown(function (e) {
+                    me._dragState = DRAG_STATUS.INIT;
+                    me._active = me.getControl(e.target);
+                    if (me._active) {
+                        me._dragDeltaX = e.pageX;
+                        me._dragDeltaY = e.pageY;
+                        me._dragState = DRAG_STATUS.START_DRAG;
+                    }
+                });
+                me.dom.contents().mouseup(function (e) {
+                    if (me._dragState === DRAG_STATUS.DRAGGING) {
+                        me.hideGhost();
+                        //拖拽状态，进入完成拖拽
+                        me.$('.drag-helper').remove();
+                        me.$(me._active).css('opacity', 1);
+                        me.moveControlTo(me._active, me.$('.ghost'));
+                        me.trigger('sort', me._active);
+                    }
 
+                    if (me._dragState !== DRAG_STATUS.INIT) {
+                        me.selectControl(me._active);
+                    } else {
+                        me.unselectControl();
+                    }
+                    //操作完毕，回到初始状态
+                    me._dragState = DRAG_STATUS.INIT;
+                });
+                me.dom.contents().mousemove(function (e) {
+                    //拖拽状态，持续改变helper坐标跟随
+                    if (me._dragState === DRAG_STATUS.DRAGGING) {
+                        me.$('.drag-helper', me.document)
+                            .css({
+                                left : e.pageX + 10,
+                                top : e.pageY + 10
+                            });
+                        var point = me.eventToFrameViewportPoint(e, true),
+                            pos = me.findInsertPos(point.x, point.y);
+                        //me.moveNodeTo(me._active, pos);
+                        me.showGhost(pos);
+
+                        //滚动
+                        console.log('inner scroll',point.y, pos);
+                        me.scrollByViewportPoint(point.y);
+
+                    //按下状态，判断拖拽是否超过一定距离，开始拖拽
+                    } else if (me._dragState === DRAG_STATUS.START_DRAG) {
+                        if (Math.abs(e.pageX - me._dragDeltaX) > 10 || Math.abs(e.pageY - me._dragDeltaY) > 10) {
+                            me._dragState = DRAG_STATUS.DRAGGING;
+                            me.hideSelectMask();
+                            me.$(me._active).css({
+                                opacity : .6
+                            });
+                            me.$('<div class="drag-helper">')
+                                .css({
+                                    left: e.pageX + 10,
+                                    top : e.pageY + 10
+                                })
+                                .append(
+                                    me.$(me._active)
+                                        .clone()
+                                        .removeClass(me.controlSelector.replace('.', ''))
+                                )
+                                .appendTo(me.$('body'));
+                        }
+                    };
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+            })();
 
             me.trigger('ready', e);
         });
@@ -195,10 +220,10 @@ exia.define('Builder.Frame', function (require, exports, module) {
         var me = this;
         clearInterval(me.scrollTimer);
         var begin = new Date;
-        me.scrollTop = me.dom.contents().scrollTop();
+        var scrollTop = me.dom.contents().scrollTop();
         me.scrollTimer = setInterval(function() {
-            me.scrollTop -= 20;
-            me.dom.contents().scrollTop(me.scrollTop);
+            scrollTop -= 20;
+            me.dom.contents().scrollTop(scrollTop);
             if (new Date - begin > 2000) {
                 return clearInterval(me.scrollTimer);
             }
@@ -212,10 +237,10 @@ exia.define('Builder.Frame', function (require, exports, module) {
         var me = this;
         clearInterval(me.scrollTimer);
         var begin = new Date;
-        me.scrollTop = me.dom.contents().scrollTop();
+        var scrollTop = me.dom.contents().scrollTop();
         me.scrollTimer = setInterval(function() {
-            me.scrollTop += 20;
-            me.dom.contents().scrollTop(me.scrollTop);
+            scrollTop += 20;
+            me.dom.contents().scrollTop(scrollTop);
             if (new Date - begin > 2000) {
                 return clearInterval(me.scrollTimer);
             }
@@ -254,17 +279,19 @@ exia.define('Builder.Frame', function (require, exports, module) {
     };
 
     Frame.prototype.addControl = function (html) {
-        $(html).insertBefore($('.ghost', this.document));
+        this.$(html).insertBefore(this.$('.ghost'));
     };
     Frame.prototype.removeControl = function (node) {
-        $(node).remove();
+        this.$(node).remove();
     };
     Frame.prototype.showHighlightMask = function (node) {
-        var offset = $(node).offset(),
-            width = $(node).outerWidth(),
-            height = $(node).outerHeight();
+        node = this.$(node);
 
-        $('.highlight-mask', this.document)
+        var offset = node.offset(),
+            width = node.outerWidth(),
+            height = node.outerHeight();
+
+        this.$('.highlight-mask')
             .css({
                 width : width - 2,
                 height : height - 2,
@@ -276,8 +303,9 @@ exia.define('Builder.Frame', function (require, exports, module) {
 
     Frame.prototype.findInsertPos = function (x, y) {
         var pos;
-        $('body > ' + this.selector, this.document).each(function (i, control) {
+        this.$(this.controlSelector).each(function (i, control) {
             var bounds = BoundsUtils.getElementBounds(control);
+            console.log(y, bounds.y, control);
             if (y < bounds.y) {
                 pos = control;
                 return false;
@@ -286,27 +314,36 @@ exia.define('Builder.Frame', function (require, exports, module) {
         return pos;
     };
 
+    Frame.prototype.moveControlTo = function (node, to) {
+         if (to) {
+            this.$(node).insertBefore(to);
+        } else {
+            this.$(node).appendTo(this.$('body'))
+        }
+    }
+
     Frame.prototype.showGhost = function (node) {
         if (node) {
-            $('.ghost', this.document)
+            this.$('.ghost')
                 .insertBefore(node)
                 .show();
         } else {
-            $('.ghost', this.document)
-                .appendTo($('body', this.document))
+            this.$('.ghost')
+                .appendTo(this.$('body'))
                 .show();
         }
     };
     Frame.prototype.hideGhost = function () {
-        $('.ghost', this.document).hide();
+        this.$('.ghost').hide();
     };
 
     Frame.prototype.showSelectMask = function (node) {
-        var offset = $(node).offset(),
-            width = $(node).outerWidth(),
-            height = $(node).outerHeight();
+        node = this.$(node);
+        var offset = node.offset(),
+            width = node.outerWidth(),
+            height = node.outerHeight();
 
-        $('.select-mask', this.document)
+        this.$('.select-mask')
             .css({
                 width : width - 4,
                 height : height - 4,
@@ -315,8 +352,33 @@ exia.define('Builder.Frame', function (require, exports, module) {
             })
             .show();
     };
+    Frame.prototype.selectControl = function (node) {
+        this._active = node;
+        this.showSelectMask(this._active);
+        this.trigger('select', this._active);
+    };
     Frame.prototype.hideSelectMask = function () {
-        $('.select-mask', this.document).hide();
+        this.$('.select-mask').hide();
+    };
+    Frame.prototype.unselectControl = function () {
+        this.hideSelectMask();
+        this.trigger('unselect', this._active);
+        this._active = null;
+    };
+
+    Frame.prototype.scrollByViewportPoint = function (y) {
+        var CONFIG_START_SCROLL_DISTANCE = 60,
+            up = CONFIG_START_SCROLL_DISTANCE,
+            down = this.height - CONFIG_START_SCROLL_DISTANCE;
+
+        //相对坐标大于距离底部设置的最小距离处
+        y > down ?
+            this.scrollDown() :
+            //相对坐标小于最小距离
+            y < up ?
+                this.scrollUp() :
+                //在60 -> height - 最小距离 之间，停止滚动
+                this.stopScroll();
     }
     return Frame;
 });

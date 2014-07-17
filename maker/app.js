@@ -35,7 +35,8 @@ app.get('/:id', function(req, res){
         controls = [
             {text : '按钮', name : 'Button'},
             {text : '导航', name : 'Navigator'},
-            {text : '焦点图', name : 'Slider'}
+            {text : '焦点图', name : 'Slider'},
+            {text : '文本', name : 'Text'}
         ],
         editors,
         templates = [],

@@ -1,1 +1,1 @@
-<button xxxxxx=1 id="{{cid}}" class="control" data-role="button">{{text}}</button>
+<button id="{{cid}}" class="control" data-role="button">{{text}}</button>

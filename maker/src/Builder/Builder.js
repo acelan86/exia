@@ -12,7 +12,8 @@ exia.define('Builder', function (require, exports, module) {
         //frame
         this.frame = new Frame({
             dom : frame,
-            selector : '.control'
+            controlSelector : '.control',
+            containerSelector : '.container'
         });
 
         //拖拽控制器
@@ -36,7 +37,6 @@ exia.define('Builder', function (require, exports, module) {
 
 
         /* model */
-
         this.Document = new Backbone.Collection();
         this.Document.on('add', function (model, collection, option) {
             var cid = model.cid;
@@ -46,7 +46,9 @@ exia.define('Builder', function (require, exports, module) {
             var control = window[model.role + 'Control'];
             var tpl = control.template(model);
             me.frame.addControl(tpl);
-            me.frame.window.$('#' + model.cid)[model.role.toLowerCase()]();
+            try {
+                //me.frame.window.$('#' + model.cid)[model.role.toLowerCase()]();
+            } catch (e) {}
         });
         this.Document.on('remove', function (model, collection, option) {
             console.log('remove', model.toJSON());
@@ -68,30 +70,22 @@ exia.define('Builder', function (require, exports, module) {
         initFrameEvents : function () {
             //这里用ready而不用load，load在刷新的时候不会出发
             this.frame.on('ready', this._getFrameLoadHandler());
-            this.frame.on('hover', function (e) {
-                //console.log('hover on', e)
+            this.frame.on('select', function (control) {
+                //console.log('select ', control);
             });
-            this.frame.on('select', function (e) {
-                //console.log('select on', e);
+            this.frame.on('sort', function (control) {
+                //console.log('sort ', control);
+            });
+            this.frame.on('unselect', function (control) {
+                //console.log('unselect ', control);
             });
         },
 
         //尝试进行滚动页面的操作
         _tryScrollFrame : function (event) {
-            //尝试滚动iframe内部的内容
-            var CONFIG_START_SCROLL_DISTANCE = 60,
-                relY = this.frame.eventToFrameViewportPoint(event).y,
-                up = CONFIG_START_SCROLL_DISTANCE,
-                down = this.frame.height - CONFIG_START_SCROLL_DISTANCE;
-
-            //相对坐标大于距离底部设置的最小距离处
-            relY > down ?
-                this.frame.scrollDown() :
-                //相对坐标小于最小距离
-                relY < up ?
-                    this.frame.scrollUp() :
-                    //在60 -> height - 最小距离 之间，停止滚动
-                    this.frame.stopScroll();
+            var point = this.frame.eventToFrameViewportPoint(event);
+            console.log(point.y);
+            this.frame.scrollByViewportPoint(point.y);
         },
         //初始化控件拖拽添加事件
         initDDControllerEvents : function () {
