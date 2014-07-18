@@ -1,0 +1,1 @@
+{{label}}:<input type="text" class="editor-string" value="{{value}}" placeholder="{{placeholder}}" />

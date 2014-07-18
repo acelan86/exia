@@ -53,14 +53,20 @@ app.get('/', function(req, res){
     });
 
     var editorPath = __dirname + '/src/Builder/Editor',
-        files = fs.readdirSync(editorPath + '/js');
+        files = fs.readdirSync(editorPath + '/js'),
+        filePath,
+        fileStat;
 
     files.forEach(function (file) {
         file = file.replace('.js', '');
-        editorTemplates.push({
-            name : file,
-            content : fs.readFileSync(editorPath + '/tpl/' + file + '.tpl', 'utf-8')
-        });
+        filePath = editorPath + '/tpl/' + file + '.tpl';
+        fileStat = fs.statSync(filePath);
+        if (!fileStat.isDirectory()) {
+            editorTemplates.push({
+                name : file,
+                content : fs.readFileSync(filePath, 'utf-8')
+            });
+        }
         editorExternalJS.push('/static/Builder/Editor/js/' + file + '.js');
         //editorExternalCSS.push('/static/editors/css/' + file + '.css');
     });
