@@ -1,10 +1,12 @@
 (function (name) {
-    var control = {
+    window.controls = window.controls || {};
+    window.controls[name] = {
+        icon : '',
         template : Handlebars.compile($('#' + name + 'ControlTemplate').html()),
         properties : [],
-        value : {
+        defaults : {
             text : '按钮'
         }
     };
-    window[name + 'Control'] = control;
 })('Button');
+

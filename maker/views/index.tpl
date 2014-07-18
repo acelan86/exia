@@ -4,9 +4,6 @@
         <meta charset="utf-8">
         <title> exia </title>
         <link type="text/css" rel="stylesheet" href="/combo~{{{coreCSS}}}">
-        <!-- controls css开始 -->
-        <link type="text/css" rel="stylesheet" href="/combo~{{{externalFiles.css}}}">
-        <!-- controls css结束 -->
         <!-- editors css开始 -->
         <link type="text/css" rel="stylesheet" href="/combo~{{{editorExternalFiles.css}}}"> 
         <!-- editors css结束 -->
@@ -19,14 +16,7 @@
             <button class="btn" id="RotateButton" style="float:right;">rotate</button>
         </div>
         <!-- 组件面板 -->
-        <div id="ControlsPanel" class="toolbar">
-            <!-- <div><input type="text" id="WidgetSearchInput"/></div> -->
-            <ul>
-                {{#each controls}}
-                    <li class="control-icon" data-role="{{name}}">{{text}}</li>
-                {{/each}}
-            </ul>
-        </div>
+        <div id="ControlsPanel" class="toolbar"></div>
         <!-- 属性面板 -->
         <div id="PropertiesPanel" class="properties-panel"></div>
         
@@ -68,6 +58,7 @@
         <script src="/static/Builder/utils/Bounds.js"></script>
         <script src="/static/Builder/Frame.js"></script>
         <script src="/static/Builder/DDController.js"></script>
+        <script src="/static/Builder/Control.js"></script>
         <script src="/static/Builder/Builder.js"></script>
         <script>
             exia.use('Builder', function (Builder) {

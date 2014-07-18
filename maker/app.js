@@ -33,26 +33,23 @@ app.configure(function(){
 app.get('/', function(req, res){
     var context,
         controls = [
-            {text : '按钮', name : 'Button'},
-            {text : '导航', name : 'Navigator'},
-            {text : '焦点图', name : 'Slider'},
-            {text : '文本', name : 'Text'}
+            'Button', 'Navigator', 'Slider', 'Text'
         ],
         editors,
         templates = [],
         editorTemplates = [],
         externalJS = [],
         editorExternalJS = [],
-        externalCSS = [],
+        //externalCSS = [],
         editorExternalCSS = [];
 
     controls.forEach(function (control) {
         templates.push({
-            name : control.name,
-            content : fs.readFileSync(path.join(config.controlTemplateRoot, control.name + '.tpl'), 'utf-8')
+            name : control,
+            content : fs.readFileSync(path.join(config.controlTemplateRoot, control + '.tpl'), 'utf-8')
         });
-        externalJS.push('/static/controls/js/' + control.name + '.js');
-        externalCSS.push('/static/controls/css/' + control.name + '.css');
+        externalJS.push('/static/controls/js/' + control + '.js');
+        //externalCSS.push('/static/controls/css/' + control + '.css');
     });
 
     var editorPath = __dirname + '/src/editors',
@@ -70,11 +67,10 @@ app.get('/', function(req, res){
 
     context = {
         id : req.params.id,
-        controls : controls,
         templates : templates,
         externalFiles : {
-            js : externalJS.join('~'),
-            css : externalCSS.join('~')
+            js : externalJS.join('~')
+            //css : externalCSS.join('~')
         },
         editorTemplates : editorTemplates,
         editorExternalFiles : {

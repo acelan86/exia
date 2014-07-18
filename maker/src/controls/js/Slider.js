@@ -1,8 +1,11 @@
 (function (name) {
-    var control = {
+    window.controls = window.controls || {};
+    
+    window.controls[name] = {
+        icon : '',
         template : Handlebars.compile($('#' + name + 'ControlTemplate').html()),
         properties : [],
-        value : {
+        defaults : {
             items : [
                 {url : "#test1", src : "http://wenwen.soso.com/p/20110208/20110208213951-1550799761.jpg", title : "图片标题1"},
                 {url : "#test1", src : "http://img.kumi.cn/photo/a8/bc/42/a8bc42b8ddb7f14e.jpg", title : "图片标题2"},
@@ -11,5 +14,4 @@
             loop : 1
         }
     };
-    window[name + 'Control'] = control;
 })('Slider');

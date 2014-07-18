@@ -1,8 +1,11 @@
 (function (name) {
-    var control = {
+    window.controls = window.controls || {};
+    
+    window.controls[name] = {
+        icon : '',
         template : Handlebars.compile($('#' + name + 'ControlTemplate').html()),
         properties : [],
-        value : {
+        defaults : {
             items : [
                 {url : "#test1", text : "首页"},
                 {url : "#test1", text : "要闻"},
@@ -14,5 +17,4 @@
             ]
         }
     };
-    window[name + 'Control'] = control;
 })('Navigator');
