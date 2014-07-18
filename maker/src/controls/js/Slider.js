@@ -4,7 +4,10 @@
     window.controls[name] = {
         icon : '',
         template : Handlebars.compile($('#' + name + 'ControlTemplate').html()),
-        properties : [],
+        properties : [
+            {name : 'items', type : 'ObjectArray', pos : 2},
+            {name : 'loop', type : 'Number', pos : 1}
+        ],
         defaults : {
             items : [
                 {url : "#test1", src : "http://wenwen.soso.com/p/20110208/20110208213951-1550799761.jpg", title : "图片标题1"},

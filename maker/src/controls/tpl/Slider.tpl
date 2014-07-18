@@ -1,5 +1,5 @@
-<div data-role="slider" id="{{cid}}" class="control ui-slider" data-loop="{{loop}}">
-    {{#each items}}
+<div data-type="Slider" id="{{cid}}" class="control ui-slider" data-loop="{{value.loop}}">
+    {{#each value.items}}
         <div>
             <a href="{{url}}">
                 <img lazyload="{{src}}">

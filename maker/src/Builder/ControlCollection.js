@@ -8,17 +8,12 @@
 exia.define('Builder.ControlCollection', function (require, exports, module) {
     "use strict";
     var _ = window._,
-        Backbone = window.Backbone;
+        Backbone = window.Backbone,
+        ControlModel = require('Builder.ControlModel');
 
-    var Document = Backbone.Collection.extend({
-        initialize : function () {
-            console.log('Document initialize');
-            var me = this;
-        },
-        add : function (model) {
-
-        }
+    var ControlCollection = Backbone.Collection.extend({
+        model : ControlModel
     });
 
-    return Document;
+    return ControlCollection;
 });

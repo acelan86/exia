@@ -2,7 +2,12 @@ exia.define('Builder', function (require, exports, module) {
     var Frame = require('Builder.Frame'),
         DDController = require('Builder.DDController'),
         Control = require('Builder.Control'),
+        PropertiesPanel = require('Builder.PropertiesPanel'),
+
+        ControlCollection = require('Builder.ControlCollection'),
+
         Bounds = require('utils.Bounds'),
+
         _ = window._,
         Backbone = window.Backbone,
         Handlebars = window.Handlebars;
@@ -11,7 +16,7 @@ exia.define('Builder', function (require, exports, module) {
         var me = this;
 
         /**
-         * 初始化所有的Control
+         * 初始化所有的Control列表
          */
         (function (controls) {
             var context = [];
@@ -25,7 +30,7 @@ exia.define('Builder', function (require, exports, module) {
                 [
                     '<ul>',
                         '{{#each this}}',
-                            '<li class="control-icon" data-role="{{type}}">{{type}}</li>',
+                            '<li class="control-icon" data-type="{{type}}">{{type}}</li>',
                         '{{/each}}',
                     '</ul>'
                 ].join('')
@@ -49,7 +54,7 @@ exia.define('Builder', function (require, exports, module) {
 
         this.preview = $(preview);
 
-        this.propertitesPanel = $(propertitesPanel);
+        this.propertiesPanel = new PropertiesPanel(propertitesPanel);
 
         $('body').mousedown(function () {
             me.frame.unselectControl();
@@ -61,17 +66,19 @@ exia.define('Builder', function (require, exports, module) {
 
 
         /* model */
-        this.Document = new Backbone.Collection();
-        this.Document.on('add', function (model, collection, option) {
-            var cid = model.cid;
-            
-            model = model.toJSON();
-            model.cid = cid;
-            var control = Control.get(model.type);
-            var tpl = control.template(model);
-            me.frame.addControl(tpl);
+        this.Document = new ControlCollection();
+        this.Document.on('add', function (model) {
+            var cid = model.cid,
+                type = model.get('type'),
+                control = Control.get(type),
+                html = control.template({
+                    cid : cid,
+                    value : model.get('value')
+                });
+
+            me.frame.addControl(html);
             try {
-                //me.frame.win.$('#' + model.cid)[model.type.toLowerCase()]();
+                me.frame.win.$('#' + cid)[type.toLowerCase()]();
             } catch (e) {}
         });
         this.Document.on('remove', function (model, collection, option) {
@@ -91,6 +98,12 @@ exia.define('Builder', function (require, exports, module) {
     }
 
     Builder.prototype = {
+        _getSelectControlHandler : function () {
+            var me = this;
+            return function (control) {
+
+            };
+        },
         //初始化frame加载事件
         initFrameEvents : function () {
             var me = this;
@@ -98,15 +111,12 @@ exia.define('Builder', function (require, exports, module) {
                 console.log('frame inited!');
             });
             this.frame.on('select', function (control) {
-                var cid = $(control).attr('id');
-                var model = me.Document.get(cid);
-                console.log(model);
-                model.set({
-                    'items': [
-                        {text : 'aaa', url : '222'}
-                    ],
-                    'loop' : 1
-                });
+                var cid = $(control).attr('id'),
+                    model = me.Document.get(cid),
+                    type = model.get('type'),
+                    control = Control.get(type);
+
+                me.propertiesPanel.render(control.properties, model);
             });
             this.frame.on('sort', function (control) {
                 console.log('sort ', control);
@@ -138,19 +148,20 @@ exia.define('Builder', function (require, exports, module) {
             this.ddcontroller.on('drop', function (e, ui) {
                 me.frame.hideGhost();
                 me.frame.stopScroll();
-                var type = ui.draggable.data('role'),
+
+                //添加数据到模型集合中
+                var type = ui.draggable.data('type'),
                     control = Control.get(type),
                     model = {
-                        type : type
+                        type : type,
+                        value : _.extend({}, control.defaults)
                     };
-                var model = _.extend({type : type}, control.defaults);
-                me.Document.add(model).cid;
+                me.Document.add(model);
             });
         },
         initPropertiesPanelEvents : function () {
 
         },
-
         initDataChangeEvents : function () {
         }
     };

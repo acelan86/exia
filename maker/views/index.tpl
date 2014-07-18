@@ -59,10 +59,15 @@
         <script src="/static/Builder/Frame.js"></script>
         <script src="/static/Builder/DDController.js"></script>
         <script src="/static/Builder/Control.js"></script>
+        <script src="/static/Builder/PropertiesPanel.js"></script>
+
+        <script src="/static/Builder/ControlModel.js"></script>
+        <script src="/static/Builder/ControlCollection.js"></script>
+
         <script src="/static/Builder/Builder.js"></script>
         <script>
             exia.use('Builder', function (Builder) {
-                new Builder('#Frame', '', '#ControlsPanel');
+                new Builder('#Frame', '', '#ControlsPanel', '#PropertiesPanel');
             });
         </script>
     </body>

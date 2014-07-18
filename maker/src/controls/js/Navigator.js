@@ -4,7 +4,9 @@
     window.controls[name] = {
         icon : '',
         template : Handlebars.compile($('#' + name + 'ControlTemplate').html()),
-        properties : [],
+        properties : [
+            {name : 'items', type : 'ObjectArray', pos : 1}
+        ],
         defaults : {
             items : [
                 {url : "#test1", text : "首页"},
