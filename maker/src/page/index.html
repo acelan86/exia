@@ -139,41 +139,5 @@
                 initCustomTag();
             });
         </script>
-        <script>
-            var FrameAPI = {
-                initWidget : function (id) {
-                    var dom = document.getElementById(id),
-                        tagName = dom.tagName.toLowerCase().replace('exia:', ''),
-                        params = getDomAttribute(dom, tagName),
-                        oTag,
-                        widget;
-                    for (var i = 0, len = tagInfo.length; i < len; i++) {
-                        if (tagInfo[i].tagName.toLowerCase() === tagName) {
-                            oTag = tagInfo[i];
-                        }
-                    }
-
-                    if (oTag && (widget = oTag.initializer || oTag.widgetName)) {
-                        'function' === typeof widget ?
-                            widget(params) :
-                            $(dom)[widget](params);
-                    }
-                }
-            };
-        </script>
-        <script>
-            jQuery(document).ready(function($) {
-                $('body').sortable({
-                    cursor: 'move',
-                    connectWith: ".control",
-                    helper: "clone",
-                    containment: "document",
-                    placeholder: 'ui-state-highlight'
-                }).disableSelection();
-                $('body').on('.control click', function (e) {
-                    console.log('click', $(e.target).attr('id'));
-                });
-            });
-        </script>
     </body>
 </html>

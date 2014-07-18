@@ -5,7 +5,7 @@
         <title> exia </title>
         <link type="text/css" rel="stylesheet" href="/combo~{{{coreCSS}}}">
         <!-- editors css开始 -->
-        <link type="text/css" rel="stylesheet" href="/combo~{{{editorExternalFiles.css}}}"> 
+        <!--<link type="text/css" rel="stylesheet" href="/combo~{{{editorExternalFiles.css}}}"> -->
         <!-- editors css结束 -->
         <link type="text/css" rel="stylesheet" href="/static/core/css/maker.css">
     </head>
@@ -48,12 +48,7 @@
         <!-- editor 模板结束 -->
 
         <script src="/combo~{{{coreJS}}}"></script>
-        <!-- controls js开始 -->
-        <script src="/combo~{{{externalFiles.js}}}"></script>
-        <!-- controls js结束 -->
-        <!-- editors js开始 -->
-        <script src="/combo~{{{editorExternalFiles.js}}}"></script>
-        <!-- editors js结束 -->
+
         <script src="/static/define.js"></script>
         <script src="/static/Builder/utils/Bounds.js"></script>
         <script src="/static/Builder/Frame.js"></script>
@@ -63,6 +58,16 @@
 
         <script src="/static/Builder/ControlModel.js"></script>
         <script src="/static/Builder/ControlCollection.js"></script>
+
+        <script src="/static/Builder/Editor.js"></script>
+
+        <!-- controls js开始 -->
+        <script src="/combo~{{{externalFiles.js}}}"></script>
+        <!-- controls js结束 -->
+
+        <!-- editors js开始 -->
+        <script src="/combo~{{{editorExternalFiles.js}}}"></script>
+        <!-- editors js结束 -->
 
         <script src="/static/Builder/Builder.js"></script>
         <script>

@@ -2,7 +2,7 @@ var root = require('path').resolve(__dirname, '..');
 
 exports.port = 1234;
 exports.staticRoot = root + '/src';
-exports.controlTemplateRoot = root + '/src/controls/tpl';
+exports.controlTemplateRoot = root + '/src/Builder/Control/tpl';
 exports.coreCSS = [
     '/static/core/css/jquery-ui-1.10.4.css'
 ];

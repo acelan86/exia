@@ -1,9 +1,9 @@
-(function (name) {
-    window.controls = window.controls || {};
-    
-    window.controls[name] = {
+exia.use('Builder.Control', function (Control) {
+    "use strict";
+
+    Control.register('Navigator', {
         icon : '',
-        template : Handlebars.compile($('#' + name + 'ControlTemplate').html()),
+        template : Handlebars.compile($('#NavigatorControlTemplate').html()),
         properties : [
             {name : 'items', type : 'ObjectArray', pos : 1}
         ],
@@ -18,5 +18,5 @@
                 {url : "#test5", text : "娱乐"}
             ]
         }
-    };
-})('Navigator');
+    });
+});

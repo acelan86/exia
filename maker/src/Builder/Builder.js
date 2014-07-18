@@ -2,6 +2,7 @@ exia.define('Builder', function (require, exports, module) {
     var Frame = require('Builder.Frame'),
         DDController = require('Builder.DDController'),
         Control = require('Builder.Control'),
+        Editor = require('Builder.Editor'),
         PropertiesPanel = require('Builder.PropertiesPanel'),
 
         ControlCollection = require('Builder.ControlCollection'),
@@ -12,7 +13,7 @@ exia.define('Builder', function (require, exports, module) {
         Backbone = window.Backbone,
         Handlebars = window.Handlebars;
 
-    function Builder(frame, preview, controlsPanel, propertitesPanel) {
+    function Builder(frame, preview, controlsPanel, propertiesPanel) {
         var me = this;
 
         /**
@@ -20,12 +21,11 @@ exia.define('Builder', function (require, exports, module) {
          */
         (function (controls) {
             var context = [];
-
-            for (var type in controls) {
-                Control.register(type, controls[type]);
-                context.push({type : type});
+            for (var control in controls) {
+                context.push({
+                    type : control
+                });
             }
-
             $('#ControlsPanel').html(Handlebars.compile(
                 [
                     '<ul>',
@@ -35,7 +35,8 @@ exia.define('Builder', function (require, exports, module) {
                     '</ul>'
                 ].join('')
             )(context));
-        })(window.controls);
+        })(Control.get());
+
 
         /** View **/
         //frame
@@ -54,7 +55,7 @@ exia.define('Builder', function (require, exports, module) {
 
         this.preview = $(preview);
 
-        this.propertiesPanel = new PropertiesPanel(propertitesPanel);
+        this.propertiesPanel = new PropertiesPanel(propertiesPanel);
 
         $('body').mousedown(function () {
             me.frame.unselectControl();
@@ -123,6 +124,7 @@ exia.define('Builder', function (require, exports, module) {
             });
             this.frame.on('unselect', function (control) {
                 console.log('unselect ', control);
+                me.propertiesPanel.clear();
             });
         },
 

@@ -48,11 +48,11 @@ app.get('/', function(req, res){
             name : control,
             content : fs.readFileSync(path.join(config.controlTemplateRoot, control + '.tpl'), 'utf-8')
         });
-        externalJS.push('/static/controls/js/' + control + '.js');
+        externalJS.push('/static/Builder/Control/js/' + control + '.js');
         //externalCSS.push('/static/controls/css/' + control + '.css');
     });
 
-    var editorPath = __dirname + '/src/editors',
+    var editorPath = __dirname + '/src/Builder/Editor',
         files = fs.readdirSync(editorPath + '/js');
 
     files.forEach(function (file) {
@@ -61,8 +61,8 @@ app.get('/', function(req, res){
             name : file,
             content : fs.readFileSync(editorPath + '/tpl/' + file + '.tpl', 'utf-8')
         });
-        editorExternalJS.push('/static/editors/js/' + file + '.js');
-        editorExternalCSS.push('/static/editors/css/' + file + '.css');
+        editorExternalJS.push('/static/Builder/Editor/js/' + file + '.js');
+        //editorExternalCSS.push('/static/editors/css/' + file + '.css');
     });
 
     context = {
@@ -74,8 +74,8 @@ app.get('/', function(req, res){
         },
         editorTemplates : editorTemplates,
         editorExternalFiles : {
-            js : editorExternalJS.join('~'),
-            css : editorExternalCSS.join('~')
+            js : editorExternalJS.join('~')
+            //css : editorExternalCSS.join('~')
         },
         coreJS : config.coreJS.join('~'),
         coreCSS : config.coreCSS.join('~')
