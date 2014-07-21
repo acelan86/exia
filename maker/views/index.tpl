@@ -5,7 +5,7 @@
         <title> exia </title>
         <link type="text/css" rel="stylesheet" href="/combo~{{{coreCSS}}}">
         <!-- editors css开始 -->
-        <!--<link type="text/css" rel="stylesheet" href="/combo~{{{editorExternalFiles.css}}}"> -->
+        <link type="text/css" rel="stylesheet" href="/combo~{{{editorExternalFiles.css}}}"> 
         <!-- editors css结束 -->
         <link type="text/css" rel="stylesheet" href="/static/css/maker.css">
     </head>

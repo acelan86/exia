@@ -1,3 +1,5 @@
 node_modules/
 #/maker/src/page/GMU/
 maker/npm-debug.log
+
+maker/src/Builder/Editor

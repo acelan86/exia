@@ -2,9 +2,14 @@ var root = require('path').resolve(__dirname, '..');
 
 exports.port = 1234;
 exports.staticRoot = root + '/src';
-exports.controlTemplateRoot = root + '/src/Builder/Control/tpl';
+exports.controlTemplateRoot = root + '/src/Control/tpl';
 exports.coreCSS = [
-    '/static/core/css/jquery-ui-1.10.4.css'
+    '/static/core/css/jquery.ui.core.css',
+    '/static/core/css/jquery.ui.button.css',
+    '/static/core/css/jquery.ui.spinner.css',
+    '/static/core/css/jquery.ui.menu.css',
+    '/static/core/css/jquery.ui.selectmenu.css',
+    '/static/core/css/jquery.ui.slider.css'
 ];
 exports.coreJS = [
     '/static/core/js/jquery/jquery-1.11.1.js',
@@ -17,5 +22,8 @@ exports.coreJS = [
     '/static/core/js/jquery/jquery.ui.draggable.js',
     '/static/core/js/jquery/jquery.ui.droppable.js',
     '/static/core/js/jquery/jquery.ui.button.js',
-    '/static/core/js/jquery/jquery.ui.spinner.js'
+    '/static/core/js/jquery/jquery.ui.spinner.js',
+    '/static/core/js/jquery/jquery.ui.menu.js',
+    '/static/core/js/jquery/jquery.ui.selectmenu.js',
+    '/static/core/js/jquery/jquery.ui.slider.js'
 ];

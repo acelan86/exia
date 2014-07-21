@@ -33,7 +33,7 @@ app.configure(function(){
 app.get('/', function(req, res){
     var context,
         controls = [
-            'Button', 'Navigator', 'Slider', 'Text'
+            'Button', 'Navigator', 'Slider', 'Text', 'All'
         ],
         editors,
         templates = [],
@@ -48,7 +48,7 @@ app.get('/', function(req, res){
             name : control,
             content : fs.readFileSync(path.join(config.controlTemplateRoot, control + '.tpl'), 'utf-8')
         });
-        externalJS.push('/static/Builder/Control/js/' + control + '.js');
+        externalJS.push('/static/Control/js/' + control + '.js');
         //externalCSS.push('/static/controls/css/' + control + '.css');
     });
 
@@ -60,7 +60,7 @@ app.get('/', function(req, res){
     files.forEach(function (file) {
         if (file.indexOf('.js') !== -1) {
             editorExternalJS.push('/static/Editor/js/' + file);
-            //editorExternalCSS.push('/static/editors/css/' + file + '.css');
+            editorExternalCSS.push('/static/Editor/css/' + file.replace('.js', '') + '.css');
         }
     });
 
@@ -72,8 +72,8 @@ app.get('/', function(req, res){
             //css : externalCSS.join('~')
         },
         editorExternalFiles : {
-            js : editorExternalJS.join('~')
-            //css : editorExternalCSS.join('~')
+            js : editorExternalJS.join('~'),
+            css : editorExternalCSS.join('~')
         },
         coreJS : config.coreJS.join('~'),
         coreCSS : config.coreCSS.join('~')

@@ -37,7 +37,7 @@ li{
 
 .properties-panel{
     float:right;
-    width:200px;
+    width:300px;
     border:1px solid #ccc;
     height:100%;
     padding-top:50px;
@@ -54,7 +54,7 @@ li{
 
 .viewport{
     margin-left:200px;
-    margin-right:200px;
+    margin-right:300px;
     height:100%;
 }
 
