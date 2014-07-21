@@ -74,6 +74,8 @@ exia.define('Builder.Frame', function (require, exports, module) {
                     '}',
                     '.select-mask{',
                         'position:absolute;',
+                        'pointer-events: none;',
+                        '-webkit-pointer-events:none;',
                         'display:none;',
                         'border:2px solid #009ff2;',
                         'background:rgba(73, 164, 230, 0.5);',
