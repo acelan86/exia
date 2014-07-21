@@ -10,7 +10,17 @@ exia.use('Builder.Control', function (Control) {
                 type : 'ObjectArray',
                 pos : 2,
                 defaults : {
-                    label : '图片列表'
+                    label : '图片列表',
+                    map : {
+                        'url' : {
+                            type : 'String',
+                            label : '链接'
+                        },
+                        'src' : {
+                            type : 'String',
+                            label : '图片'
+                        }
+                    }
                 }
             },
             {

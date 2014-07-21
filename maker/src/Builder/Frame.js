@@ -174,7 +174,7 @@ exia.define('Builder.Frame', function (require, exports, module) {
 
                     //按下状态，判断拖拽是否超过一定距离，开始拖拽
                     } else if (me._dragState === DRAG_STATUS.START_DRAG) {
-                        if (Math.abs(e.pageX - me._dragDeltaX) > 10 || Math.abs(e.pageY - me._dragDeltaY) > 10) {
+                        if (Math.abs(e.pageX - me._dragDeltaX) > 30 || Math.abs(e.pageY - me._dragDeltaY) > 30) {
                             me._dragState = DRAG_STATUS.DRAGGING;
                             me.hideSelectMask();
                             me.$('<div class="drag-helper">')

@@ -5,7 +5,23 @@ exia.use('Builder.Control', function (Control) {
         icon : '',
         template : Handlebars.compile($('#NavigatorControlTemplate').html()),
         properties : [
-            {name : 'items', type : 'ObjectArray', pos : 1}
+            {
+                name : 'items',
+                type : 'ObjectArray',
+                pos : 1,
+                defaults : {
+                    map : {
+                        'url' : {
+                            type : 'String',
+                            label : '地址'
+                        },
+                        'text' : {
+                            type : 'String',
+                            label : '标签文字'
+                        }
+                    }
+                }
+            }
         ],
         defaults : {
             items : [

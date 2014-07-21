@@ -52,23 +52,16 @@ app.get('/', function(req, res){
         //externalCSS.push('/static/controls/css/' + control + '.css');
     });
 
-    var editorPath = __dirname + '/src/Builder/Editor',
+    var editorPath = __dirname + '/src/Editor',
         files = fs.readdirSync(editorPath + '/js'),
         filePath,
         fileStat;
 
     files.forEach(function (file) {
-        file = file.replace('.js', '');
-        filePath = editorPath + '/tpl/' + file + '.tpl';
-        fileStat = fs.statSync(filePath);
-        if (!fileStat.isDirectory()) {
-            editorTemplates.push({
-                name : file,
-                content : fs.readFileSync(filePath, 'utf-8')
-            });
+        if (file.indexOf('.js') !== -1) {
+            editorExternalJS.push('/static/Editor/js/' + file);
+            //editorExternalCSS.push('/static/editors/css/' + file + '.css');
         }
-        editorExternalJS.push('/static/Builder/Editor/js/' + file + '.js');
-        //editorExternalCSS.push('/static/editors/css/' + file + '.css');
     });
 
     context = {
@@ -78,7 +71,6 @@ app.get('/', function(req, res){
             js : externalJS.join('~')
             //css : externalCSS.join('~')
         },
-        editorTemplates : editorTemplates,
         editorExternalFiles : {
             js : editorExternalJS.join('~')
             //css : editorExternalCSS.join('~')

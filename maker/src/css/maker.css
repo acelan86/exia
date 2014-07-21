@@ -21,7 +21,7 @@ li{
 }
 .toolbar{
     float:left;
-    width:300px;
+    width:200px;
     border:1px solid #ccc;
     height:100%;
     padding-top:50px;
@@ -37,7 +37,7 @@ li{
 
 .properties-panel{
     float:right;
-    width:300px;
+    width:200px;
     border:1px solid #ccc;
     height:100%;
     padding-top:50px;
@@ -53,8 +53,8 @@ li{
 }
 
 .viewport{
-    margin-left:300px;
-    margin-right:300px;
+    margin-left:200px;
+    margin-right:200px;
     height:100%;
 }
 

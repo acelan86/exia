@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/common/!svn/ver/22694/source/projects/adbox-fe/maker/src/core/jquery/extend
+END
+getInstance.js
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/common/!svn/ver/18781/source/projects/adbox-fe/maker/src/core/jquery/extend/getInstance.js
+END
+insertAtCaret.js
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/common/!svn/ver/18730/source/projects/adbox-fe/maker/src/core/jquery/extend/insertAtCaret.js
+END
+ajaxUpload.js
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/common/!svn/ver/20418/source/projects/adbox-fe/maker/src/core/jquery/extend/ajaxUpload.js
+END
+cookie.js
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/common/!svn/ver/18730/source/projects/adbox-fe/maker/src/core/jquery/extend/cookie.js
+END
+json.js
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/common/!svn/ver/18730/source/projects/adbox-fe/maker/src/core/jquery/extend/json.js
+END
+iframepost.js
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/common/!svn/ver/22694/source/projects/adbox-fe/maker/src/core/jquery/extend/iframepost.js
+END
+responseParser.js
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/common/!svn/ver/18950/source/projects/adbox-fe/maker/src/core/jquery/extend/responseParser.js
+END
+imageSize.js
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/common/!svn/ver/18730/source/projects/adbox-fe/maker/src/core/jquery/extend/imageSize.js
+END
+rotate.js
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/common/!svn/ver/18730/source/projects/adbox-fe/maker/src/core/jquery/extend/rotate.js
+END
+swf.js
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/common/!svn/ver/18809/source/projects/adbox-fe/maker/src/core/jquery/extend/swf.js
+END
+fullscreen.js
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/common/!svn/ver/18730/source/projects/adbox-fe/maker/src/core/jquery/extend/fullscreen.js
+END
+url.js
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/common/!svn/ver/19533/source/projects/adbox-fe/maker/src/core/jquery/extend/url.js
+END
