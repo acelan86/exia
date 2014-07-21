@@ -49,17 +49,6 @@ exia.define('Builder.Frame', function (require, exports, module) {
         return node;
     };
 
-    // Frame.prototype._getHighlightControlHandler = function () {
-    //     var me = this;
-    //     return function (e) {
-    //         var point = me.eventToFrameViewportPoint(e, true),
-    //             node;
-    //         if (node = me.controlFromPoint(point.x, point.y)) {
-    //             me.showHighlightMask(node);
-    //         }
-    //     };
-    // };
-
     Frame.prototype._frameLoaded = function () {
         var me = this;
         if (this.isFrameLoaded === true) {
@@ -80,18 +69,11 @@ exia.define('Builder.Frame', function (require, exports, module) {
                     'body{',
                         '-webkit-user-select:none;',
                     '}',
-                    '.highlight-mask{',
-                        'position:absolute;',
-                        'display:none;',
-                        'border:1px solid #9ABFF9;',
-                        'pointer-events: none;',
-                        '-webkit-pointer-events:none;',
-                        'z-index:1000;',
+                    '.is-dragging{',
+                        'opacity:.6;',
                     '}',
                     '.select-mask{',
                         'position:absolute;',
-                        'pointer-events: none;',
-                        '-webkit-pointer-events:none;',
                         'display:none;',
                         'border:2px solid #009ff2;',
                         'background:rgba(73, 164, 230, 0.5);',
@@ -105,13 +87,19 @@ exia.define('Builder.Frame', function (require, exports, module) {
                         'position:absolute;',
                         'pointer-events: none;',
                         'z-index:2000;',
+                    '}',
+                    '.drag-mask{',
+                        'position:absolute;',
+                        'opacity:0;',
+                        'display:none;',
+                        'z-index:1500;',
                     '}'
                 ].join('\n')
             )
             .appendTo(me.$('head'));
 
         me.$('body')
-            .append(me.$('<div class="highlight-mask">'))
+            .append(me.$('<div class="drag-mask">'))
             .append(me.$('<div class="select-mask">'))
             .append(me.$('<div class="ghost">'));
 
@@ -132,13 +120,26 @@ exia.define('Builder.Frame', function (require, exports, module) {
                         me._dragDeltaY = e.pageY;
                         me._dragState = DRAG_STATUS.START_DRAG;
                     }
+                    //遮罩保护层, 防止拖拽到真正的控件，造成不必要的结果
+                    var $active = me.$(me._active),
+                        offset = $active.offset();
+                    if (me._active) {
+                        me.$('.drag-mask')
+                            .css({
+                                width : $active.outerWidth(),
+                                height : $active.outerHeight(),
+                                left : $active.left,
+                                top : $active.top
+                            })
+                            .show();
+                    }
                 })
                 .mouseup(function (e) {
                     if (me._dragState === DRAG_STATUS.DRAGGING) {
                         me.hideGhost();
                         //拖拽状态，进入完成拖拽
                         me.$('.drag-helper').remove();
-                        me.$(me._active).css('opacity', 1);
+                        me.$(me._active).removeClass('is-dragging');
                         me.moveControlTo(me._active, me.$('.ghost'));
                         me.trigger('sort', me._active);
                     }
@@ -150,6 +151,8 @@ exia.define('Builder.Frame', function (require, exports, module) {
                     }
                     //操作完毕，回到初始状态
                     me._dragState = DRAG_STATUS.INIT;
+                    //隐藏拖拽保护层
+                    me.$('.drag-mask').hide();
                 })
                 .mousemove(function (e) {
                     //拖拽状态，持续改变helper坐标跟随
@@ -172,9 +175,6 @@ exia.define('Builder.Frame', function (require, exports, module) {
                         if (Math.abs(e.pageX - me._dragDeltaX) > 10 || Math.abs(e.pageY - me._dragDeltaY) > 10) {
                             me._dragState = DRAG_STATUS.DRAGGING;
                             me.hideSelectMask();
-                            me.$(me._active).css({
-                                opacity : .6
-                            });
                             me.$('<div class="drag-helper">')
                                 .css({
                                     width : me.$(me._active).outerWidth(),
@@ -187,6 +187,7 @@ exia.define('Builder.Frame', function (require, exports, module) {
                                         .removeClass(me.controlSelector.replace('.', ''))
                                 )
                                 .appendTo(me.$('body'));
+                            me.$(me._active).addClass('is-dragging');
                         }
                     };
                     e.preventDefault();
@@ -338,22 +339,6 @@ exia.define('Builder.Frame', function (require, exports, module) {
     };
     Frame.prototype.removeControl = function (node) {
         this.$(node).remove();
-    };
-    Frame.prototype.showHighlightMask = function (node) {
-        node = this.$(node);
-
-        var offset = node.offset(),
-            width = node.outerWidth(),
-            height = node.outerHeight();
-
-        this.$('.highlight-mask')
-            .css({
-                width : width - 2,
-                height : height - 2,
-                left : offset.left,
-                top : offset.top
-            })
-            .show();
     };
 
     Frame.prototype.findInsertPos = function (x, y) {

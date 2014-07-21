@@ -26,15 +26,15 @@ exia.define('utils.Bounds', function (require, exports, module) {
             };
         },
 
-        isAfter: function(point, el) {
-            var bounds = this.getElementBounds(el);
-            return Math.max(bounds.y, bounds.b - 20) < point.y && point.y < o.b && bounds.l < point.x && point.x < bounds.r;
-        },
+        // isAfter: function(point, el) {
+        //     var bounds = this.getElementBounds(el);
+        //     return Math.max(bounds.y, bounds.b - 20) < point.y && point.y < o.b && bounds.l < point.x && point.x < bounds.r;
+        // },
 
-        isBefore: function(point, el) {
-            var bounds = this.getElementBounds(el);
-            return Math.max(bounds.y, bounds.b - 20) >= point.y && bounds.l < point.x && point.x < bounds.r;
-        },
+        // isBefore: function(point, el) {
+        //     var bounds = this.getElementBounds(el);
+        //     return Math.max(bounds.y, bounds.b - 20) >= point.y && bounds.l < point.x && point.x < bounds.r;
+        // },
 
         isContain: function(el, point) {
             var bounds = this.getElementBounds(el);

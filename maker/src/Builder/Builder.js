@@ -1,17 +1,18 @@
 exia.define('Builder', function (require, exports, module) {
-    var Frame = require('Builder.Frame'),
+    "use strict";
+
+    var _ = window._,
+        Backbone = window.Backbone,
+        Handlebars = window.Handlebars,
+
+        Bounds = require('utils.Bounds'),
+
+        Frame = require('Builder.Frame'),
         DDController = require('Builder.DDController'),
         Control = require('Builder.Control'),
         Editor = require('Builder.Editor'),
         PropertiesPanel = require('Builder.PropertiesPanel'),
-
-        ControlCollection = require('Builder.ControlCollection'),
-
-        Bounds = require('utils.Bounds'),
-
-        _ = window._,
-        Backbone = window.Backbone,
-        Handlebars = window.Handlebars;
+        ControlCollection = require('Builder.ControlCollection');
 
     function Builder(frame, preview, controlsPanel, propertiesPanel) {
         var me = this;
@@ -75,24 +76,19 @@ exia.define('Builder', function (require, exports, module) {
         });
 
         //退出前询问
-        window.onbeforeunload = function (e) {
-            return "您所做的修改尚未保存";
-        };
+        // window.onbeforeunload = function (e) {
+        //     return "您所做的修改尚未保存";
+        // };
     }
 
     Builder.prototype = {
-        _getSelectControlHandler : function () {
-            var me = this;
-            return function (control) {
-
-            };
-        },
         //初始化frame加载事件
         initFrameEvents : function () {
             var me = this;
             this.frame.on('init', function () {
                 console.log('frame inited!');
             });
+            //控件选中
             this.frame.on('select', function (control) {
                 var cid = $(control).attr('id'),
                     model = me.Document.get(cid),
@@ -104,6 +100,7 @@ exia.define('Builder', function (require, exports, module) {
             this.frame.on('sort', function (control) {
                 console.log('sort ', control);
             });
+            //控件取消选中
             this.frame.on('unselect', function (control) {
                 console.log('unselect ', control);
                 me.propertiesPanel.clear();
@@ -114,6 +111,7 @@ exia.define('Builder', function (require, exports, module) {
         initDDControllerEvents : function () {
             var me = this;
 
+            //拖拽过程尝试是否需要滚动和插入占位节点
             this.ddcontroller.on('move', function (e) {
                 //try scroll
                 me.frame.scrollByViewportPoint(
@@ -125,10 +123,14 @@ exia.define('Builder', function (require, exports, module) {
                     pos = me.frame.findInsertPos(point.x, point.y);
                 me.frame.showGhost(pos);
             });
+
+            //拖拽移出隐藏占位节点，停止滚动
             this.ddcontroller.on('out', function (e) {
                 me.frame.stopScroll();
                 me.frame.hideGhost();
             });
+
+            //拖拽释放到可接受区域隐藏占位节点，停止滚动，并且添加数据
             this.ddcontroller.on('drop', function (e, ui) {
                 me.frame.hideGhost();
                 me.frame.stopScroll();
@@ -143,11 +145,15 @@ exia.define('Builder', function (require, exports, module) {
                 me.Document.add(model);
             });
         },
+
         initPropertiesPanelEvents : function () {
 
         },
+
         initDocumentChangeEvents : function () {
             var me = this;
+
+            //新增数据
             this.Document.on('add', function (model) {
                 var cid = model.cid,
                     type = model.get('type'),
@@ -162,9 +168,13 @@ exia.define('Builder', function (require, exports, module) {
                     me.frame.win.$('#' + cid)[type.toLowerCase()]();
                 } catch (e) {}
             });
+
+            //移除数据
             this.Document.on('remove', function (model, collection, option) {
                 console.log('remove', model.toJSON());
             });
+
+            //数据改变
             this.Document.on('change', function (model, collection, option) {
                 console.log(model.cid, 'is change from', model.previous(), 'to', model, collection, option);
             });
