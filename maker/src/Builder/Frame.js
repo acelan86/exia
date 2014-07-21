@@ -77,6 +77,9 @@ exia.define('Builder.Frame', function (require, exports, module) {
         me.$('<style>')
             .html(
                 [
+                    'body{',
+                        '-webkit-user-select:none;',
+                    '}',
                     '.highlight-mask{',
                         'position:absolute;',
                         'display:none;',

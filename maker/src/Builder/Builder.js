@@ -27,13 +27,11 @@ exia.define('Builder', function (require, exports, module) {
                 });
             }
             $('#ControlsPanel').html(Handlebars.compile(
-                [
-                    '<ul>',
-                        '{{#each this}}',
-                            '<li class="control-icon" data-type="{{type}}">{{type}}</li>',
-                        '{{/each}}',
-                    '</ul>'
-                ].join('')
+                '<ul>' +
+                    '{{#each this}}' +
+                        '<li class="control-icon" data-type="{{type}}">{{type}}</li>' +
+                    '{{/each}}' +
+                '</ul>'
             )(context));
         })(Control.get());
 
@@ -45,6 +43,7 @@ exia.define('Builder', function (require, exports, module) {
             controlSelector : '.control',
             containerSelector : '.container'
         });
+        this.initFrameEvents();
 
         //拖拽控制器
         this.ddcontroller = new DDController({
@@ -52,50 +51,33 @@ exia.define('Builder', function (require, exports, module) {
             to : frame,
             accept : '.control-icon'
         });
+        this.initDDControllerEvents();
+
+        this.propertiesPanel = new PropertiesPanel(propertiesPanel);
+        this.initPropertiesPanelEvents();
+
+        /* model */
+        this.Document = new ControlCollection();
+        this.initDocumentChangeEvents();
 
         this.preview = $(preview);
 
-        this.propertiesPanel = new PropertiesPanel(propertiesPanel);
 
+        //其他builder事件
         $('body').mousedown(function () {
             me.frame.unselectControl();
         });
 
-        this.initFrameEvents();
-        this.initDDControllerEvents();
-        this.initPropertiesPanelEvents();
-
-
-        /* model */
-        this.Document = new ControlCollection();
-        this.Document.on('add', function (model) {
-            var cid = model.cid,
-                type = model.get('type'),
-                control = Control.get(type),
-                html = control.template({
-                    cid : cid,
-                    value : model.get('value')
-                });
-
-            me.frame.addControl(html);
-            try {
-                me.frame.win.$('#' + cid)[type.toLowerCase()]();
-            } catch (e) {}
-        });
-        this.Document.on('remove', function (model, collection, option) {
-            console.log('remove', model.toJSON());
-        });
-        this.Document.on('change', function (model, collection, option) {
-            console.log(model.cid, 'is change from', model.previous(), 'to', model, collection, option);
-        });
-        //this.initDataChangeEvents();
-
-        //按钮
         $('#RotateButton').click(function (e) {
             $('body').toggleClass('landscape');
             me.frame.cache();
             e.stopPropagation();
         });
+
+        //退出前询问
+        window.onbeforeunload = function (e) {
+            return "您所做的修改尚未保存";
+        };
     }
 
     Builder.prototype = {
@@ -164,7 +146,28 @@ exia.define('Builder', function (require, exports, module) {
         initPropertiesPanelEvents : function () {
 
         },
-        initDataChangeEvents : function () {
+        initDocumentChangeEvents : function () {
+            var me = this;
+            this.Document.on('add', function (model) {
+                var cid = model.cid,
+                    type = model.get('type'),
+                    control = Control.get(type),
+                    html = control.template({
+                        cid : cid,
+                        value : model.get('value')
+                    });
+
+                me.frame.addControl(html);
+                try {
+                    me.frame.win.$('#' + cid)[type.toLowerCase()]();
+                } catch (e) {}
+            });
+            this.Document.on('remove', function (model, collection, option) {
+                console.log('remove', model.toJSON());
+            });
+            this.Document.on('change', function (model, collection, option) {
+                console.log(model.cid, 'is change from', model.previous(), 'to', model, collection, option);
+            });
         }
     };
 

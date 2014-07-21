@@ -53,20 +53,14 @@
         <script src="/static/Builder/DDController.js"></script>
         <script src="/static/Builder/Control.js"></script>
         <script src="/static/Builder/PropertiesPanel.js"></script>
-
-        <script src="/static/Builder/ControlModel.js"></script>
         <script src="/static/Builder/ControlCollection.js"></script>
-
         <script src="/static/Builder/Editor.js"></script>
-
         <!-- controls js开始 -->
         <script src="/combo~{{{externalFiles.js}}}"></script>
         <!-- controls js结束 -->
-
         <!-- editors js开始 -->
         <script src="/combo~{{{editorExternalFiles.js}}}"></script>
         <!-- editors js结束 -->
-
         <script src="/static/Builder/Builder.js"></script>
         <script>
             exia.use('Builder', function (Builder) {
