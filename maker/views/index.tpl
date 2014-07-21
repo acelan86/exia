@@ -7,7 +7,7 @@
         <!-- editors css开始 -->
         <!--<link type="text/css" rel="stylesheet" href="/combo~{{{editorExternalFiles.css}}}"> -->
         <!-- editors css结束 -->
-        <link type="text/css" rel="stylesheet" href="/static/core/css/maker.css">
+        <link type="text/css" rel="stylesheet" href="/static/css/maker.css">
     </head>
     <body>
         <!-- 顶部导航 -->
@@ -22,12 +22,10 @@
         
         <!-- 编辑区 -->
         <div class="viewport">
-            <div class="center-helper">
-                <div class="frame-wrapper">
-                    <div class="context-layer" id="ContextLayer"></div>
-                    <iframe id="Frame" class="frame" src="about:blank"></iframe>
-                    <textarea id="DocumentSource" class="document-source"></textarea><!-- 源文件 -->
-                </div>
+            <div class="frame-wrapper">
+                <div class="context-layer" id="ContextLayer"></div>
+                <iframe id="Frame" class="frame" src="about:blank"></iframe>
+                <textarea id="DocumentSource" class="document-source"></textarea><!-- 源文件 -->
             </div>
         </div>
 

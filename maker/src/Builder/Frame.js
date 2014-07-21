@@ -1,3 +1,6 @@
+/**
+ * 编辑区frame
+ */
 exia.define('Builder.Frame', function (require, exports, module) {
     "use strict";
     var _ = window._,
