@@ -231,6 +231,9 @@
     border-radius: 9999px;
     border:1px solid #ccc;
 }
+.ui-slider{
+    margin:15px 0px;
+}
 .ui-slider .ui-state-active,
 .ui-slider .ui-state-hover{
     background:#fff;

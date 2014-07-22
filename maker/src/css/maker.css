@@ -30,7 +30,7 @@ a:visited{
 }
 .properties-panel{
     float:right;
-    width:300px;
+    width:250px;
     border-left:1px solid #ccc;
     height:100%;
     overflow-x:hidden;
@@ -88,7 +88,7 @@ a:visited{
 
 .viewport{
     margin-left:200px;
-    margin-right:300px;
+    margin-right:250px;
     height:100%;
     background-color:#efefef;
 }

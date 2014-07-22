@@ -24,7 +24,7 @@
                     slide : $.proxy(this._slideHandler, this)
                 });
 
-            this.editor = $('<span style="padding:0px 6px;line-height:20px;">').html(options.value).appendTo(this.element);
+            this.editor = $('<span style="display:none;padding:0px 6px;line-height:20px;">').html(options.value).appendTo(this.element);
 
             this.element.addClass('range-editor');
 
