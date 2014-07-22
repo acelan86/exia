@@ -37,7 +37,14 @@ exia.define('Builder.PropertiesPanel', function (require, exports, module) {
                     value : value
                 })
             };
-            html.push('<div id="' + eid + '"></div>');
+            html.push(
+                '<div class="property-row">' +
+                    '<label>' + property.name + '</label>' +
+                    '<div class="property-control">' +
+                        '<div id="' + eid + '"></div>' +
+                    '</div>' +
+                '</div>'
+            );
         });
 
         this.dom.html(html.join(''));

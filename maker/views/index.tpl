@@ -7,6 +7,8 @@
         <!-- editors css开始 -->
         <link type="text/css" rel="stylesheet" href="/combo~{{{editorExternalFiles.css}}}"> 
         <!-- editors css结束 -->
+        <link type="text/css" rel="stylesheet" href="/static/css/base.css">
+        <link type="text/css" rel="stylesheet" href="/static/css/editor.css">
         <link type="text/css" rel="stylesheet" href="/static/css/maker.css">
     </head>
     <body>

@@ -1,24 +1,3 @@
-*, *:before, *:after{
-    box-sizing: border-box;
-}
-html,body{
-    height:100%;
-    margin:0;
-    padding:0;
-    -webkit-user-select: none;
-    min-width: 1000px;
-    min-height: 600px;
-    font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-}
-ul{
-    margin:0;
-    padding:0;
-}
-li{
-    list-style:none;
-    padding:0;
-    margin:0;
-}
 .toolbar{
     float:left;
     width:200px;
@@ -37,12 +16,32 @@ li{
 
 .properties-panel{
     float:right;
-    width:300px;
+    width:350px;
     border:1px solid #ccc;
     height:100%;
-    padding-top:50px;
+    overflow-x:hidden;
+    font-size:14px;
+    padding:10px;
+    padding-top: 50px;
 }
-
+.properties-panel label{
+    text-align:right;
+    margin-right: 10px;
+    display:block;
+    float:left;
+    width:60px;
+    line-height: 30px
+}
+.property-row{
+    margin-top:20px;
+    clear:both;
+}
+.property-row:first-child{
+    margin-top:0px;
+}
+.property-control{
+    margin-left:70px;
+}
 .nav{
     position:absolute;
     width:100%;
@@ -54,7 +53,7 @@ li{
 
 .viewport{
     margin-left:200px;
-    margin-right:300px;
+    margin-right:350px;
     height:100%;
 }
 

@@ -14,7 +14,7 @@ exports.coreCSS = [
 exports.coreJS = [
     '/static/core/js/jquery/jquery-1.11.1.js',
     '/static/core/js/handlebars-1.3.0.js',
-    '/static/core/js/underscroe-1.6.0.js',
+    '/static/core/js/underscore-1.6.0.js',
     '/static/core/js/backbone-1.1.2.js',
     '/static/core/js/jquery/jquery.ui.core.js',
     '/static/core/js/jquery/jquery.ui.widget.js',

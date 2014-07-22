@@ -10,7 +10,7 @@
             value : [],
             map : {},
             max : 10,                   //最大条数
-            min : 0,                    //最小条数
+            min : 1,                    //最小条数
             itemHeader : '',            //每个条目的title
             buttonText : ' + 添加一项',  //添加按钮文字
             onitemselect : $.noop
@@ -126,17 +126,17 @@
             for(var k in map) {
                 map[k].value = value[k];
                 html.push(
-                    ['<tr>',
-                        (map[k].label ? '<th><nobr>' + map[k].label + '</nobr></th>' : ''),
-                        '<td><div data-idx="' + i + '" data-pn="' + k + '" class="' + ITEM_CLASS + '"></div></td>',
-                    '</tr>'].join('')
+                    ['<div class="property-row">',
+                        (map[k].label ? '<label><nobr>' + map[k].label + '</nobr></label>' : ''),
+                        '<div class="property-control"><div data-idx="' + i + '" data-pn="' + k + '" class="' + ITEM_CLASS + '"></div></div>',
+                    '</div>'].join('')
                 );
             }
             this.editor.append(
                 block = $(
                     ['<div class="' + BLOCK_CLASS + '">',
                         (this.options.itemHeader ? '<h4 data-idx="' + i + '" class="' + BLOCK_CLASS + '-header">' + this.options.itemHeader + '</h4>' : ''),
-                        '<table class="' + BLOCK_CLASS + '-table">' + html.join('') + '</table>',
+                        '<div class="' + BLOCK_CLASS + '-table">' + html.join('') + '</div>',
                         '<div class="' + BLOCK_CLASS + '-remove ui-corner-all">×</div>',
                     '</div>'].join('')
                 )

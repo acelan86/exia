@@ -1,0 +1,342 @@
+.editor{
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
+}
+
+.range-editor-pop{
+    background: #373737;
+    border: 1px solid #090909;
+    padding:10px 10px;
+    z-index:4096;
+}
+
+.range-editor-slider{
+    width : 100px;
+    display:inline-block;
+    *display:block;
+    *zoom:1;
+    margin-left:.4em;
+}
+
+/** font editor **/
+.font-editor-family,
+.font-editor-size,
+.font-editor-style,
+.interactive-editor-type,
+.interactive-editor-target,
+.interactive-editor-animate{
+    display:inline-block;
+    *display:inline;
+    *zoom:1;
+    margin-right:2px;
+}
+.font-editor-style{
+    vertical-align: top;
+}
+/*upload editor*/
+.uploadeditor-dialog {
+
+}
+.uploadeditor-dialog .ui-dialog-content {
+    padding: 0;
+}
+.uploadeditor-dialog .ui-tabs {
+    padding: .5em 0 0;
+    border: 0;
+}
+.uploadeditor-dialog .file {
+    border: 0;
+}
+
+
+/*color editor*/
+.color-editor{
+    width :42px;
+    *width:50px;
+    height : 24px;
+    background-image:none;
+}
+.color-editor i{
+    float:right;
+    margin-top: 8px;
+}
+.color-editor-btn{
+    width:20px;
+    height:20px;
+    float:left;
+    margin:2px;
+}
+.colorpicker-saturation {
+    width: 100px;
+    height: 100px;
+    background-image: url(img/saturation.png);
+    cursor: crosshair;
+    float: left;
+}
+.colorpicker-saturation i {
+    display: block;
+    height: 5px;
+    width: 5px;
+    border: 1px solid #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: -4px 0 0 -4px;
+}
+.colorpicker-saturation i b {
+    display: block;
+    height: 5px;
+    width: 5px;
+    font-size:0px;
+    overflow:hidden;
+    border: 1px solid #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.colorpicker-hue, .colorpicker-alpha {
+    width: 15px;
+    height: 100px;
+    float: left;
+    cursor: row-resize;
+    margin-left: 4px;
+}
+.colorpicker-hue i, .colorpicker-alpha i {
+    display: block;
+    font-size:0px;
+    overflow:hidden;
+    height: 1px;
+    background: #000;
+    border-top: 1px solid #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin-top: -1px;
+}
+.colorpicker-hue {
+    background-image: url(img/hue.png);
+}
+.colorpicker-alpha {
+    background-image: url(img/alpha.png);
+    display: none;
+}
+.colorpicker {
+    display: none;
+    *zoom: 1;
+    top: 0;
+    left: 0;
+    min-width: 120px;
+    margin-top: 1px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    position: absolute;
+    border: 1px solid #000;
+    background: #373737;
+    padding: 5px;
+    z-index:9999;
+}
+
+.colorpicker div {
+    position: relative;
+}
+.colorpicker.alpha {
+    min-width: 140px;
+}
+.colorpicker.alpha .colorpicker-alpha {
+    display: block;
+}
+.colorpicker-color {
+    height: 10px;
+    margin-top: 5px;
+    clear: both;
+    background-image: url(img/alpha.png);
+    background-position: 0 100%;
+}
+.colorpicker-color div {
+height: 10px;
+}
+.colorpicker-input{
+    width:98px;
+    padding:0px;
+    margin-top: 3px;
+    clear:both;
+    float:left;
+}
+
+.colorpicker-transparent{
+    float:left;
+    width : 15px;
+    height:15px;
+    margin-left:4px;
+    margin-top:5px;
+    border:1px solid #222;
+    background-image:url(./img/icon.png);
+    background-position: -103px -20px;
+}
+.add-on {
+    height: 28px;
+    width: 28px;
+    border: 1px solid #DCDCDC;
+    cursor: pointer;
+}
+
+/*qrcode*/
+.qrcode .editor {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/*QrcodeGenerator*/
+.placeholder {
+    color: #A9A9A9;
+}
+/* obj */
+.object-editor-block th{
+    width:25px;
+}
+
+/**
+ * objarray
+ */
+.object-array-editor{
+    display:block;
+}
+.object-array-editor-panel{
+}
+.object-array-editor-block{
+    padding:10px;
+    position:relative;
+    border-top: 1px dotted #ccc;
+}
+.object-array-editor-block:first-child{
+    border-top:none;
+}
+
+.object-array-editor-block h4 {
+    margin:0px;
+    line-height:20px;
+    cursor:pointer;
+}
+.object-array-editor-block-hover{
+}
+.object-array-editor-block-table{
+    display:none;
+}
+.object-array-editor-expend .object-array-editor-block-table{
+    display:block;
+}
+.object-array-editor-panel{
+    display:none;
+}
+.object-array-editor-block-open .object-array-editor-panel{
+    display:block;
+}
+.object-array-editor-block-remove{
+    cursor:pointer;
+    display:none;
+    margin:14px 3px;
+    position:absolute;
+    right:0px;
+    top:0px;
+    color : #DD4B39;
+}
+.object-array-editor-block-canremove .object-array-editor-block-hover .object-array-editor-block-remove{
+    display:block;
+}
+
+/** interactive **/
+.interactive-editor .des{
+    line-height:20px;
+}
+
+.picture-editor{
+    display:block;
+}
+.picture-editor-panel{
+    display:none;
+}
+.picture-editor-editing .picture-editor-panel{
+    display:block;
+}
+
+.baseupload-editor{
+    position:relative;
+}
+.baseupload-editor-mask{
+    position:absolute;
+    left:0px;
+    top:0px;
+    height:100%;
+    width:100%;
+    z-index: 2;
+    background-color:#000;
+    opacity:.6;
+    filter:Alpha(opacity=60);
+    text-align: center;
+    line-height: 40px;
+    display: none;
+}
+.baseupload-editor-busy .baseupload-editor-mask{
+    display:block;
+}
+
+.history-upload-editor{
+
+}
+.history-upload-editor-list{
+    margin-bottom: 3px;
+    float:left;
+}
+.history-upload-editor-pagerbar{
+    text-align: right;
+    clear:both;
+}
+.history-upload-editor-item{
+    font-size:0px;
+    border:1px solid #272727;
+    float:left;
+    margin:4px;
+}
+.history-upload-editor-item-hover{
+    border-color:#4D90FE;
+}
+.history-upload-editor-item-selected{
+    border-color:#4D90FE;
+}
+
+
+.wbpost-editor-panel{
+    line-height:20px;
+    font-size:1em;
+}
+.wbpost-editor-panel-inner{
+    padding:6px;
+}
+.editor-panel-arrow{
+    color:#aaa;
+    height:8px;
+    line-height:17px;
+    text-indent:5px;
+    overflow:hidden;
+    margin-top:15px;
+    border-bottom:1px solid #aaa;
+}
+.object-array-editor-block .property-row{
+    margin-top: 10px;
+}
+
+
+/**
+ * 皮肤相关
+ */
+.skin-btn .com-btn{
+    width:60px;
+    height:20px;
+    color:#333;
+}
