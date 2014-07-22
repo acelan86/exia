@@ -12,9 +12,11 @@ exia.define('Builder', function (require, exports, module) {
         Control = require('Builder.Control'),
         Editor = require('Builder.Editor'),
         PropertiesPanel = require('Builder.PropertiesPanel'),
-        ControlCollection = require('Builder.ControlCollection');
+        ControlCollection = require('Builder.ControlCollection'),
 
-    function Builder(frame, preview, controlsPanel, propertiesPanel) {
+        Login = require('Builder.Login');
+
+    function Builder(frame, preview, controlsPanel, propertiesPanel, loginBox) {
         var me = this;
 
         /**
@@ -63,6 +65,8 @@ exia.define('Builder', function (require, exports, module) {
 
         this.preview = $(preview);
 
+        this.login = new Login(loginBox);
+
 
         //其他builder事件
         $('body').mousedown(function () {
@@ -73,6 +77,15 @@ exia.define('Builder', function (require, exports, module) {
             $('body').toggleClass('landscape');
             me.frame.cache();
             e.stopPropagation();
+        });
+
+
+        $('.toolbar-button-group').buttonset();
+
+        $('#FullscreenButton').click(function (e) {
+            if (!$.toggleFullscreen()) {
+                alert('亲，您的浏览器过期了，不支持全屏你造么？');
+            }
         });
 
         //退出前询问

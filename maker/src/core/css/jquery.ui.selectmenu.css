@@ -24,7 +24,7 @@
 .ui-selectmenu-button span.ui-icon { right: 0.5em; left: auto;  margin-top: -8px; position: absolute; top: 50%; }
 .ui-selectmenu-button nobr.ui-selectmenu-text { text-align: left; display: block; overflow: hidden;}
 .ui-menu-item .ui-state-focus{
-    background:#303030;
+    background:#4D90FE;
 }
 .ui-selectmenu-icon{
     position: absolute;

@@ -10,33 +10,37 @@
         <link type="text/css" rel="stylesheet" href="/static/css/base.css">
         <link type="text/css" rel="stylesheet" href="/static/css/editor.css">
         <link type="text/css" rel="stylesheet" href="/static/css/maker.css">
-        <style>
-            .user{
-                position:absolute;
-                z-index: 999;
-            }
-            .avatar{
-                width:40px;
-                height:40px;
-                border-radius: 9999px;
-                position:absolute;
-                left:10px;
-                top:5px;
-            }
-            .name{
-                line-height: 50px;
-                padding-left:70px;
-                font-size: 12px;
-            }
-        </style>
     </head>
     <body>
         <!-- 顶部导航 -->
         <div class="nav">
-            <img src="http://tp4.sinaimg.cn/2231440955/180/5699604820/1" class="avatar" />
-            <span class="name">你好，粑粑麻麻爱...</span>
-            <button class="btn" id="HideToolbarButton" style="float:right;">hide toolbar</button>
-            <button class="btn" id="RotateButton" style="float:right;">rotate</button>
+            <div id="LoginBox" class="login-box"></div>
+            <span class="toolbar-button-group">
+                <button id="FullscreenButton" data-tip="全屏">
+                    <i class="icon icon-fullscreen"></i><span class="des-text">全屏</span>
+                </button><button id="GroupBtn" data-tip="组合(ctrl+g)">
+                    <i class="icon icon-group"></i>
+                    <span class="des-text">组合</span>
+                </button><button id="UngroupBtn" data-tip="取消组合(ctrl+shift+g)">
+                    <i class="icon icon-ungroup"></i>
+                    <span class="des-text">取消组合</span>
+                </button><button id="ConfigBtn" data-tip="设置">
+                    <i class="icon icon-cog"></i>
+                    <span class="des-text">设置</span>
+                </button><button id="DelBtn" data-tip="删除(backspace)">
+                    <i class="icon icon-trash"></i>
+                    <span class="des-text">移除</span>
+                </button><button id="TagBtn" data-tip="显示/隐藏标签(ctrl+i)">
+                    <i class="icon icon-tag"></i>
+                    <span class="des-text">显示/隐藏标签</span>
+                </button><button class="btn" id="HideToolbarButton">
+                    <i class="icon icon-tag"></i>
+                    <span class="des-text">隐藏工具栏</span>
+                </button><button class="btn" id="RotateButton">
+                    <i class="icon icon-tag"></i>
+                    <span class="des-text">调整宽度</span>
+                </button>
+            </span>
         </div>
         <!-- 组件面板 -->
         <div id="ControlsPanel" class="toolbar"></div>
@@ -77,6 +81,7 @@
         <script src="/static/Builder/Control.js"></script>
         <script src="/static/Builder/PropertiesPanel.js"></script>
         <script src="/static/Builder/ControlCollection.js"></script>
+        <script src="/static/Builder/Login.js"></script>
         <script src="/static/Builder/Editor.js"></script>
         <!-- controls js开始 -->
         <script src="/combo~{{{externalFiles.js}}}"></script>
@@ -87,7 +92,7 @@
         <script src="/static/Builder/Builder.js"></script>
         <script>
             exia.use('Builder', function (Builder) {
-                new Builder('#Frame', '', '#ControlsPanel', '#PropertiesPanel');
+                new Builder('#Frame', '', '#ControlsPanel', '#PropertiesPanel', '#LoginBox');
             });
         </script>
     </body>

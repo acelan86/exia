@@ -1,0 +1,185 @@
+/*!
+ * jQuery UI CSS Framework @VERSION
+ * http://jqueryui.com
+ *
+ * Copyright 2012 jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Theming/API
+ *
+ * To view and modify this theme, visit http://jqueryui.com/themeroller/
+ */
+
+
+/* Component containers
+----------------------------------*/
+.ui-widget-header {
+    text-align:center;
+    font-weight: normal;
+    margin:0px;
+    line-height: 30px;
+    padding-top:10px;
+}
+
+/* Interaction states
+----------------------------------*/
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select:none;
+    border: 1px solid #4D90FE;
+    background-color:#fff;
+    color:#4D90FE;
+}
+.ui-state-default a,
+.ui-state-default a:link, 
+.ui-state-default a:visited {
+    color: #4D90FE;
+    text-decoration: none;
+}
+.ui-state-hover, 
+.ui-widget-content .ui-state-hover, 
+.ui-widget-header .ui-state-hover{
+    color:#fff;
+    background-color:#4D90FE;
+}
+
+.ui-state-active, 
+.ui-widget-content .ui-state-active, 
+.ui-widget-header .ui-state-active{
+    color:#fff;
+    background-color:#4D90FE;
+}
+
+.ui-state-em.ui-state-hover,
+.ui-widget-content .ui-state-em.ui-state-hover,
+.ui-widget-header .ui-state-em.ui-state-hover{
+    background-color: #4D90FE;
+    color:#fff;
+}
+
+.ui-state-em,
+.ui-widget-content .ui-state-em,
+.ui-widget-header .ui-state-em{
+    color: #fff;
+    background-color: #4D90FE;
+ }
+
+.ui-state-selected{
+    color : #4D90FE;
+}
+
+.ui-state-hover a,
+.ui-state-hover a:hover{
+    color:#4D90FE;
+    text-decoration: none;
+}
+.ui-state-active a,
+.ui-state-active a:link,
+.ui-state-active a:visited {
+    color: #cfcfcf;
+    text-decoration: none; 
+}
+.ui-widget :active {
+    outline: none;
+}
+
+/* Icons
+----------------------------------*/
+
+.ui-icon{
+}
+.ui-state-hover .ui-icon{
+}
+
+/* Corner radius */
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-left,
+.ui-corner-tl {
+    -webkit-border-top-left-radius: 4px;
+}
+.ui-corner-all,
+.ui-corner-top,
+.ui-corner-right,
+.ui-corner-tr {
+    -webkit-border-top-right-radius: 4px;
+}
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-left,
+.ui-corner-bl {
+    -webkit-border-bottom-left-radius:4px;
+}
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-right,
+.ui-corner-br {
+    -webkit-border-bottom-right-radius:4px;
+}
+
+/* selectmenu */
+.ui-selectmenu-menu{
+    background:#fff;
+    border:1px solid #4D90FE;
+}
+
+
+/* dialog*/
+.ui-dialog{
+    background:#fff;
+    border-radius:5px;
+}
+.ui-dialog-buttonset{
+    border-top:1px solid #ccc;
+    display:-moz-flex;
+    display:-webkit-flex;
+    display:flex;
+}
+.ui-dialog-buttonset .ui-button{
+    -webkit-box-flex: 1.0;
+    -moz-box-flex: 1.0;
+    flex: 1;
+    border:none;
+    border-left:1px solid #ccc;
+}
+.ui-dialog-buttonset .ui-button-text{
+    height:30px;
+    line-height:30px;
+}
+.ui-dialog-buttonset .ui-button-first{
+    border-left:none;
+    border-radius:0px 0px 0px 4px;
+}
+.ui-dialog-buttonset .ui-button-last{
+    border-radius:0px 0px 4px 0px;
+}
+.ui-dialog-content{
+    padding:20px;
+}
+.ui-dialog-content .ui-input{
+    border:1px solid #ccc;
+    line-height: 30px;
+    height:30px;
+    margin-bottom: 10px;
+    width:100%;
+    font-size:12px;
+}
+.ui-dialog-titlebar-close{
+    position:absolute;
+    right:5px;
+    top:5px;
+    display:none;
+}
+.ui-widget-overlay {
+    background: #000;
+    opacity:.6;
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+
