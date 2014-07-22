@@ -121,6 +121,12 @@
 .ui-corner-br {
     -webkit-border-bottom-right-radius:4px;
 }
+/**
+ * button
+ */
+.ui-button-text-only .ui-button-text{
+    padding:0;
+}
 
 /* selectmenu */
 .ui-selectmenu-menu{

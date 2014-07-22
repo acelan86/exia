@@ -1,3 +1,13 @@
+html,body{
+    height:100%;
+    min-width: 1000px;
+    min-height: 600px;
+}
+a:link,
+a:hover,
+a:visited{
+    color:#4D90FE;
+}
 .toolbar{
     float:left;
     width:200px;
