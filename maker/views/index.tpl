@@ -10,10 +10,31 @@
         <link type="text/css" rel="stylesheet" href="/static/css/base.css">
         <link type="text/css" rel="stylesheet" href="/static/css/editor.css">
         <link type="text/css" rel="stylesheet" href="/static/css/maker.css">
+        <style>
+            .user{
+                position:absolute;
+                z-index: 999;
+            }
+            .avatar{
+                width:40px;
+                height:40px;
+                border-radius: 9999px;
+                position:absolute;
+                left:10px;
+                top:5px;
+            }
+            .name{
+                line-height: 50px;
+                padding-left:70px;
+                font-size: 12px;
+            }
+        </style>
     </head>
     <body>
         <!-- 顶部导航 -->
         <div class="nav">
+            <img src="http://tp4.sinaimg.cn/2231440955/180/5699604820/1" class="avatar" />
+            <span class="name">你好，粑粑麻麻爱...</span>
             <button class="btn" id="HideToolbarButton" style="float:right;">hide toolbar</button>
             <button class="btn" id="RotateButton" style="float:right;">rotate</button>
         </div>

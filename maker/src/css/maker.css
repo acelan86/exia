@@ -16,21 +16,20 @@
 
 .properties-panel{
     float:right;
-    width:350px;
+    width:300px;
     border:1px solid #ccc;
     height:100%;
     overflow-x:hidden;
     font-size:14px;
-    padding:10px;
-    padding-top: 50px;
+    padding:20px;
+    padding-top: 60px;
 }
 .properties-panel label{
-    text-align:right;
     margin-right: 10px;
     display:block;
-    float:left;
-    width:60px;
-    line-height: 30px
+    line-height: 30px;
+    color:#4D90FE;
+    font-size:12px;
 }
 .property-row{
     margin-top:20px;
@@ -40,12 +39,16 @@
     margin-top:0px;
 }
 .property-control{
-    margin-left:70px;
+}
+.property-control input,
+.property-control textarea{
+    width:100%;
+    border-bottom:1px solid #ccc;
 }
 .nav{
     position:absolute;
     width:100%;
-    height:40px;
+    height:50px;
     background:#fff;
     border-bottom:1px solid #ccc;
     z-index: 10000;
@@ -53,7 +56,7 @@
 
 .viewport{
     margin-left:200px;
-    margin-right:350px;
+    margin-right:300px;
     height:100%;
 }
 
@@ -79,7 +82,7 @@
     flex:1;
     width:100%;
     border:none;
-    margin-top:40px;
+    margin-top:50px;
 }
 .document-source{
     display:none;

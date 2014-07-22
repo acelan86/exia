@@ -34,9 +34,10 @@ hr {
     outline:none;
 }
 input, textarea{
-    border: 1px solid #ccc;
-    border-top: 1px solid #aaa;   
-    padding:0px 5px;
+    /*border: 1px solid #ccc;*/
+    /*border-top: 1px solid #aaa;   */
+    /*padding:0px 5px;*/
+    border:none;
     font-size:14px;    
     margin: 0;
     color:#333;
@@ -47,10 +48,10 @@ textarea{
     height:90px;
 }
 input:hover, textarea:hover{
-    border-color:#aaa;
-    border-top-color: #888;
+    /*border-color:#aaa;
+    border-top-color: #888;*/
 }
 input:focus, textarea:focus{
-    border-color:#4D90FE;
+    /*border-color:#4D90FE;*/
     outline: none;
 }
