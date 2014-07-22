@@ -1,21 +1,31 @@
-/*
+/*!
  * jQuery UI Spinner @VERSION
  * http://jqueryui.com
  *
- * Copyright 2012 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
  * http://api.jqueryui.com/spinner/
- *
- * Depends:
- *  jquery.ui.core.js
- *  jquery.ui.widget.js
- *  jquery.ui.button.js
  */
-(function( $ ) {
+(function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
 
-function modifier( fn ) {
+		// AMD. Register as an anonymous module.
+		define([
+			"jquery",
+			"./core",
+			"./widget",
+			"./button"
+		], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+}(function( $ ) {
+
+function spinner_modifier( fn ) {
 	return function() {
 		var previous = this.element.val();
 		fn.apply( this, arguments );
@@ -26,7 +36,7 @@ function modifier( fn ) {
 	};
 }
 
-$.widget( "ui.spinner", {
+return $.widget( "ui.spinner", {
 	version: "@VERSION",
 	defaultElement: "<input>",
 	widgetEventPrefix: "spin",
@@ -55,8 +65,12 @@ $.widget( "ui.spinner", {
 		this._setOption( "min", this.options.min );
 		this._setOption( "step", this.options.step );
 
-		// format the value, but don't constrain
-		this._value( this.element.val(), true );
+		// Only format if there is a value, prevents the field from being marked
+		// as invalid in Firefox, see #9573.
+		if ( this.value() !== "" ) {
+			// Format the value, but don't constrain.
+			this._value( this.element.val(), true );
+		}
 
 		this._draw();
 		this._on( this._events );
@@ -102,6 +116,7 @@ $.widget( "ui.spinner", {
 				return;
 			}
 
+			this._stop();
 			this._refresh();
 			if ( this.previous !== this.element.val() ) {
 				this._trigger( "change", event );
@@ -245,10 +260,10 @@ $.widget( "ui.spinner", {
 	_buttonHtml: function() {
 		return "" +
 			"<a class='ui-spinner-button ui-spinner-up ui-corner-tr'>" +
-				"<span class='ui-icon " + this.options.icons.up + "'>&#9650;</span>" +
+				"<span class='ui-icon " + this.options.icons.up + "'>+</span>" +
 			"</a>" +
 			"<a class='ui-spinner-button ui-spinner-down ui-corner-br'>" +
-				"<span class='ui-icon " + this.options.icons.down + "'>&#9660;</span>" +
+				"<span class='ui-icon " + this.options.icons.down + "'>-</span>" +
 			"</a>";
 	},
 
@@ -296,7 +311,7 @@ $.widget( "ui.spinner", {
 		if ( incremental ) {
 			return $.isFunction( incremental ) ?
 				incremental( i ) :
-				Math.floor( i*i*i/50000 - i*i/500 + 17*i/200 + 1 );
+				Math.floor( i * i * i / 50000 - i * i / 500 + 17 * i / 200 + 1 );
 		}
 
 		return 1;
@@ -368,23 +383,26 @@ $.widget( "ui.spinner", {
 				value = this._parse( value );
 			}
 		}
+		if ( key === "icons" ) {
+			this.buttons.first().find( ".ui-icon" )
+				.removeClass( this.options.icons.up )
+				.addClass( value.up );
+			this.buttons.last().find( ".ui-icon" )
+				.removeClass( this.options.icons.down )
+				.addClass( value.down );
+		}
 
 		this._super( key, value );
 
 		if ( key === "disabled" ) {
-			if ( value ) {
-				this.element.prop( "disabled", true );
-				this.buttons.button( "disable" );
-			} else {
-				this.element.prop( "disabled", false );
-				this.buttons.button( "enable" );
-			}
+			this.widget().toggleClass( "ui-state-disabled", !!value );
+			this.element.prop( "disabled", !!value );
+			this.buttons.button( value ? "disable" : "enable" );
 		}
 	},
 
-	_setOptions: modifier(function( options ) {
+	_setOptions: spinner_modifier(function( options ) {
 		this._super( options );
-		this._value( this.element.val() );
 	}),
 
 	_parse: function( val ) {
@@ -411,6 +429,18 @@ $.widget( "ui.spinner", {
 			// TODO: what should we do with values that can't be parsed?
 			"aria-valuenow": this._parse( this.element.val() )
 		});
+	},
+
+	isValid: function() {
+		var value = this.value();
+
+		// null is invalid
+		if ( value === null ) {
+			return false;
+		}
+
+		// if value gets adjusted, it's invalid
+		return value === this._adjustValue( value );
 	},
 
 	// update the value without triggering change
@@ -441,25 +471,31 @@ $.widget( "ui.spinner", {
 		this.uiSpinner.replaceWith( this.element );
 	},
 
-	stepUp: modifier(function( steps ) {
+	stepUp: spinner_modifier(function( steps ) {
 		this._stepUp( steps );
 	}),
 	_stepUp: function( steps ) {
-		this._spin( (steps || 1) * this.options.step );
+		if ( this._start() ) {
+			this._spin( (steps || 1) * this.options.step );
+			this._stop();
+		}
 	},
 
-	stepDown: modifier(function( steps ) {
+	stepDown: spinner_modifier(function( steps ) {
 		this._stepDown( steps );
 	}),
 	_stepDown: function( steps ) {
-		this._spin( (steps || 1) * -this.options.step );
+		if ( this._start() ) {
+			this._spin( (steps || 1) * -this.options.step );
+			this._stop();
+		}
 	},
 
-	pageUp: modifier(function( pages ) {
+	pageUp: spinner_modifier(function( pages ) {
 		this._stepUp( (pages || 1) * this.options.page );
 	}),
 
-	pageDown: modifier(function( pages ) {
+	pageDown: spinner_modifier(function( pages ) {
 		this._stepDown( (pages || 1) * this.options.page );
 	}),
 
@@ -467,7 +503,7 @@ $.widget( "ui.spinner", {
 		if ( !arguments.length ) {
 			return this._parse( this.element.val() );
 		}
-		modifier( this._value ).call( this, newVal );
+		spinner_modifier( this._value ).call( this, newVal );
 	},
 
 	widget: function() {
@@ -475,4 +511,4 @@ $.widget( "ui.spinner", {
 	}
 });
 
-}( jQuery ) );
+}));

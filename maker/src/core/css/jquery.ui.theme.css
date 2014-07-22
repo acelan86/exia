@@ -16,10 +16,11 @@
 ----------------------------------*/
 .ui-widget-header {
     text-align:center;
-    font-weight: normal;
+    font-weight: bold;
     margin:0px;
-    line-height: 30px;
+    line-height: 25px;
     padding-top:10px;
+    font-size:12px;
 }
 
 /* Interaction states
@@ -41,18 +42,13 @@
     color: #4D90FE;
     text-decoration: none;
 }
-.ui-state-hover, 
-.ui-widget-content .ui-state-hover, 
-.ui-widget-header .ui-state-hover{
-    color:#fff;
-    background-color:#4D90FE;
-}
 
-.ui-state-active, 
-.ui-widget-content .ui-state-active, 
-.ui-widget-header .ui-state-active{
-    color:#fff;
-    background-color:#4D90FE;
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus{
+    background-color:#e6f1f6;
+    color:#4D90FE;
+
 }
 
 .ui-state-em.ui-state-hover,
@@ -62,11 +58,20 @@
     color:#fff;
 }
 
+.ui-state-hover, 
+.ui-widget-content .ui-state-hover, 
+.ui-widget-header .ui-state-hover,
+.ui-state-active,
+.ui-widget-content .ui-state-active, 
+.ui-widget-header .ui-state-active{
+    color:#fff;
+    background-color:#4D90FE;
+}
+
 .ui-state-em,
 .ui-widget-content .ui-state-em,
 .ui-widget-header .ui-state-em{
-    color: #fff;
-    background-color: #4D90FE;
+    font-weight:bold;
  }
 
 .ui-state-selected{
@@ -91,10 +96,6 @@
 /* Icons
 ----------------------------------*/
 
-.ui-icon{
-}
-.ui-state-hover .ui-icon{
-}
 
 /* Corner radius */
 .ui-corner-all,
@@ -121,11 +122,19 @@
 .ui-corner-br {
     -webkit-border-bottom-right-radius:4px;
 }
+
+/**
+ * input
+ */
+.ui-input{
+    padding-left:10px;
+    border-bottom:1px solid #ccc;
+}
 /**
  * button
  */
-.ui-button-text-only .ui-button-text{
-    padding:0;
+.ui-button{
+    margin:0;
 }
 
 /* selectmenu */
@@ -152,9 +161,9 @@
     flex: 1;
     border:none;
     border-left:1px solid #ccc;
+    font-size:14px;
 }
 .ui-dialog-buttonset .ui-button-text{
-    height:30px;
     line-height:30px;
 }
 .ui-dialog-buttonset .ui-button-first{
@@ -164,28 +173,110 @@
 .ui-dialog-buttonset .ui-button-last{
     border-radius:0px 0px 4px 0px;
 }
-.ui-dialog-content{
-    padding:20px;
+.ui-dialog-buttonset .ui-button-first.ui-button-last{
+    border-radius : 0px 0px 4px 4px;
 }
-.ui-dialog-content .ui-input{
-    border:1px solid #ccc;
-    line-height: 30px;
-    height:30px;
-    margin-bottom: 10px;
-    width:100%;
+.ui-dialog-content{
+    padding:15px;
+    line-height:2em;
     font-size:12px;
 }
+
 .ui-dialog-titlebar-close{
     position:absolute;
     right:5px;
     top:5px;
     display:none;
 }
+.ui-dialog-buttonpane{
+    margin-top:10px;
+}
+
 .ui-widget-overlay {
     background: #000;
     opacity:.6;
     position:absolute;
     left:0px;
     top:0px;
+}
+
+/**
+ * spinner
+ */
+.ui-spinner .ui-input{
+    border:1px solid #ccc;
+    border-right:none;
+}
+.ui-spinner a.ui-spinner-button{
+    border:1px solid #4D90FE;
+    margin:2px 0px;
+    height:13px;
+}
+.ui-spinner .ui-icon{
+    text-indent: 3px;
+    margin-top:-9px;
+}
+.ui-spinner .ui-icon-triangle-1-n{
+    
+}
+.ui-spinner .ui-icon-triangle-1-s{
+    text-indent: 5px;
+}
+/**
+ * slider
+ */
+.ui-slider .ui-slider-handle{
+    width:20px;
+    height:20px;
+    border-radius: 9999px;
+    border:1px solid #ccc;
+}
+.ui-slider .ui-state-active,
+.ui-slider .ui-state-hover{
+    background:#fff;
+}
+
+.ui-slider-horizontal{
+    height:2px;
+    background-color:#4D90FE;
+}
+.ui-slider-horizontal .ui-slider-handle{
+    top: -8px;
+}
+
+/**
+ * form
+ */
+.form-row{
+    clear:both;
+    margin-top: 20px;
+}
+.form-row:first-child{
+    margin-top: 0;
+}
+.form-row label{
+    display: block;
+    line-height: 30px;
+    color: #4D90FE;
+    font-size: 12px;
+}
+.form-control .ui-input{
+    width:100%;
+    height:25px;
+    border-bottom: 1px solid #ccc;
+}
+.form-control textarea{
+    height:100px;
+    width:100%;
+    border:1px solid #ccc;
+    line-height:1.5em;
+}
+
+.form-left-label label{
+    float:left;
+    width:60px;
+}
+.form-left-label .form-control{
+    margin-left:90px;
 }
 

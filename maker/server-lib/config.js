@@ -29,5 +29,6 @@ exports.coreJS = [
     '/static/core/js/jquery/jquery.ui.menu.js',
     '/static/core/js/jquery/jquery.ui.selectmenu.js',
     '/static/core/js/jquery/jquery.ui.slider.js',
-    '/static/core/js/jquery/jquery.ui.dialog.js'
+    '/static/core/js/jquery/jquery.ui.dialog.js',
+    '/static/core/js/jquery/extend/jquery.ui.alert.js'
 ];

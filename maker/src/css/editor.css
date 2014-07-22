@@ -1,24 +1,3 @@
-.editor{
-/*    display:inline-block;
-    *display:inline;
-    *zoom:1;*/
-}
-
-.range-editor-pop{
-    background: #373737;
-    border: 1px solid #090909;
-    padding:10px 10px;
-    z-index:4096;
-}
-
-.range-editor-slider{
-    width : 100px;
-    display:inline-block;
-    *display:block;
-    *zoom:1;
-    margin-left:.4em;
-}
-
 /** font editor **/
 .font-editor-family,
 .font-editor-size,
@@ -331,14 +310,4 @@ height: 10px;
 
 .object-array-editor-block .property-row{
     margin-top: 10px;
-}
-
-
-/**
- * 皮肤相关
- */
-.skin-btn .com-btn{
-    width:60px;
-    height:20px;
-    color:#333;
 }

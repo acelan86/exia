@@ -38,9 +38,9 @@ exia.define('Builder.PropertiesPanel', function (require, exports, module) {
                 })
             };
             html.push(
-                '<div class="property-row">' +
+                '<div class="form-row">' +
                     '<label>' + property.name + '</label>' +
-                    '<div class="property-control">' +
+                    '<div class="form-control">' +
                         '<div id="' + eid + '"></div>' +
                     '</div>' +
                 '</div>'

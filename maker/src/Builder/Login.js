@@ -16,17 +16,28 @@ exia.define('Builder.Login', function (require, exports, module) {
         this.info =
             $('<span class="info">正在检查登陆...</span>')
                 .appendTo(this.dom);
+
         this.dialog = $('<div class="login-dialog">')
             .html([
-                '<form action="#" method="post">',
-                    '<table>',
-                        '<tr><td><input class="ui-input username" type="text" placeholder="用户名"/></td></tr>',
-                        '<tr><td><input class="ui-input password" type="password" placeholder="密码"/></td></tr>',
-                        '<tr class="pin-block" style="display:none;">',
-                            '<td><input class="ui-input pin-input" type="text" style="float:left;width:50px" placehodler="验证码"/><span class="pin-pic" style="margin-left:5px;"></span></td>',
-                        '</tr>',
-                    '</table>',
-                    '<input style="position:absolute;top:-1000px" type="submit" value="登录"/>',
+                '<form action="#" class="form-left-label" method="post">',
+                    '<div class="form-row">',
+                        '<label>username</label>',
+                        '<div class="form-control">',
+                            '<input class="ui-input username" type="text"/>',
+                        '</div>',
+                    '</div>',
+                    '<div class="form-row">',
+                        '<label>password</label>',
+                        '<div class="form-control">',
+                            '<input class="ui-input password" type="password"/>',
+                        '</div>',
+                    '</div>',
+                    '<div class="form-row pin-block" style="display:none;">',
+                        '<label>pincode</label>',
+                        '<div class="form-control">',
+                            '<input class="ui-input pin-input" type="text" style="float:left;width:50px" placehodler="验证码"/><span class="pin-pic" style="margin-left:5px;"></span>',
+                        '</div>',
+                    '</div>',
                 '</form>'
             ].join(''))
             .appendTo($('body'))
@@ -35,18 +46,19 @@ exia.define('Builder.Login', function (require, exports, module) {
                 autoOpen : false,
                 modal : true,
                 resizable : false,
-                buttons : [
-                    { 
-                        'text' : '登录',
-                        'click' : function () {
-                            me.form.submit();
-                        }
-                    },
+                buttons : [ 
                     {
                         'text' : '重置',
                         'click' : function () {
                             me.form[0].reset();
                         }
+                    },
+                    { 
+                        'text' : '登录',
+                        'click' : function () {
+                            me.form.submit();
+                        },
+                        'class': 'ui-state-em'
                     }
                 ]
             });
@@ -94,13 +106,13 @@ exia.define('Builder.Login', function (require, exports, module) {
                         } else {
                             me.noLogin();
                             if (status.errno == "4049") {
-                                alert(status.reason);
+                                $.alert(status.reason);
                                 me._pinCode(1);
                             } else {
                                 if (status.errno == "2070") {
                                     me._pinCode(1);
                                 }
-                                alert(status.reason || "登录失败，请重试");
+                                $.alert(status.reason || "登录失败，请重试");
                             }
                         }
                     };
@@ -177,18 +189,18 @@ exia.define('Builder.Login', function (require, exports, module) {
         this.msg('正在登录...');
 
         if (!nv) {
-            alert('请填写用户名');
+            $.alert('请填写用户名');
             this.noLogin();
             return;
         }
         if (!pv) {
-            alert('请填写密码');
+            $.alert('请填写密码');
             this.noLogin();
             return;
         }
         if (this.needPin) {
             if (!pinv) {
-                alert('请填写验证码');
+                $.alert('请填写验证码');
                 this.noLogin();
                 return;
             } else {
