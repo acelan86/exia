@@ -26,6 +26,7 @@ exports.coreJS = [
     '/static/core/js/jquery/jquery.ui.position.js',
     '/static/core/js/jquery/jquery.ui.draggable.js',
     '/static/core/js/jquery/jquery.ui.droppable.js',
+    '/static/core/js/jquery/jquery.ui.sortable.js',
     '/static/core/js/jquery/jquery.ui.button.js',
     '/static/core/js/jquery/jquery.ui.flipswitch.js',
     '/static/core/js/jquery/jquery.ui.spinner.js',

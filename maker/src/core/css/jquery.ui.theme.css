@@ -299,7 +299,7 @@ flipswitch
  */
 .form-row{
     clear:both;
-    margin-top: 20px;
+    margin-top:10px;
 }
 .form-row:first-child{
     margin-top: 0;
@@ -310,10 +310,13 @@ flipswitch
     color: #4D90FE;
     font-size: 12px;
 }
+.form-control {
+    background-color : #fff;
+}
 .form-control .ui-input{
     width:100%;
     height:25px;
-    border-bottom: 1px solid #ccc;
+    border: 1px solid #ccc;
 }
 .form-control textarea{
     height:100px;
