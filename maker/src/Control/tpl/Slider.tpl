@@ -1,8 +1,8 @@
 <div data-type="Slider" id="{{cid}}" class="control ui-slider" data-loop="{{value.loop}}">
-    {{#each value.items}}
+    {{#each value.content}}
         <div>
-            <a href="{{url}}">
-                <img lazyload="{{src}}">
+            <a href="{{href}}">
+                <img lazyload="{{pic}}">
             </a>
             <p>{{title}}</p>
         </div>

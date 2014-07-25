@@ -7,7 +7,8 @@ html,body{
     -webkit-user-select: none;
     font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 }
-ul, li{
+ul, li,
+dl, dt, dd{
     margin:0;
     padding:0;
 }

@@ -8,19 +8,23 @@ a:hover,
 a:visited{
     color:#4D90FE;
 }
-.toolbar{
+.left-panel{
     float:left;
     width:200px;
     border-right:1px solid #ccc;
     height:100%;
     padding-top:50px;
 }
-.toolbar li{
+.page-panel{
+
+}
+
+.control-panel li{
     line-height: 30px;
     padding:10px;
     color:#4D90FE;
 }
-.toolbar li:hover{
+.control-panel li:hover{
     background:#4D90FE;
     color:#fff;
 }

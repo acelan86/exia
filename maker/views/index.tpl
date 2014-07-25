@@ -18,32 +18,41 @@
             <span class="toolbar-button-group">
                 <button id="FullscreenButton" data-tip="全屏">
                     <i class="icon icon-fullscreen"></i><span class="des-text">全屏</span>
-                </button><button id="GroupBtn" data-tip="组合(ctrl+g)">
-                    <i class="icon icon-group"></i>
-                    <span class="des-text">组合</span>
-                </button><button id="UngroupBtn" data-tip="取消组合(ctrl+shift+g)">
-                    <i class="icon icon-ungroup"></i>
-                    <span class="des-text">取消组合</span>
                 </button><button id="ConfigBtn" data-tip="设置">
                     <i class="icon icon-cog"></i>
                     <span class="des-text">设置</span>
-                </button><button id="DelBtn" data-tip="删除(backspace)">
-                    <i class="icon icon-trash"></i>
-                    <span class="des-text">移除</span>
-                </button><button id="TagBtn" data-tip="显示/隐藏标签(ctrl+i)">
-                    <i class="icon icon-tag"></i>
-                    <span class="des-text">显示/隐藏标签</span>
-                </button><button class="btn" id="HideToolbarButton">
-                    <i class="icon icon-tag"></i>
-                    <span class="des-text">隐藏工具栏</span>
                 </button><button class="btn" id="RotateButton">
                     <i class="icon icon-tag"></i>
                     <span class="des-text">调整宽度</span>
                 </button>
             </span>
+            <span class="toolbar-button-group">
+                <button id="DelBtn" data-tip="删除(backspace)">
+                    <i class="icon icon-trash"></i>
+                    <span class="des-text">移除</span>
+                </button><button id="TagBtn" data-tip="显示/隐藏标签(ctrl+i)">
+                    <i class="icon icon-tag"></i>
+                    <span class="des-text">显示/隐藏标签</span>
+                </button>
+            </span>
+            <span class="toolbar-button-group">
+                <button class="btn" id="PreviewButton">
+                    <i class="icon icon-tag"></i>
+                    <span class="des-text">预览/设计</span>
+                </button><button class="btn" id="SaveButton">
+                    <i class="icon icon-tag"></i>
+                    <span class="des-text">保存</span>
+                </button>
+            </span>
         </div>
         <!-- 组件面板 -->
-        <div id="ControlsPanel" class="toolbar"></div>
+        <div class="left-panel">
+            <h3 class="ui-widget-header">页面列表</h3>
+            <ul class="page-panel ui-widget-content">
+            </ul>
+            <h3 class="ui-widget-header">控件列表</h3>
+            <ul id="ControlsPanel" class="control-panel ui-widget-content"></ul>
+        </div>
         <!-- 属性面板 -->
         <div id="PropertiesPanel" class="properties-panel"></div>
         

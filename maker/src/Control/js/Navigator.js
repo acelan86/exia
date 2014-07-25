@@ -6,7 +6,7 @@ exia.use('Builder.Control', function (Control) {
         template : Handlebars.compile($('#NavigatorControlTemplate').html()),
         properties : [
             {
-                name : 'items',
+                name : 'content',
                 type : 'ObjectArray',
                 pos : 1,
                 defaults : {
@@ -24,7 +24,7 @@ exia.use('Builder.Control', function (Control) {
             }
         ],
         defaults : {
-            items : [
+            content : [
                 {url : "#test1", text : "首页"},
                 {url : "#test1", text : "要闻"},
                 {url : "#test3", text : "国内"},

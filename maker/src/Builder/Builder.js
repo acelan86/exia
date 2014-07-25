@@ -105,7 +105,7 @@ exia.define('Builder', function (require, exports, module) {
             this.frame.on('select', function (control) {
                 var cid = $(control).attr('id'),
                     model = me.Document.get(cid),
-                    type = model.get('type'),
+                    type = model.type,
                     control = Control.get(type);
 
                 me.propertiesPanel.render(control.properties, model);
@@ -160,7 +160,13 @@ exia.define('Builder', function (require, exports, module) {
         },
 
         initPropertiesPanelEvents : function () {
-
+            var me = this;
+            this.propertiesPanel.on('change', function (cid, name, value, type) {
+                console.log(cid, name, value, type);;
+                me.Document
+                    .get(cid)
+                    .set(name, value);
+            });
         },
 
         initDocumentChangeEvents : function () {
@@ -169,11 +175,12 @@ exia.define('Builder', function (require, exports, module) {
             //新增数据
             this.Document.on('add', function (model) {
                 var cid = model.cid,
-                    type = model.get('type'),
+                    type = model.type,
                     control = Control.get(type),
                     html = control.template({
                         cid : cid,
-                        value : model.get('value')
+                        type : type,
+                        value : model.get()
                     });
 
                 me.frame.addControl(html);
@@ -183,13 +190,22 @@ exia.define('Builder', function (require, exports, module) {
             });
 
             //移除数据
-            this.Document.on('remove', function (model, collection, option) {
-                console.log('remove', model.toJSON());
+            this.Document.on('remove', function (changes) {
+                console.log('remove', changes);
             });
 
             //数据改变
-            this.Document.on('change', function (model, collection, option) {
-                console.log(model.cid, 'is change from', model.previous(), 'to', model, collection, option);
+            this.Document.on('change', function (cid, type, changes) {
+                var options = {},
+                    change;
+                for (var i = 0, len = changes.length; i < len; i++) {
+                    change = changes[i];
+                    options[change.name] = change.value;
+                }
+                try {
+                    me.frame.win.$('#' + cid)[type.toLowerCase()](options);
+                } catch (e) {}
+                me.frame.showSelectMask(me.frame.$('#' + cid));
             });
         }
     };

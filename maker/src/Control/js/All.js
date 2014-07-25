@@ -15,6 +15,15 @@ exia.use('Builder.Control', function (Control) {
                 }
             },
             {
+                name : 'loop',
+                type : 'Switch',
+                pos : 1,
+                defaults : {
+                    label : '文字',
+                    placeholder: '请输入按钮文字'
+                }
+            },
+            {
                 name : 'items',
                 type : 'ObjectArray',
                 pos : 2,
@@ -61,7 +70,8 @@ exia.use('Builder.Control', function (Control) {
             }
         ],
         defaults : {
-            text : '按钮'
+            text : '按钮',
+            loop : true
         }
     });
 });

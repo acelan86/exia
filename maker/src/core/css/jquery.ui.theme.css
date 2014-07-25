@@ -95,7 +95,18 @@
 
 /* Icons
 ----------------------------------*/
-
+/*.ui-icon{
+    width:20px;
+    height:20px;
+    font-style: normal;
+    text-indent:0px;
+    font-size:16px;
+    font-weight: normal;
+    line-height: 16px;
+    border:1px solid #4D90FE;
+    border-radius:9999px;
+    color:#4D90FE;
+}*/
 
 /* Corner radius */
 .ui-corner-all,
@@ -151,17 +162,18 @@
 }
 .ui-dialog-buttonset{
     border-top:1px solid #ccc;
-    display:-moz-flex;
-    display:-webkit-flex;
+    display:-moz-box;
+    display:-webkit-box;
     display:flex;
 }
 .ui-dialog-buttonset .ui-button{
-    -webkit-box-flex: 1.0;
-    -moz-box-flex: 1.0;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
     flex: 1;
     border:none;
     border-left:1px solid #ccc;
     font-size:14px;
+    display:block;
 }
 .ui-dialog-buttonset .ui-button-text{
     line-height:30px;
@@ -246,6 +258,41 @@
 .ui-slider-horizontal .ui-slider-handle{
     top: -8px;
 }
+
+/*
+flipswitch
+ */
+.ui-flipswitch{
+    width:50px;
+    height:24px;
+    border-radius:9999px;
+    border-color:#aaa;
+}
+.ui-flipswitch .ui-state-default{
+    border-color:#ccc;
+}
+.ui-flipswitch .ui-btn.ui-flipswitch-on{
+    border-color:#ccc;
+    height:24px;
+    width:24px;
+    margin:0px;
+    margin-left:-1px;
+    margin-top:-1px;
+    text-indent: 9999px;
+}
+.ui-flipswitch.ui-flipswitch-active{
+    padding-left:26px;
+    background-color:#4CD964;
+    border-color:#4CD964;
+    border:none;
+    margin-left:0px;
+}
+.ui-flipswitch-active .ui-btn.ui-flipswitch-on{
+    margin-left:0px;
+    border-color:#4CD964;
+    margin-top: 0px;
+}
+
 
 /**
  * form

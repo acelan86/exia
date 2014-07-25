@@ -516,7 +516,7 @@ var gmu = gmu || {
             $.each( this, function( i, el ) {
 
                 // 从缓存中取，没有则创建一个
-                obj = record( el, name ) || new gmu[ name ]( el,
+                obj = /*record( el, name ) ||*/ new gmu[ name ]( el,
                         isPlainObject( opts ) ? opts : undefined );
 
                 // 取实例
@@ -1625,7 +1625,7 @@ $(function () {
             // 处理label
             // 如果是空字符串，则表示dom中写了data-label=""
             opts.label = opts.label === undefined ? $wrap[ input ? 'val' : 'text' ]() : opts.label;
-            input || opts.label === undefined || !$label.length && ($label = $( me.tpl2html( 'text', {
+            input || opts.label === undefined || /*!$label.length &&*/ ($label = $( me.tpl2html( 'text', {
                 text: opts.label
             } ) )).appendTo( $wrap.empty() );
             me.$label = $label.length && $label;
@@ -4711,7 +4711,7 @@ $(function () {
 
             // 如果没有包含ul节点，则说明通过指定content来create
             // 建议把create模式给拆出去。很多时候都是先写好在dom中了。
-            if ( !$list.length && opts.content ) {
+            if ( opts.content ) {
                 $list = $( me.tpl2html( 'list' ) );
                 renderer = me.tpl2html( 'item' );
 
@@ -4729,7 +4729,9 @@ $(function () {
                     html += renderer( item );
                 });
 
-                $list.append( html ).appendTo( $el );
+                debugger;
+
+                $list.html( html ).appendTo( $el.empty() );
             } else {
                 
                 // 处理直接通过ul初始化的情况
@@ -7226,30 +7228,24 @@ $(function () {
                 items,
                 container;
 
-            // 检测容器节点是否指定
-            container = $el.find( selector.container );
+            container = $( '<div></div>' );
 
-            // 没有指定容器则创建容器
-            if ( !container.length ) {
-                container = $( '<div></div>' );
+            // 如果没有传入content, 则将root的孩子作为可滚动item
+            if ( !opts.content ) {
 
-                // 如果没有传入content, 则将root的孩子作为可滚动item
-                if ( !opts.content ) {
-
-                    // 特殊处理直接用ul初始化slider的case
-                    if ( $el.is( 'ul' ) ) {
-                        this.$el = container.insertAfter( $el );
-                        container = $el;
-                        $el = this.$el;
-                    } else {
-                        container.append( $el.children() );
-                    }
+                // 特殊处理直接用ul初始化slider的case
+                if ( $el.is( 'ul' ) ) {
+                    this.$el = container.insertAfter( $el );
+                    container = $el;
+                    $el = this.$el;
                 } else {
-                    this._createItems( container, opts.content );
+                    container.append( $el.children() );
                 }
-
-                container.appendTo( $el );
+            } else {
+                this._createItems( container, opts.content );
             }
+
+            container.appendTo( $el.empty() );
 
             // 检测是否构成循环条件
             if ( (items = container.children()).length < viewNum + 1 ) {
@@ -7257,7 +7253,7 @@ $(function () {
             }
 
             // 如果节点少了，需要复制几份
-            while ( opts.loop && container.children().length < 3 * viewNum ) {
+            while ( opts.loop && container.children().length < 2 * viewNum ) {
                 container.append( items.clone() );
             }
 
@@ -7999,14 +7995,13 @@ $(function () {
 
         this.on( 'done.dom', function( e, $el, opts ) {
             var dots = $el.find( opts.selector.dots );
+            dots.get(0) && dots.remove();
 
-            if ( !dots.length ) {
-                dots = this.tpl2html( 'dots', {
-                    len: this.length
-                } );
+            dots = this.tpl2html( 'dots', {
+                len: this.length
+            } );
                 
-                dots = $( dots ).appendTo( $el );
-            }
+            dots = $( dots ).appendTo( $el );
 
             this._dots = dots.children().toArray();
         } );

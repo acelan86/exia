@@ -11,29 +11,79 @@ exia.define('Builder.ControlCollection', function (require, exports, module) {
     var _ = window._,
         Backbone = window.Backbone;
 
-     /**
-     * {
-     *     type : 'Control',
-     *     value : {
-     *     
-     *     }
-     * }
-     */
-    var ControlModel = Backbone.Model.extend({
-        type : 'Control',
-        value : {},
-        initialize : function () {
-            this.on('change:value', function () {
-                console.log(arguments);
-            });
+    function Model(cid, type, value) {
+        var me = this,
+            data = {};
+
+        _.extend(this, Backbone.Events);
+
+        this.cid = cid, 
+        this.type = type;
+
+        Object.observe(data, function (changes) {
+            var _changes = [],
+                change;
+            for (var i = 0, len = changes.length; i < len; i++) {
+                change = changes[i];
+                'update' === change.type && _changes.push({
+                    name : change.name,
+                    oldValue : change.oldValue,
+                    value : change.object[change.name],
+                    type : change.type
+                });
+            }
+            _changes.length > 0 && me.trigger('change', _changes); 
+        });
+
+        this.get = function (key) {
+            return key ? data[key] : data;
+        };
+        this.set = function (key, value) {
+            data[key] = value;
+        };
+        this.toJSON = function () {
+            return {
+                cid : cid,
+                value : data
+            };
+        };
+
+        for (var key in value) {
+            this.set(key, value[key]);
         }
-    });
+    }
 
-    var ControlCollection = Backbone.Collection.extend({
-        model : ControlModel
-    });
+    function Collection(data) {
+        _.extend(this, Backbone.Events);
 
-    ControlCollection.ControlModel = ControlModel;
+        data = data || [];
+        this.data = {};
+        this.count = 0;
 
-    return ControlCollection;
+        for (var i = 0, len = data.length; i < len; i++) {
+            this.add(data);
+        }
+    }
+    Collection.prototype.add = function (data) {
+        var cid = this.getCid(),
+            me = this;
+
+        this.data[cid] = new Model(cid, data.type, data.value);
+        
+        this.data[cid].on('change', (function (cid, type) {
+            return function (changes) {
+                me.trigger('change', cid, type, changes);
+            };
+        })(cid, data.type));
+        this.trigger('add', this.data[cid]);
+    };
+
+    Collection.prototype.get = function (cid) {
+        return cid ? this.data[cid] : this.data;
+    };
+    Collection.prototype.getCid = function () {
+        return 'c' + (++this.count);
+    };
+    
+    return Collection;
 });

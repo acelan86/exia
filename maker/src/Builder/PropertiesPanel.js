@@ -5,6 +5,7 @@ exia.define('Builder.PropertiesPanel', function (require, exports, module) {
         Editor = require('Builder.Editor');
 
     function PropertiesPanel(dom) {
+        var me = this;
         _.extend(this, Backbone.Events);
 
         this.dom = $(dom);
@@ -12,12 +13,21 @@ exia.define('Builder.PropertiesPanel', function (require, exports, module) {
         this.dom.mousedown(function (e) {
             e.stopPropagation();
         });
+
+        this.dom.on('editorchange .editor', function (e, value) {
+            var editor = $(e.target),
+                name = editor.data('propertyName'),
+                type = editor.data('type'),
+                cid = editor.data('cid');
+
+            me.trigger('change', cid, name, value.value, type);
+        });
     }
 
 
     PropertiesPanel.prototype.render = function (properties, model) {
         var html = [],  
-            values = model.get('value'),
+            values = model.get(),
             cid = model.cid,
             eid,
             value,
@@ -33,6 +43,8 @@ exia.define('Builder.PropertiesPanel', function (require, exports, module) {
             eid = [cid, property.name, 'editor'].join('_');
             cache[eid] = {
                 type : property.type + 'Editor',
+                name : property.name,
+                cid : cid,
                 context : _.extend({}, property.defaults, {
                     value : value
                 })
@@ -52,6 +64,11 @@ exia.define('Builder.PropertiesPanel', function (require, exports, module) {
         for (var eid in cache) {
             prop = cache[eid];
             try {
+                $('#' + eid, this.dom)
+                    .data('propertyName', prop.name)
+                    .data('cid', prop.cid)
+                    .data('type', prop.type);
+
                 $('#' + eid, this.dom)[prop.type](prop.context);
             } catch (e) {}
         }

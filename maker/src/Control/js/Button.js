@@ -6,7 +6,7 @@ exia.use('Builder.Control', function (Control) {
         template : Handlebars.compile($('#ButtonControlTemplate').html()),
         properties : [
             {
-                name : 'text',
+                name : 'label',
                 type : 'String',
                 pos : 1,
                 defaults : {
@@ -16,7 +16,7 @@ exia.use('Builder.Control', function (Control) {
             }
         ],
         defaults : {
-            text : '按钮'
+            label : '按钮'
         }
     });
 });
