@@ -88,6 +88,14 @@ exia.define('Builder', function (require, exports, module) {
             }
         });
 
+        $('#PreviewButton').click(function (e) {
+            $('body')
+                .toggleClass('design')
+                .toggleClass('preview');
+
+            me.doPreview();
+        });
+
         //退出前询问
         // window.onbeforeunload = function (e) {
         //     return "您所做的修改尚未保存";
@@ -207,6 +215,30 @@ exia.define('Builder', function (require, exports, module) {
                 } catch (e) {}
                 me.frame.showSelectMask(me.frame.$('#' + cid));
             });
+        },
+
+        isPreview : function () {
+            return $('body').hasClass('preview');
+        },
+
+        doPreview : function () {
+            if (this.isPreview()) {
+                var data = this.Document.toJSON();
+                $.post('/create', {
+                        data : JSON.stringify({
+                            controls : data
+                        })
+                    })
+                    .done(function (res) {
+                        console.log(res);
+                        var doc = $('#Preview')[0].contentDocument || $('#Preview')[0].contentWindow.document;
+                        doc.open('text/html');
+                        doc.write(res);
+                        doc.close();
+                    });
+            } else {
+                
+            }
         }
     };
 

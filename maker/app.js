@@ -91,7 +91,8 @@ app.get('/', function(req, res){
  * @return {[type]}     [description]
  */
 app.post('/create', function (req, res) {
-    tools.build(req.body, function (str) {
+    console.log('xx' + req.body);
+    tools.build(JSON.parse(req.body.data), function (str) {
         res.setHeader("Content-Type", "text/html");
         res.send(str);
     });

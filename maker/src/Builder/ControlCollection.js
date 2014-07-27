@@ -43,7 +43,8 @@ exia.define('Builder.ControlCollection', function (require, exports, module) {
         };
         this.toJSON = function () {
             return {
-                cid : cid,
+                cid : this.cid,
+                type : this.type,
                 value : data
             };
         };
@@ -83,6 +84,13 @@ exia.define('Builder.ControlCollection', function (require, exports, module) {
     };
     Collection.prototype.getCid = function () {
         return 'c' + (++this.count);
+    };
+    Collection.prototype.toJSON = function () {
+        var data = [];
+        for (var cid in this.data) {
+            data.push(this.data[cid].toJSON());
+        }
+        return data;
     };
     
     return Collection;

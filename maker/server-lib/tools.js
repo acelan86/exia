@@ -53,7 +53,7 @@ exports.build = function (data, callback, options) {
                             );
                         }
                     },
-                    control.value
+                    control
                 );
             });
         })(data.controls);

@@ -11,7 +11,7 @@
         <link type="text/css" rel="stylesheet" href="/static/css/editor.css">
         <link type="text/css" rel="stylesheet" href="/static/css/maker.css">
     </head>
-    <body>
+    <body class="design">
         <!-- 顶部导航 -->
         <div class="nav">
             <div id="LoginBox" class="login-box"></div>
@@ -60,10 +60,12 @@
         <div class="viewport">
             <div class="frame-wrapper">
                 <div class="context-layer" id="ContextLayer"></div>
-                <iframe id="Frame" src="about:blank" class="frame"></iframe>
+                <iframe id="Frame" src="about:blank" class="frame design-frame"></iframe>
+                <iframe id="Preview" src="about:blank" class="frame preview-frame"></iframe>
                 <textarea id="DocumentSource" class="document-source"></textarea><!-- 源文件 -->
             </div>
         </div>
+        <img id="PreviewQrcode" class="preview-qrcode" src="/static/page/qrcode.png" />
 
         <!-- controls 模板开始 -->
         {{#each templates}}
@@ -80,7 +82,6 @@
             </script>
         {{/each}}
         <!-- editor 模板结束 -->
-
         <script src="/combo~{{{coreJS}}}"></script>
 
         <script src="/static/define.js"></script>
