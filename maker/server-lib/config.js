@@ -17,6 +17,7 @@ exports.coreJS = [
     '/static/core/js/Object.observe.js',
     '/static/core/js/jquery/jquery-1.11.1.js',
     '/static/core/js/handlebars-1.3.0.js',
+    '/static/core/js/handlebars.helper.js',
     '/static/core/js/underscore-1.6.0.js',
     '/static/core/js/backbone-1.1.2.js',
     '/static/core/js/jquery/extend/fullscreen.js',

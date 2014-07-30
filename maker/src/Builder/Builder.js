@@ -118,8 +118,9 @@ exia.define('Builder', function (require, exports, module) {
 
                 me.propertiesPanel.render(control.properties, model);
             });
-            this.frame.on('sort', function (control) {
-                console.log('sort ', control);
+            this.frame.on('sort', function (cid, to) {
+                //console.log('sort ', control, to);
+                me.Document.sort(cid, to);
             });
             //控件取消选中
             this.frame.on('unselect', function (control) {
@@ -153,9 +154,9 @@ exia.define('Builder', function (require, exports, module) {
 
             //拖拽释放到可接受区域隐藏占位节点，停止滚动，并且添加数据
             this.ddcontroller.on('drop', function (e, ui) {
-                me.frame.hideGhost();
                 me.frame.stopScroll();
 
+                me.frame.hideGhost();
                 //添加数据到模型集合中
                 var type = ui.draggable.data('type'),
                     control = Control.get(type),
@@ -163,7 +164,7 @@ exia.define('Builder', function (require, exports, module) {
                         type : type,
                         value : _.extend({}, control.defaults)
                     };
-                me.Document.add(model);
+                me.Document.add/* model, before */(model, me.frame.$('.ghost').data('cid'));
             });
         },
 
@@ -181,7 +182,7 @@ exia.define('Builder', function (require, exports, module) {
             var me = this;
 
             //新增数据
-            this.Document.on('add', function (model) {
+            this.Document.on('add', function (model, to) {
                 var cid = model.cid,
                     type = model.type,
                     control = Control.get(type),
@@ -191,10 +192,7 @@ exia.define('Builder', function (require, exports, module) {
                         value : model.get()
                     });
 
-                me.frame.addControl(html);
-                try {
-                    me.frame.win.$('#' + cid)[type.toLowerCase()]();
-                } catch (e) {}
+                me.frame.addControl/* before */(html, me.frame.$('#' + to));
             });
 
             //移除数据
@@ -204,16 +202,23 @@ exia.define('Builder', function (require, exports, module) {
 
             //数据改变
             this.Document.on('change', function (cid, type, changes) {
-                var options = {},
-                    change;
-                for (var i = 0, len = changes.length; i < len; i++) {
-                    change = changes[i];
-                    options[change.name] = change.value;
-                }
-                try {
-                    me.frame.win.$('#' + cid)[type.toLowerCase()](options);
-                } catch (e) {}
+                var control = Control.get(type),
+                    html = control.template(me.Document.get(cid).toJSON());
+
+                me.frame.replaceControl(cid, html);
+                // var options = {},
+                //     change;
+                // for (var i = 0, len = changes.length; i < len; i++) {
+                //     change = changes[i];
+                //     options[change.name] = change.value;
+                // }
+                // try {
+                //     me.frame.win.$('#' + cid)[type.toLowerCase()](options);
+                // } catch (e) {}
                 me.frame.showSelectMask(me.frame.$('#' + cid));
+            });
+            this.Document.on('sort', function (order, collection) {
+                console.log(order, collection);
             });
         },
 

@@ -4,6 +4,14 @@ var fs = require('fs'),
     path = require('path'),
     root = path.resolve(__dirname, '..');
 
+Handlebars.registerHelper("compare", function (a, b, options) {
+    if (a > b) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+});
+
 exports.renderWithFile = function (file, callback, context) {
     context = context || {};
 

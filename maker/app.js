@@ -33,7 +33,7 @@ app.configure(function(){
 app.get('/', function(req, res){
     var context,
         controls = [
-            'Button', 'Navigator', 'Slider', 'Text', 'All'
+            'Button', 'Navigator', 'Slider', 'Text', 'All', 'Media', 'List'
         ],
         editors,
         templates = [],

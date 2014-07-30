@@ -95,8 +95,6 @@ a:visited{
 }
 
 .viewport{
-    margin-left:200px;
-    margin-right:250px;
     height:100%;
     overflow:hidden;
 }

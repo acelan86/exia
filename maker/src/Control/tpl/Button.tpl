@@ -1,1 +1,1 @@
-<button id="{{cid}}" class="control btn" data-type="Button">{{value.label}}</button>
+<button id="{{cid}}" type="button" class="btn {{value.style}} {{#if value.block}} btn-block {{else}} {{/if}}">{{value.label}}</button>

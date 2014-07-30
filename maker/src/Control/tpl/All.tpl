@@ -1,1 +1,1 @@
-<div class="control" id="{{cid}}">所有editor</div>
+<div id="{{cid}}">所有editor</div>

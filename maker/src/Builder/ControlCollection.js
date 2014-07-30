@@ -60,23 +60,28 @@ exia.define('Builder.ControlCollection', function (require, exports, module) {
         data = data || [];
         this.data = {};
         this.count = 0;
+        this.order = [];
 
         for (var i = 0, len = data.length; i < len; i++) {
             this.add(data);
         }
     }
-    Collection.prototype.add = function (data) {
+    Collection.prototype.add = function (data, to) {
         var cid = this.getCid(),
             me = this;
 
         this.data[cid] = new Model(cid, data.type, data.value);
+
+        this.order.push(cid);
+        this._insert(cid, to); //排序
         
         this.data[cid].on('change', (function (cid, type) {
             return function (changes) {
                 me.trigger('change', cid, type, changes);
             };
         })(cid, data.type));
-        this.trigger('add', this.data[cid]);
+
+        this.trigger('add', this.data[cid], to);
     };
 
     Collection.prototype.get = function (cid) {
@@ -86,12 +91,35 @@ exia.define('Builder.ControlCollection', function (require, exports, module) {
         return 'c' + (++this.count);
     };
     Collection.prototype.toJSON = function () {
-        var data = [];
-        for (var cid in this.data) {
+        var data = [],
+            cid;
+        for (var i = 0, len = this.order.length; i < len; i++){
+            cid = this.order[i];
             data.push(this.data[cid].toJSON());
         }
         return data;
     };
+    Collection.prototype._insert = function (from, to) {
+        var order = [];
+        for (var i = 0, len = this.order.length; i < len; i++) {
+            if (to) {
+                if (this.order[i] === to) {
+                    order.push(from);
+                }
+            }
+            if (this.order[i] !== from) {
+                order.push(this.order[i]);
+            }
+        }
+        if (!to) {
+            order.push(from);
+        }
+        this.order = order;
+    };
+    Collection.prototype.sort = function (from, to) {
+        this._insert(from, to);
+        this.trigger('sort', this.order, this.toJSON());
+    }
     
     return Collection;
 });

@@ -143,7 +143,8 @@ exia.define('Builder.Frame', function (require, exports, module) {
                         me.$('.drag-helper').remove();
                         me.$(me._active).removeClass('is-dragging');
                         me.moveControlTo(me._active, me.$('.ghost'));
-                        me.trigger('sort', me._active);
+                        //触发排序事件
+                        me.trigger('sort', me.$(me._active).attr('id'), me.$('.ghost').data('cid'));
                     }
 
                     if (me._dragState !== DRAG_STATUS.INIT) {
@@ -217,18 +218,20 @@ exia.define('Builder.Frame', function (require, exports, module) {
                     '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
                     '<meta name="format-detection" content="telephone=no,email=no">',
                     // '<link rel="stylesheet" href="/static/page/jquery-ui-1.11.0/jquery-ui.min.css">',
-                    // '<script src="/static/page/jquery-ui-1.11.0/external/jquery/jquery.js"></script>',
+                    '<script src="/static/page/jquery-ui-1.11.0/external/jquery/jquery.js"></script>',
                     // '<script src="/static/page/jquery-ui-1.11.0/jquery-ui.min.js"></script>',
-                    '<link rel="stylesheet" href="/static/page/GMU/reset.css">',
-                    '<link rel="stylesheet" href="/static/page/GMU/gmu.css">',
-                    '<script src="/static/page/GMU/zepto.js"></script>',
-                    '<script src="/static/page/GMU/gmu.js"></script>',
+                    // '<link rel="stylesheet" href="/static/page/GMU/reset.css">',
+                    // '<link rel="stylesheet" href="/static/page/GMU/gmu.css">',
+                    // '<script src="/static/page/GMU/zepto.js"></script>',
+                    // '<script src="/static/page/GMU/gmu.js"></script>',
                     // '<link rel="stylesheet" href="/static/page/jquery.mobile.custom/jquery.mobile.custom.structure.css">',
                     // '<link rel="stylesheet" href="/static/page/jquery.mobile.custom/jquery.mobile.custom.theme.css">',
                     // '<script src="/static/page/jquery.mobile.custom/jquery.mobile.custom.min.js"></script>',
                     // '<link rel="stylesheet" href="/static/page/bootstrap/css/bootstrap-responsive.css">',
                     // '<link rel="stylesheet" href="/static/page/bootstrap/css/bootstrap.css">',
                     // '<script src="/static/page/bootstrap/js/bootstrap.js"></script>',
+                    '<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">',
+                    '<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>',
                     '<script>parent.FrameDocument = document; parent.FrameWindow = window;</script>',
                 '</head>',
                 '<body>',
@@ -345,8 +348,21 @@ exia.define('Builder.Frame', function (require, exports, module) {
             };
     };
 
-    Frame.prototype.addControl = function (html) {
-        this.$(html).insertBefore(this.$('.ghost'));
+    Frame.prototype.addControl/* before */ = function (html, node) {
+        if (node.get(0)) {
+            this.$(html)
+                .addClass('control')
+                .insertBefore(this.$(node));
+        } else {
+            this.$(html)
+                .addClass('control')
+                .appendTo(this.$('body'));
+        }
+    };
+    Frame.prototype.replaceControl = function (id, html) {
+        this.$(node).replaceWith(
+            this.$(html).addClass('control')
+        );
     };
     Frame.prototype.removeControl = function (node) {
         this.$(node).remove();
@@ -372,13 +388,15 @@ exia.define('Builder.Frame', function (require, exports, module) {
         }
     }
 
-    Frame.prototype.showGhost = function (node) {
+    Frame.prototype.showGhost/*Before*/ = function (node) {
         if (node) {
             this.$('.ghost')
-                .insertBefore(node)
+                .data('cid', this.$(node).attr('id')) //保存当前位置到ghost
+                .insertBefore(this.$(node))
                 .show();
         } else {
             this.$('.ghost')
+                .data('cid', null)
                 .appendTo(this.$('body'))
                 .show();
         }
@@ -395,8 +413,8 @@ exia.define('Builder.Frame', function (require, exports, module) {
 
         this.$('.select-mask')
             .css({
-                width : width - 4,
-                height : height - 4,
+                width : width,
+                height : height,
                 left : offset.left,
                 top : offset.top
             })

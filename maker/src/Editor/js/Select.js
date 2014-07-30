@@ -20,6 +20,7 @@
             this._setOption('disabled', options.disabled);
         },
         _changeHandler : function (e, ui) {
+            console.log('change');
             this._trigger('change', e, {value : this.options.value = this._formatValue(ui.item.value)});
         },
         _destroy : function () {
