@@ -45,7 +45,7 @@ exia.define('Builder.DDController', function (require, exports, module) {
 
         $(this.accept, this.from).draggable({
             //当没有正确放置时候是否回退到默认位置
-            revert: 'invalid',
+            //revert: 'invalid',
             helper: function (e) {
                 return $('<div class="' + HELPER_CLASS + '">').css('zIndex', 1000);
             },

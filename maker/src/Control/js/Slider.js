@@ -36,9 +36,9 @@ exia.use('Builder.Control', function (Control) {
         ],
         defaults : {
             content : [
-                {href : "#test1", pic : "http://img1.imgtn.bdimg.com/it/u=2298694357,2635003216&fm=21&gp=0.jpg", title : "图片标题1"},
-                {href : "#test1", pic : "http://img2.imgtn.bdimg.com/it/u=3514949207,3190366777&fm=23&gp=0.jpg", title : "图片标题2"},
-                {href : "#test3", pic : "http://img1.imgtn.bdimg.com/it/u=3362243801,1122342630&fm=21&gp=0.jpg", title : "图片标题3"}
+                {href : "#test1", pic : "http://i2.sinaimg.cn/qc/photo_auto/photo/25/06/43012506/43012506_580_580small.jpg", title : "图片标题1"},
+                {href : "#test1", pic : "http://i1.sinaimg.cn/qc/photo_auto/photo/65/12/43016512/43016512_580_580small.jpg", title : "图片标题2"},
+                {href : "#test3", pic : "http://i0.sinaimg.cn/qc/2014/0805/U6652P33DT20140805113305.jpg", title : "图片标题3"}
             ],
             loop : true
         }

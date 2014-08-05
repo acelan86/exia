@@ -110,9 +110,8 @@ exia.define('Builder', function (require, exports, module) {
                 console.log('frame inited!');
             });
             //控件选中
-            this.frame.on('select', function (control) {
-                var cid = $(control).attr('id'),
-                    model = me.Document.get(cid),
+            this.frame.on('select', function (cid) {
+                var model = me.Document.get(cid),
                     type = model.type,
                     control = Control.get(type);
 
@@ -192,7 +191,7 @@ exia.define('Builder', function (require, exports, module) {
                         value : model.get()
                     });
 
-                me.frame.addControl/* before */(html, me.frame.$('#' + to));
+                me.frame.addControl/* before */(html, to);
             });
 
             //移除数据
@@ -215,7 +214,7 @@ exia.define('Builder', function (require, exports, module) {
                 // try {
                 //     me.frame.win.$('#' + cid)[type.toLowerCase()](options);
                 // } catch (e) {}
-                me.frame.showSelectMask(me.frame.$('#' + cid));
+                me.frame.showSelectMask(cid);
             });
             this.Document.on('sort', function (order, collection) {
                 console.log(order, collection);
