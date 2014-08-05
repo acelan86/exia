@@ -20,7 +20,8 @@
     "handlebars" : "*",
     "grunt-contrib-connect": "~0.7.1",
     "grunt-contrib-watch" : "*",
-    "express-combo" : "*"
+    "express-combo" : "*",
+    "mongodb" : "*"
   },
   "keywords": []
 }

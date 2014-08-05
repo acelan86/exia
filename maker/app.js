@@ -4,7 +4,10 @@ var express = require('express'),
     consolidate = require('consolidate'),
     staticServer = require('express-combo');
     config = require('./server-lib/config.js'),
-    tools = require('./server-lib/tools.js');
+    tools = require('./server-lib/tools.js'),
+
+    //数据库操作
+    MongoClient = require('mongodb').MongoClient;
 
 var app = express();
 
@@ -28,8 +31,6 @@ app.configure(function(){
     }));
 });
 
-
-//
 app.get('/', function(req, res){
     var context,
         controls = [
@@ -79,8 +80,21 @@ app.get('/', function(req, res){
         coreCSS : config.coreCSS.join('~')
     };
 
-    res.setHeader("Content-Type", "text/html");
-    res.render('index', context);
+    MongoClient.connect("mongodb://127.0.0.1:27017/sites", function(err, db) {
+        if(err) {
+            return console.log(err);
+        }
+        db.collection('pages', function (err, pages) {
+            pages.find().toArray(function (err, result) {
+                context.pages = [];
+                result.forEach(function (page) {
+                    context.pages.push({pid : page._id, name : 'page'});
+                });
+                res.setHeader("Content-Type", "text/html");
+                res.render('index', context);
+            });    
+        });
+    });
 });
 
 
@@ -92,8 +106,20 @@ app.get('/', function(req, res){
  */
 app.post('/create', function (req, res) {
     tools.build(JSON.parse(req.body.data), function (str) {
-        res.setHeader("Content-Type", "text/html");
-        res.send(str);
+        MongoClient.connect("mongodb://127.0.0.1:27017/sites", function(err, db) {
+            if(err) {
+                return console.log(err);
+            }
+            db.collection('pages', function (err, pages) {
+                pages.insert({
+                    html : str
+                }, function () {
+                    res.setHeader("Content-Type", "text/html");
+                    res.send(str);
+                });
+                
+            });
+        });
     });
 });
 

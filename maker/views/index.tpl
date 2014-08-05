@@ -49,6 +49,9 @@
         <div class="left-panel">
             <h3 class="ui-widget-header">页面列表</h3>
             <ul class="page-panel ui-widget-content">
+                {{#each pages}}
+                    <li data-page-id="{{pid}}">{{pid}}</li>
+                {{/each}}
             </ul>
             <h3 class="ui-widget-header">控件列表</h3>
             <ul id="ControlsPanel" class="control-panel ui-widget-content"></ul>
