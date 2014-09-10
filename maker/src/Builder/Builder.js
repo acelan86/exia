@@ -226,10 +226,12 @@ exia.define('Builder', function (require, exports, module) {
         },
 
         doPreview : function () {
+            var me = this;
             if (this.isPreview()) {
                 var data = this.Document.toJSON();
-                $.post('/create', {
+                $.post('/pages/create', {
                         data : JSON.stringify({
+                            sid : me.siteId,
                             controls : data
                         })
                     })
@@ -243,6 +245,26 @@ exia.define('Builder', function (require, exports, module) {
             } else {
                 
             }
+        },
+
+        init : function (data, callback) {
+            this.siteId = data.sid;
+            this.siteName = data.sname;
+            /**
+             * @id
+             * @name
+             * @controls
+             */
+            this.pages = data.pages;
+
+            $('#PagePanel').html(
+                Handlebars.compile(
+                    '{{#each this}}' +
+                        '<li data-page-id="{{id}}">{{name}}</li>' + 
+                    '{{/each}}'
+                )(this.pages)
+            );
+            callback();
         }
     };
 

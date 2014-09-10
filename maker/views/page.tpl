@@ -15,6 +15,6 @@
     <body>
         {{{body}}}
         <script src="/static/page/jquery-ui-1.11.0/external/jquery/jquery.js"></script>
-        <script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="/static/page/bootstrap-3.2.0/dist/js/bootstrap.js"></script>
     </body>
 </html>

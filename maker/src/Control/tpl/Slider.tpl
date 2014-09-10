@@ -13,7 +13,7 @@
   <!-- Indicators -->
   <ol class="carousel-indicators">
     {{#each value.content}}
-        <li data-target="#carousel-example-generic" data-slide-to="{{@index}}" {{#compare @index 0}} {{else}} class="active" {{/compare}}></li>
+        <li data-target="#{{../cid}}" data-slide-to="{{@index}}" {{#compare @index 0}} {{else}} class="active" {{/compare}}></li>
     {{/each}}
   </ol>
 
@@ -30,11 +30,11 @@
   </div>
 
   <!-- Controls -->
-  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+  <a class="left carousel-control" href="#{{cid}}" role="button" data-slide="prev">
     <span class="glyphicon glyphicon-chevron-left"></span>
     <span class="sr-only">Previous</span>
   </a>
-  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+  <a class="right carousel-control" href="#{{cid}}" role="button" data-slide="next">
     <span class="glyphicon glyphicon-chevron-right"></span>
     <span class="sr-only">Next</span>
   </a>

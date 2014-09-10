@@ -48,10 +48,7 @@
         <!-- 组件面板 -->
         <div class="left-panel">
             <h3 class="ui-widget-header">页面列表</h3>
-            <ul class="page-panel ui-widget-content">
-                {{#each pages}}
-                    <li data-page-id="{{pid}}">{{pid}}</li>
-                {{/each}}
+            <ul class="page-panel ui-widget-content" id="PagePanel">
             </ul>
             <h3 class="ui-widget-header">控件列表</h3>
             <ul id="ControlsPanel" class="control-panel ui-widget-content"></ul>
@@ -105,7 +102,30 @@
         <script src="/static/Builder/Builder.js"></script>
         <script>
             exia.use('Builder', function (Builder) {
-                new Builder('#Frame', '', '#ControlsPanel', '#PropertiesPanel', '#LoginBox');
+                var builder = new Builder('#Frame', '', '#ControlsPanel', '#PropertiesPanel', '#LoginBox'),
+                    siteId = window.location.search.substring(1);
+
+                if (!siteId) {
+                    $.post('/sites/create')
+                        .done(function (data) {
+                            console.log(data);
+                        })
+                        .done(function (data) {
+                            builder.init(data, function () {
+
+                            });
+                        });
+                } else {
+                    $.get('/sites/' + siteId)
+                        .done(function (data) {
+                            console.log(data);
+                        })
+                        .done(function (data) {
+                            builder.init(data, function () {
+
+                            });
+                        });
+                }
             });
         </script>
     </body>
